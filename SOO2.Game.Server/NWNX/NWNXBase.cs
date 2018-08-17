@@ -1,7 +1,7 @@
 ﻿using NWN;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.NWNX
+namespace SOO2.Game.Server.NWNX
 {
     public abstract class NWNXBase
     {

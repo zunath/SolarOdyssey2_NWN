@@ -7,8 +7,8 @@
     <ProjectGuid>{F2C6F36D-74FA-489E-8891-51A3B390C55A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Freescape.Game.Server</RootNamespace>
-    <AssemblyName>Freescape.Game.Server</AssemblyName>
+    <RootNamespace>SOO2.Game.Server</RootNamespace>
+    <AssemblyName>SOO2.Game.Server</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -101,7 +101,7 @@
     <Compile Include="Conversation\XPTome.cs" />
     <Compile Include="Creature\Contracts\ICreature.cs" />
     <Compile Include="Creature\CreatureBase.cs" />
-    <Compile Include="Creature\TestCreature.cs" />
+    <Compile Include="Creature\StandardCreature.cs" />
     <Compile Include="CustomEffect\AegisEffect.cs" />
     <Compile Include="CustomEffect\BleedingEffect.cs" />
     <Compile Include="CustomEffect\BurningEffect.cs" />
@@ -568,6 +568,7 @@
     <Compile Include="Service\Contracts\IDialogService.cs" />
     <Compile Include="Service\DurabilityService.cs" />
     <Compile Include="Service\EffectTrackerService.cs" />
+    <Compile Include="Service\EnmityService.cs" />
     <Compile Include="Service\ErrorService.cs" />
     <Compile Include="Service\ExaminationService.cs" />
     <Compile Include="Service\FarmingService.cs" />
@@ -576,6 +577,7 @@
     <Compile Include="Service\Contracts\IEffectTrackerService.cs" />
     <Compile Include="Service\Contracts\IObjectProcessingService.cs" />
     <Compile Include="Service\Contracts\IBehaviourService.cs" />
+    <Compile Include="Service\Contracts\IEnmityService.cs" />
     <Compile Include="Service\ItemService.cs" />
     <Compile Include="Service\Contracts\ITimeService.cs" />
     <Compile Include="Service\KeyItemService.cs" />
@@ -602,6 +604,7 @@
     <Compile Include="ValueObject\Dialog\DialogPage.cs" />
     <Compile Include="ValueObject\Dialog\DialogResponse.cs" />
     <Compile Include="ValueObject\Dialog\PlayerDialog.cs" />
+    <Compile Include="ValueObject\Enmity.cs" />
     <Compile Include="ValueObject\ItemVO.cs" />
     <Compile Include="ValueObject\MapPin.cs" />
     <Compile Include="ValueObject\PCPerkHeader.cs" />

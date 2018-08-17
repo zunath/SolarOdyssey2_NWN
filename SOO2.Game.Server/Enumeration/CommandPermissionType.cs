@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Freescape.Game.Server.Enumeration
+namespace SOO2.Game.Server.Enumeration
 {
     [Flags]
     public enum CommandPermissionType

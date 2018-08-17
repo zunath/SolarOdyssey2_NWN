@@ -1,8 +1,8 @@
-﻿using Freescape.Game.Server.ValueObject;
-using Freescape.Game.Server.ValueObject.Dialog;
+﻿using SOO2.Game.Server.ValueObject;
+using SOO2.Game.Server.ValueObject.Dialog;
 using NUnit.Framework;
 
-namespace Freescape.Game.Server.Tests.ValueObject.Dialog
+namespace SOO2.Game.Server.Tests.ValueObject.Dialog
 {
     public class DialogPageTests
     {

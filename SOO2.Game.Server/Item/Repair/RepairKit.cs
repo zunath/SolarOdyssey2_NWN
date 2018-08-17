@@ -1,9 +1,9 @@
-﻿using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Item.Contracts;
-using Freescape.Game.Server.ValueObject;
+﻿using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Item.Contracts;
+using SOO2.Game.Server.ValueObject;
 using NWN;
 
-namespace Freescape.Game.Server.Item.Repair
+namespace SOO2.Game.Server.Item.Repair
 {
     // todo: implement
     public class RepairKit: IActionItem

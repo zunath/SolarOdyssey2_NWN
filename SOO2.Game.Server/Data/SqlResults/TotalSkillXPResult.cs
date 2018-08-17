@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.Data.SqlResults
+﻿namespace SOO2.Game.Server.Data.SqlResults
 {
     public class TotalSkillXPResult
     {

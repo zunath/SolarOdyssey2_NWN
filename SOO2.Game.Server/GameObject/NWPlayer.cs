@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.GameObject.Contracts;
-using Freescape.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.NWNX.Contracts;
 using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWPlayer : NWCreature, INWPlayer
     {
-        public NWPlayer(INWScript script, INWNXCreature nwnxCreature)
-            : base(script, nwnxCreature)
+        public NWPlayer(INWScript script, 
+            INWNXCreature nwnxCreature,
+            AppState state)
+            : base(script, nwnxCreature, state)
         {
         }
 

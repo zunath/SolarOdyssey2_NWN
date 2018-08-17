@@ -1,11 +1,11 @@
 ﻿using System;
-using Freescape.Game.Server.CustomEffect.Contracts;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.CustomEffect.Contracts;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.CustomEffect
+namespace SOO2.Game.Server.CustomEffect
 {
     public class FoodDiseaseEffect: ICustomEffect
     {

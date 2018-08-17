@@ -1,8 +1,8 @@
 ﻿using System;
-using Freescape.Game.Server.Service;
+using SOO2.Game.Server.Service;
 using NUnit.Framework;
 
-namespace Freescape.Game.Server.Tests.Service
+namespace SOO2.Game.Server.Tests.Service
 {
     public class ColorTokenServiceTests
     {

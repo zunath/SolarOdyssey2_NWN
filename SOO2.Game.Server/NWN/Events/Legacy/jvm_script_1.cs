@@ -1,5 +1,5 @@
-﻿using Freescape.Game.Server;
-using Freescape.Game.Server.Event.Legacy;
+﻿using SOO2.Game.Server;
+using SOO2.Game.Server.Event.Legacy;
 
 // ReSharper disable once CheckNamespace
 namespace NWN.Scripts

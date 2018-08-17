@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Freescape.Game.Server.Data.Entities
+namespace SOO2.Game.Server.Data.Entities
 {
     public partial class CraftBlueprint
     {

@@ -1,11 +1,11 @@
-﻿using Freescape.Game.Server.Bioware.Contracts;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+﻿using SOO2.Game.Server.Bioware.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Perk.Alteration
+namespace SOO2.Game.Server.Perk.Alteration
 {
     public class Gate: IPerk
     {

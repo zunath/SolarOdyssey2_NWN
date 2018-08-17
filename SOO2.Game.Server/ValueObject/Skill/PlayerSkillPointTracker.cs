@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.ValueObject.Skill
+﻿namespace SOO2.Game.Server.ValueObject.Skill
 {
     public class PlayerSkillPointTracker
     {

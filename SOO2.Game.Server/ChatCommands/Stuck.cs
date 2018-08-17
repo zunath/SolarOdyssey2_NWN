@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using Freescape.Game.Server.ChatCommands.Contracts;
-using Freescape.Game.Server.Data.Contracts;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
+using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
 using NWN;
 
-namespace Freescape.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommands
 {
     [CommandDetails("ALPHA Command: Returns you to your bind point.", CommandPermissionType.Player)]
     public class Stuck: IChatCommand

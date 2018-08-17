@@ -1,7 +1,7 @@
-﻿using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+﻿using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 
-namespace Freescape.Game.Server.Perk.General
+namespace SOO2.Game.Server.Perk.General
 {
     public class Health: IPerk
     {

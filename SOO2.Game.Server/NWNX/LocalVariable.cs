@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.Enumeration;
+﻿using SOO2.Game.Server.Enumeration;
 
-namespace Freescape.Game.Server.NWNX
+namespace SOO2.Game.Server.NWNX
 {
     public class LocalVariable
     {

@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.Event;
+﻿using SOO2.Game.Server.Event;
 
-namespace Freescape.Game.Server.Placeable.Resource
+namespace SOO2.Game.Server.Placeable.Resource
 {
     public class OnDeath: IRegisteredEvent
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using Freescape.Game.Server.ChatCommands.Contracts;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 
-namespace Freescape.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommands
 {
     [CommandDetails("Displays all chat commands available to you.", CommandPermissionType.DM | CommandPermissionType.Player)]
     public class Help: IChatCommand

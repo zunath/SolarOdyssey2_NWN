@@ -3,10 +3,10 @@ using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using Freescape.Game.Server.Data.Entities;
-using Attribute = Freescape.Game.Server.Data.Entities.Attribute;
+using SOO2.Game.Server.Data.Entities;
+using Attribute = SOO2.Game.Server.Data.Entities.Attribute;
 
-namespace Freescape.Game.Server.Data.Contracts
+namespace SOO2.Game.Server.Data.Contracts
 {
     public interface IDataContext
     {

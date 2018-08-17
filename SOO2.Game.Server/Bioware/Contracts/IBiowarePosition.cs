@@ -1,7 +1,7 @@
-﻿using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.GameObject;
 using NWN;
 
-namespace Freescape.Game.Server.Bioware.Contracts
+namespace SOO2.Game.Server.Bioware.Contracts
 {
     public interface IBiowarePosition
     {

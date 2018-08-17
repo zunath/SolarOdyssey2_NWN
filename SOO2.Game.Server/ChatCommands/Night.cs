@@ -1,9 +1,9 @@
-﻿using Freescape.Game.Server.ChatCommands.Contracts;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
 using NWN;
 
-namespace Freescape.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommands
 {
     [CommandDetails("Sets the world time to 8 PM.", CommandPermissionType.DM)]
     public class Night : IChatCommand

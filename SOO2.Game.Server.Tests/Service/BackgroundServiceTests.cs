@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Freescape.Game.Server.Data.Contracts;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.NWNX.Contracts;
-using Freescape.Game.Server.Service;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Service;
+using SOO2.Game.Server.Service.Contracts;
 using NSubstitute;
 using NUnit.Framework;
 using NWN;
 
-namespace Freescape.Game.Server.Tests.Service
+namespace SOO2.Game.Server.Tests.Service
 {
     public class BackgroundServiceTests
     {

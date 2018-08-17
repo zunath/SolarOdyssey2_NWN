@@ -1,5 +1,5 @@
-﻿using Freescape.Game.Server;
-using Freescape.Game.Server.Placeable.CraftingForge;
+﻿using SOO2.Game.Server;
+using SOO2.Game.Server.Placeable.CraftingForge;
 
 // ReSharper disable once CheckNamespace
 namespace NWN.Scripts

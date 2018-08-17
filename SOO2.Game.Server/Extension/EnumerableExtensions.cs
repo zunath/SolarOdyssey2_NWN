@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Freescape.Game.Server.Extension
+namespace SOO2.Game.Server.Extension
 {
     public static class EnumerableExtensions
     {

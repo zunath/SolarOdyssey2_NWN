@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.ValueObject.Structure
+﻿namespace SOO2.Game.Server.ValueObject.Structure
 {
     public class TerritoryStructureCount
     {

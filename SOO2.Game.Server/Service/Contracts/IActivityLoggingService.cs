@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.GameObject;
 
-namespace Freescape.Game.Server.Service.Contracts
+namespace SOO2.Game.Server.Service.Contracts
 {
     public interface IActivityLoggingService
     {

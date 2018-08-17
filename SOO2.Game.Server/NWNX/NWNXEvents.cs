@@ -1,9 +1,9 @@
 ﻿using System;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server.NWNX
+namespace SOO2.Game.Server.NWNX
 {
     public class NWNXEvents : NWNXBase, INWNXEvents
     {

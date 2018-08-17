@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Freescape.Game.Server.GameObject;
+using SOO2.Game.Server.GameObject;
 
-namespace Freescape.Game.Server.ValueObject.Dialog
+namespace SOO2.Game.Server.ValueObject.Dialog
 {
     public class PlayerDialog
     {

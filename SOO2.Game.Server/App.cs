@@ -3,26 +3,26 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using FluentBehaviourTree;
-using Freescape.Game.Server.Bioware;
-using Freescape.Game.Server.Bioware.Contracts;
-using Freescape.Game.Server.ChatCommands.Contracts;
-using Freescape.Game.Server.Conversation.Contracts;
-using Freescape.Game.Server.Creature.Contracts;
-using Freescape.Game.Server.CustomEffect.Contracts;
-using Freescape.Game.Server.Data;
-using Freescape.Game.Server.Data.Contracts;
-using Freescape.Game.Server.Event;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.GameObject.Contracts;
-using Freescape.Game.Server.Item.Contracts;
-using Freescape.Game.Server.NWNX;
-using Freescape.Game.Server.NWNX.Contracts;
-using Freescape.Game.Server.Perk;
-using Freescape.Game.Server.Service;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Bioware;
+using SOO2.Game.Server.Bioware.Contracts;
+using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.Conversation.Contracts;
+using SOO2.Game.Server.Creature.Contracts;
+using SOO2.Game.Server.CustomEffect.Contracts;
+using SOO2.Game.Server.Data;
+using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Event;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.Item.Contracts;
+using SOO2.Game.Server.NWNX;
+using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Perk;
+using SOO2.Game.Server.Service;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server
+namespace SOO2.Game.Server
 {
     // Compositional root for the app.
     internal static class App
@@ -120,6 +120,7 @@ namespace Freescape.Game.Server
             builder.RegisterType<DialogService>().As<IDialogService>();
             builder.RegisterType<DurabilityService>().As<IDurabilityService>();
             builder.RegisterType<EffectTrackerService>().As<IEffectTrackerService>();
+            builder.RegisterType<EnmityService>().As<IEnmityService>();
             builder.RegisterType<ErrorService>().As<IErrorService>();
             builder.RegisterType<ExaminationService>().As<IExaminationService>();
             builder.RegisterType<FarmingService>().As<IFarmingService>();

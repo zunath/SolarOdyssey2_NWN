@@ -1,9 +1,9 @@
-﻿using Freescape.Game.Server.CustomEffect.Contracts;
-using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.CustomEffect.Contracts;
+using SOO2.Game.Server.GameObject;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.CustomEffect
+namespace SOO2.Game.Server.CustomEffect
 {
     public class BleedingEffect: ICustomEffect
     {

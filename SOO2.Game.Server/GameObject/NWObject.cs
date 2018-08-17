@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using Freescape.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.ValueObject;
 using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWObject : INWObject
     {
         public virtual Object Object { get; protected set; }
         protected readonly INWScript _;
+        private readonly AppState _state;
 
-        public NWObject(INWScript script)
+        public NWObject(INWScript script,
+            AppState state)
         {
             _ = script;
+            _state = state;
         }
 
         public static NWObject Wrap(Object @object)
@@ -270,6 +274,8 @@ namespace Freescape.Game.Server.GameObject
 
         public virtual bool IsDM => _.GetIsPC(Object) == 0 && (_.GetIsDM(Object) == 1 || _.GetIsDMPossessed(Object) == 1);
 
+        public virtual bool IsNPC => !IsPlayer && !IsDM;
+
         public virtual List<NWItem> InventoryItems
         {
             get
@@ -321,6 +327,19 @@ namespace Freescape.Game.Server.GameObject
                 }
 
                 effect = _.GetNextEffect(Object);
+            }
+        }
+
+        public CustomData Data
+        {
+            get
+            {
+                if (!_state.CustomObjectData.ContainsKey(GlobalID))
+                {
+                    _state.CustomObjectData.Add(GlobalID, new CustomData());
+                }
+
+                return _state.CustomObjectData[GlobalID];
             }
         }
 

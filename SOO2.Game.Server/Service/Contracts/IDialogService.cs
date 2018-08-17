@@ -1,7 +1,7 @@
-﻿using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.ValueObject.Dialog;
+﻿using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.ValueObject.Dialog;
 
-namespace Freescape.Game.Server.Service.Contracts
+namespace SOO2.Game.Server.Service.Contracts
 {
     public interface IDialogService
     {

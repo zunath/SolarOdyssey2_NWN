@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 
-namespace Freescape.Game.Server.Service
+namespace SOO2.Game.Server.Service
 {
     /// <summary>
     ///      *

@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.Event.Creature;
+﻿using SOO2.Game.Server;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.Event.Creature;
 
 // ReSharper disable once CheckNamespace
 namespace NWN.Scripts

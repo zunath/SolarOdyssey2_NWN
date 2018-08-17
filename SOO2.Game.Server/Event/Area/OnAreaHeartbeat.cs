@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.Event.Area
+﻿namespace SOO2.Game.Server.Event.Area
 {
     internal class OnAreaHeartbeat: IRegisteredEvent
     {

@@ -1,8 +1,8 @@
 ﻿using System;
-using Freescape.Game.Server.Extension;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Extension;
+using SOO2.Game.Server.Service.Contracts;
 
-namespace Freescape.Game.Server.Service
+namespace SOO2.Game.Server.Service
 {
     public class ErrorService: IErrorService
     {

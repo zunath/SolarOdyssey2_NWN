@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using Freescape.Game.Server.Data;
-using Freescape.Game.Server.Data.Contracts;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.NWNX.Contracts;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Data;
+using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Service
+namespace SOO2.Game.Server.Service
 {
     public class PlayerService : IPlayerService
     {

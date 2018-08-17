@@ -1,18 +1,22 @@
-﻿using Freescape.Game.Server.GameObject.Contracts;
-using Freescape.Game.Server.NWNX.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using SOO2.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.ValueObject;
 using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWCreature : NWObject, INWCreature
     {
         private readonly INWNXCreature _nwnxCreature;
 
         public NWCreature(INWScript script,
-            INWNXCreature creature)
-            : base(script)
+            INWNXCreature creature,
+            AppState state)
+            : base(script, state)
         {
             _nwnxCreature = creature;
         }
@@ -185,5 +189,6 @@ namespace Freescape.Game.Server.GameObject
                 return castingSpeed;
             }
         }
+
     }
 }

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac.Core.Registration;
-using Freescape.Game.Server.Conversation;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.NWNX.Contracts;
-using Freescape.Game.Server.Service;
-using Freescape.Game.Server.Service.Contracts;
-using Freescape.Game.Server.ValueObject.Dialog;
+using SOO2.Game.Server.Conversation;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Service;
+using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject.Dialog;
 using NSubstitute;
 using NUnit.Framework;
 using NWN;
 
-namespace Freescape.Game.Server.Tests.Service
+namespace SOO2.Game.Server.Tests.Service
 {
     internal class ValidConversation: ConversationBase
     {

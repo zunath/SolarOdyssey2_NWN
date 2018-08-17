@@ -1,7 +1,7 @@
-﻿using Freescape.Game.Server.Service.Contracts;
+﻿using SOO2.Game.Server.Service.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server.Event.Module
+namespace SOO2.Game.Server.Event.Module
 {
     internal class OnModuleUnequipItem : IRegisteredEvent
     {

@@ -1,13 +1,14 @@
-﻿using Freescape.Game.Server.GameObject.Contracts;
+﻿using SOO2.Game.Server.GameObject.Contracts;
 using NWN;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWArea: NWObject, INWArea
     {
-        public NWArea(INWScript script) 
-            : base(script)
+        public NWArea(INWScript script,
+            AppState state) 
+            : base(script, state)
         {
         }
 

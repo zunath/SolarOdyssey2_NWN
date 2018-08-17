@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.GameObject;
 
-namespace Freescape.Game.Server.Perk.Weaponsmith
+namespace SOO2.Game.Server.Perk.Weaponsmith
 {
     public class MetalWeaponBlueprints : IPerk
     {

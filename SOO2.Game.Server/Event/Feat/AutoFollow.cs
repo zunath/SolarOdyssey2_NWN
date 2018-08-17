@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.Event.Feat
+﻿namespace SOO2.Game.Server.Event.Feat
 {
     public class AutoFollow: IRegisteredEvent
     {

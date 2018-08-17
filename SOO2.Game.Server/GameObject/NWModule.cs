@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using Freescape.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.GameObject.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWModule: NWObject, INWModule
     {
-        public NWModule(INWScript script) 
-            : base(script)
+        public NWModule(INWScript script,
+            AppState state) 
+            : base(script, state)
         {
         }
 

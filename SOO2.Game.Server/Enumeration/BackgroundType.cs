@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.Enumeration
+﻿namespace SOO2.Game.Server.Enumeration
 {
     public enum BackgroundType
     {

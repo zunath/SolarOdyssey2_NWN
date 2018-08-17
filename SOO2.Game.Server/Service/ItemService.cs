@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Linq;
-using Freescape.Game.Server.Bioware.Contracts;
-using Freescape.Game.Server.Data.Contracts;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Item.Contracts;
-using Freescape.Game.Server.NWNX.Contracts;
-using Freescape.Game.Server.Service.Contracts;
-using Freescape.Game.Server.ValueObject;
+using SOO2.Game.Server.Bioware.Contracts;
+using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Item.Contracts;
+using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Service
+namespace SOO2.Game.Server.Service
 {
     public class ItemService : IItemService
     {

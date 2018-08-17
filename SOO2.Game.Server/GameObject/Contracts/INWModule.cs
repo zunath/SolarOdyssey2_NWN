@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Freescape.Game.Server.GameObject.Contracts
+namespace SOO2.Game.Server.GameObject.Contracts
 {
     public interface INWModule
     {

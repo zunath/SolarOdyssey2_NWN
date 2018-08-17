@@ -1,11 +1,11 @@
 ﻿using System;
-using Freescape.Game.Server.Event.Legacy;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Event.Legacy;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.Event.Feat
+namespace SOO2.Game.Server.Event.Feat
 {
     public class OnHitCastSpell: IRegisteredEvent
     {

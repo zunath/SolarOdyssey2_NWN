@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.NWNX
+﻿namespace SOO2.Game.Server.NWNX
 {
     public class MemorizedSpellSlot
     {

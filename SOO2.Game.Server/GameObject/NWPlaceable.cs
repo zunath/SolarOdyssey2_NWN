@@ -1,12 +1,13 @@
-﻿using Freescape.Game.Server.GameObject.Contracts;
+﻿using SOO2.Game.Server.GameObject.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWPlaceable: NWObject, INWPlaceable
     {
-        public NWPlaceable(INWScript script) 
-            : base(script)
+        public NWPlaceable(INWScript script,
+            AppState state) 
+            : base(script, state)
         {
         }
         

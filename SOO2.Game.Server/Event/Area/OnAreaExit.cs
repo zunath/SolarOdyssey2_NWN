@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.Service.Contracts;
+﻿using SOO2.Game.Server.Service.Contracts;
 
-namespace Freescape.Game.Server.Event.Area
+namespace SOO2.Game.Server.Event.Area
 {
     internal class OnAreaExit: IRegisteredEvent
     {

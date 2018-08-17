@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.GameObject;
 
-namespace Freescape.Game.Server.CustomEffect.Contracts
+namespace SOO2.Game.Server.CustomEffect.Contracts
 {
     public interface ICustomEffect
     {

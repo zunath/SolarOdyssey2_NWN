@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Freescape.Game.Server.GameObject;
+using SOO2.Game.Server.GameObject;
 
-namespace Freescape.Game.Server.ValueObject.Skill
+namespace SOO2.Game.Server.ValueObject.Skill
 {
     public class PlayerSkillRegistration
     {

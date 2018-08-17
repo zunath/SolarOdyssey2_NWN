@@ -1,12 +1,12 @@
 ﻿using System;
-using Freescape.Game.Server.Creature;
-using Freescape.Game.Server.Creature.Contracts;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Creature;
+using SOO2.Game.Server.Creature.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.Event.Creature
+namespace SOO2.Game.Server.Event.Creature
 {
     public class OnCreatureEvent : IRegisteredEvent
     {
@@ -14,15 +14,18 @@ namespace Freescape.Game.Server.Event.Creature
         private readonly ISkillService _skill;
         private readonly ILootService _loot;
         private readonly IBehaviourService _behaviour;
+        private readonly AppState _state;
 
         public OnCreatureEvent(ISkillService skill,
             ILootService loot,
-            IBehaviourService behaviour)
+            IBehaviourService behaviour,
+            AppState state)
         {
             Self = NWCreature.Wrap(Object.OBJECT_SELF);
             _skill = skill;
             _loot = loot;
             _behaviour = behaviour;
+            _state = state;
         }
 
         public bool Run(params object[] args)
@@ -79,8 +82,13 @@ namespace Freescape.Game.Server.Event.Creature
                         }
 
                         creature.OnDeath();
-
                     }
+
+                    if (_state.CustomObjectData.ContainsKey(Self.GlobalID))
+                    {
+                        _state.CustomObjectData.Remove(Self.GlobalID);
+                    }
+
                     break;
                 case CreatureEventType.OnDisturbed:
                     creature?.OnDisturbed();

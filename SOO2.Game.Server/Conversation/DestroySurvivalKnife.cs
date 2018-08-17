@@ -1,9 +1,9 @@
-﻿using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
-using Freescape.Game.Server.ValueObject.Dialog;
+﻿using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject.Dialog;
 using NWN;
 
-namespace Freescape.Game.Server.Conversation
+namespace SOO2.Game.Server.Conversation
 {
     internal class DestroySurvivalKnife: ConversationBase
     {

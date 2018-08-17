@@ -2,7 +2,7 @@
 using System.Data.Entity.Validation;
 using System.Text;
 
-namespace Freescape.Game.Server.Extension
+namespace SOO2.Game.Server.Extension
 {
     public static class ExceptionExtensions
     {

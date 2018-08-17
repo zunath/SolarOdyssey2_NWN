@@ -9,8 +9,8 @@
     <ProjectGuid>{C05D52A5-E0FA-4C7C-ABBD-0DBD60E3749B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Freescape.Game.Server.Tests</RootNamespace>
-    <AssemblyName>Freescape.Game.Server.Tests</AssemblyName>
+    <RootNamespace>SOO2.Game.Server.Tests</RootNamespace>
+    <AssemblyName>SOO2.Game.Server.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -100,7 +100,7 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Freescape.Game.Server\Freescape.Game.Server.csproj">
+    <ProjectReference Include="..\SOO2.Game.Server\SOO2.Game.Server.csproj">
       <Project>{f2c6f36d-74fa-489e-8891-51a3b390c55a}</Project>
       <Name>Freescape.Game.Server</Name>
     </ProjectReference>

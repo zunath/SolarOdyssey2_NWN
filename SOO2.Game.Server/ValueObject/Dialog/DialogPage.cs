@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Freescape.Game.Server.ValueObject.Dialog
+namespace SOO2.Game.Server.ValueObject.Dialog
 {
     public class DialogPage
     {

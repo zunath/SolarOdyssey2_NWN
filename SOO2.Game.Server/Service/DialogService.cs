@@ -1,13 +1,13 @@
 ﻿using System;
-using Freescape.Game.Server.Conversation;
-using Freescape.Game.Server.Conversation.Contracts;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
-using Freescape.Game.Server.ValueObject.Dialog;
+using SOO2.Game.Server.Conversation;
+using SOO2.Game.Server.Conversation.Contracts;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject.Dialog;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Service
+namespace SOO2.Game.Server.Service
 {
     public class DialogService: IDialogService
     {

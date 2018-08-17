@@ -1,8 +1,8 @@
-﻿using Freescape.Game.Server.Event;
-using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.Event;
+using SOO2.Game.Server.GameObject;
 using NWN;
 
-namespace Freescape.Game.Server.Placeable.OverflowStorage
+namespace SOO2.Game.Server.Placeable.OverflowStorage
 {
     public class OnClosed: IRegisteredEvent
     {

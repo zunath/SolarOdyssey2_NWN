@@ -1,6 +1,6 @@
 ﻿using FluentBehaviourTree;
 
-namespace Freescape.Game.Server.Service.Contracts
+namespace SOO2.Game.Server.Service.Contracts
 {
     public interface IBehaviourService
     {

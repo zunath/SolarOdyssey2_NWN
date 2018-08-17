@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server
+﻿namespace SOO2.Game.Server
 {
     public static class Constants
     {

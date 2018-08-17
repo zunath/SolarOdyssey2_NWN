@@ -1,10 +1,10 @@
 ﻿using FluentBehaviourTree;
-using Freescape.Game.Server.Creature.Contracts;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Creature.Contracts;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server.Creature
+namespace SOO2.Game.Server.Creature
 {
     public abstract class CreatureBase: ICreature
     {

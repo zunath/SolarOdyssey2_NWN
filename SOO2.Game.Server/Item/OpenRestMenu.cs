@@ -1,10 +1,10 @@
-﻿using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Item.Contracts;
-using Freescape.Game.Server.Service.Contracts;
-using Freescape.Game.Server.ValueObject;
+﻿using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Item.Contracts;
+using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject;
 using NWN;
 
-namespace Freescape.Game.Server.Item
+namespace SOO2.Game.Server.Item
 {
     public class OpenRestMenu: IActionItem
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection;
-using Freescape.Game.Server.GameObject;
+using SOO2.Game.Server.GameObject;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.Event.Legacy
+namespace SOO2.Game.Server.Event.Legacy
 {
     public class LegacyJVMEvent: IRegisteredEvent
     {

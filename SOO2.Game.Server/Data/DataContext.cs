@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using Freescape.Game.Server.Data.Contracts;
-using Freescape.Game.Server.Data.Entities;
-using Attribute = Freescape.Game.Server.Data.Entities.Attribute;
+using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Data.Entities;
+using Attribute = SOO2.Game.Server.Data.Entities.Attribute;
 
-namespace Freescape.Game.Server.Data
+namespace SOO2.Game.Server.Data
 {
     public partial class DataContext : DbContext, IDataContext
     {

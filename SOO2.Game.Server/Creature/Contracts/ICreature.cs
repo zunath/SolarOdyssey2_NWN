@@ -1,6 +1,6 @@
 ﻿using FluentBehaviourTree;
 
-namespace Freescape.Game.Server.Creature.Contracts
+namespace SOO2.Game.Server.Creature.Contracts
 {
     public interface ICreature
     {

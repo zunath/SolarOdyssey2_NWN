@@ -1,4 +1,4 @@
-﻿namespace Freescape.Game.Server.Event
+﻿namespace SOO2.Game.Server.Event
 {
     internal interface IRegisteredEvent
     {

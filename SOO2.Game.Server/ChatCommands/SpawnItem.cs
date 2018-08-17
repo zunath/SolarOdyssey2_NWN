@@ -1,10 +1,10 @@
-﻿using Freescape.Game.Server.ChatCommands.Contracts;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+﻿using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 
-namespace Freescape.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommands
 {
     [CommandDetails("Spawns an item of a specific quantity on your character. Example: /spawnitem my_item 3", CommandPermissionType.DM)]
     public class SpawnItem: IChatCommand

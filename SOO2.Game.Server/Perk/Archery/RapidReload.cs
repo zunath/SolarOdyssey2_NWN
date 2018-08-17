@@ -1,10 +1,10 @@
-﻿using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.NWNX.Contracts;
+﻿using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Perk.Archery
+namespace SOO2.Game.Server.Perk.Archery
 {
     public class RapidReload : IPerk
     {

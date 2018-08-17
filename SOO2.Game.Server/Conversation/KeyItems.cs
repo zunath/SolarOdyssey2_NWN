@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
-using Freescape.Game.Server.ValueObject.Dialog;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject.Dialog;
 using NWN;
 
-namespace Freescape.Game.Server.Conversation
+namespace SOO2.Game.Server.Conversation
 {
     public class KeyItems: ConversationBase
     {

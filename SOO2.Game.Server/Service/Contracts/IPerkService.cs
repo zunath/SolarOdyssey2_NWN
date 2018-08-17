@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using Freescape.Game.Server.Data.Entities;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.ValueObject;
+using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.ValueObject;
 
-namespace Freescape.Game.Server.Service.Contracts
+namespace SOO2.Game.Server.Service.Contracts
 {
     public interface IPerkService
     {

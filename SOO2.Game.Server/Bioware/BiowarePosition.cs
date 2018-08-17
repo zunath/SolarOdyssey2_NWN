@@ -1,9 +1,9 @@
 ﻿using System;
-using Freescape.Game.Server.Bioware.Contracts;
-using Freescape.Game.Server.GameObject;
+using SOO2.Game.Server.Bioware.Contracts;
+using SOO2.Game.Server.GameObject;
 using NWN;
 
-namespace Freescape.Game.Server.Bioware
+namespace SOO2.Game.Server.Bioware
 {
     public class BiowarePosition : IBiowarePosition
     {

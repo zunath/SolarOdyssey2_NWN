@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Service
+namespace SOO2.Game.Server.Service
 {
     public class DurabilityService : IDurabilityService
     {

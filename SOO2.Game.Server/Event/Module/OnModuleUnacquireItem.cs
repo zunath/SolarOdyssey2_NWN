@@ -1,6 +1,6 @@
 ﻿using NWN;
 
-namespace Freescape.Game.Server.Event.Module
+namespace SOO2.Game.Server.Event.Module
 {
     internal class OnModuleUnacquireItem : IRegisteredEvent
     {

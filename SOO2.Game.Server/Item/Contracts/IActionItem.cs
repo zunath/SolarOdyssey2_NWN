@@ -1,8 +1,8 @@
-﻿using Freescape.Game.Server.GameObject;
-using Freescape.Game.Server.ValueObject;
+﻿using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.ValueObject;
 using NWN;
 
-namespace Freescape.Game.Server.Item.Contracts
+namespace SOO2.Game.Server.Item.Contracts
 {
     public interface IActionItem
     {

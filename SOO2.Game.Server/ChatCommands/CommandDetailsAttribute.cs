@@ -1,7 +1,7 @@
 ﻿using System;
-using Freescape.Game.Server.Enumeration;
+using SOO2.Game.Server.Enumeration;
 
-namespace Freescape.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommands
 {
     public class CommandDetailsAttribute: Attribute
     {

@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject.Contracts;
-using Freescape.Game.Server.Service.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject.Contracts;
+using SOO2.Game.Server.Service.Contracts;
 using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 
-namespace Freescape.Game.Server.GameObject
+namespace SOO2.Game.Server.GameObject
 {
     public class NWItem : NWObject, INWItem
     {
         private readonly IDurabilityService _durability;
 
         public NWItem(INWScript script,
-            IDurabilityService durability)
-            : base(script)
+            IDurabilityService durability,
+            AppState state)
+            : base(script, state)
         {
             _durability = durability;
         }

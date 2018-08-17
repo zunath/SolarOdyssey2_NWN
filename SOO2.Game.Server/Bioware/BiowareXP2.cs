@@ -1,10 +1,10 @@
-﻿using Freescape.Game.Server.Bioware.Contracts;
-using Freescape.Game.Server.Enumeration;
-using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.Bioware.Contracts;
+using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
 using NWN;
 using static NWN.NWScript;
 
-namespace Freescape.Game.Server.Bioware
+namespace SOO2.Game.Server.Bioware
 {
     public class BiowareXP2 : IBiowareXP2
     {

@@ -1,6 +1,6 @@
-﻿using Freescape.Game.Server.GameObject;
+﻿using SOO2.Game.Server.GameObject;
 
-namespace Freescape.Game.Server.Perk.Survival
+namespace SOO2.Game.Server.Perk.Survival
 {
     public class ExpertFarmer : IPerk
     {
