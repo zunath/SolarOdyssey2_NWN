@@ -1,0 +1,28 @@
+
+SELECT sb.StructureBlueprintID ,
+       sb.StructureCategoryID ,
+       sb.Name ,
+       sb.Description ,
+       sb.Resref ,
+       sb.IsActive ,
+       sb.IsTerritoryFlag ,
+       sb.IsUseable ,
+       sb.ItemStorageCount ,
+       sb.VanityCount ,
+       sb.SpecialCount,
+       sb.MaxBuildDistance ,
+       sb.Level ,
+       sb.PerkID ,
+       sb.RequiredPerkLevel ,
+       sb.GivesSkillXP,
+       sb.IsVanity,
+       sb.IsSpecial,
+       sb.CraftTierLevel,
+       sb.ResourceCount,
+       sb.BuildingCount,
+       sb.IsResource,
+       sb.IsBuilding,
+       sb.ResourceResref,
+       sb.BuildingCategoryID
+FROM dbo.StructureBlueprints sb
+WHERE sb.StructureBlueprintID = :structureBlueprintID
