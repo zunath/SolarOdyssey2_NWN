@@ -62,7 +62,7 @@ namespace SOO2.Game.Server.Perk.General
             }
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
         {
             int perkLevel = _perk.GetPCPerkLevel(oPC, PerkType.Meditate);
             Vector position = oPC.Position;

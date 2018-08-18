@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using SOO2.Game.Server.GameObject.Contracts;
+﻿using SOO2.Game.Server.GameObject.Contracts;
 using SOO2.Game.Server.NWNX.Contracts;
-using SOO2.Game.Server.ValueObject;
 using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
@@ -187,6 +184,25 @@ namespace SOO2.Game.Server.GameObject
                     castingSpeed = 99;
 
                 return castingSpeed;
+            }
+        }
+
+        public virtual float EnmityRate
+        {
+            get
+            {
+                float rate = 1.0f;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    float itemRate = 0.01f * item.EnmityRate;
+                    rate += itemRate;
+                }
+
+                if (rate < 0.5f) rate = 0.5f;
+                else if (rate > 1.5f) rate = 1.5f;
+
+                return rate;
             }
         }
 

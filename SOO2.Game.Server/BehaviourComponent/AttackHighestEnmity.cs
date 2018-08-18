@@ -32,10 +32,10 @@ namespace SOO2.Game.Server.BehaviourComponent
                 var enmityTable = _enmity.GetEnmityTable(self);
 
                 var target = enmityTable.Values
-                    .OrderByDescending(o => o.Amount)
-                    .SingleOrDefault(x => x.TargetObject.IsValid &&
+                    .OrderByDescending(o => o.TotalAmount)
+                    .FirstOrDefault(x => x.TargetObject.IsValid &&
                                           x.TargetObject.Area.Equals(self.Area));
-
+                
                 self.AssignCommand(() =>
                 {
                     if (target == null)

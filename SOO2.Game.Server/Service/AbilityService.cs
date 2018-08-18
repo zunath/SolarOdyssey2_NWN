@@ -136,12 +136,12 @@ namespace SOO2.Game.Server.Service
             // Spells w/ casting time
             if (perk.PerkExecutionType.PerkExecutionTypeID == (int)PerkExecutionType.Spell)
             {
-                CastSpell(pc, target, perk, perkAction, perk.CooldownCategory);
+                CastSpell(pc, target, perk, perkAction, perk.CooldownCategory, perk.Enmity);
             }
             // Combat Abilities w/o casting time
             else if (perk.PerkExecutionType.PerkExecutionTypeID == (int)PerkExecutionType.CombatAbility)
             {
-                perkAction.OnImpact(pc, target);
+                perkAction.OnImpact(pc, target, perk.Enmity);
 
                 if (manaCost > 0)
                 {
@@ -162,7 +162,8 @@ namespace SOO2.Game.Server.Service
                                       NWObject target,
                                       Data.Entities.Perk entity,
                                       IPerk perk,
-                                      CooldownCategory cooldown)
+                                      CooldownCategory cooldown,
+                                      int enmity)
         {
             string spellUUID = Guid.NewGuid().ToString();
             int itemBonus = pc.CastingSpeed;
@@ -225,7 +226,7 @@ namespace SOO2.Game.Server.Service
                 if ((PerkExecutionType)entity.ExecutionTypeID == PerkExecutionType.Spell ||
                     (PerkExecutionType)entity.ExecutionTypeID == PerkExecutionType.CombatAbility)
                 {
-                    perk.OnImpact(pc, target);
+                    perk.OnImpact(pc, target, enmity);
                 }
                 else
                 {
@@ -331,7 +332,7 @@ namespace SOO2.Game.Server.Service
 
             IPerk perk = App.ResolveByInterface<IPerk>("Perk." + entity.JavaScriptName);
 
-            perk?.OnImpact(oPC, oTarget);
+            perk?.OnImpact(oPC, oTarget, entity.Enmity);
 
             oPC.DeleteLocalString("ACTIVE_WEAPON_SKILL_UUID");
             oPC.DeleteLocalInt("ACTIVE_WEAPON_SKILL");

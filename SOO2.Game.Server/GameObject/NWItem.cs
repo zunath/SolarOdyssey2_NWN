@@ -187,6 +187,11 @@ namespace SOO2.Game.Server.GameObject
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS", value);
         }
 
+        public virtual int EnmityRate
+        {
+            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE");
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE", value);
+        }
 
         public virtual void ReduceItemStack()
         {

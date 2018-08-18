@@ -15,6 +15,7 @@ namespace SOO2.Game.Server
         public Dictionary<CasterSpellVO, int> NPCEffects { get; }
         public List<CasterSpellVO> EffectsToRemove { get; }
         public Dictionary<string, Action> ProcessingEvents { get; set; }
+        public Dictionary<string, EnmityTable> NPCEnmityTables { get; set; }
         public Dictionary<string, CustomData> CustomObjectData { get; set; } 
 
         public AppState()
@@ -26,6 +27,7 @@ namespace SOO2.Game.Server
             NPCEffects = new Dictionary<CasterSpellVO, int>();
             EffectsToRemove = new List<CasterSpellVO>();
             ProcessingEvents = new Dictionary<string, Action>();
+            NPCEnmityTables = new Dictionary<string, EnmityTable>();
             CustomObjectData = new Dictionary<string, CustomData>();
 
             for (int x = 1; x <= Constants.NumberOfDialogs; x++)

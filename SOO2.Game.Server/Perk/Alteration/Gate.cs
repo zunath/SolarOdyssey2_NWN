@@ -65,7 +65,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
         {
             Location location = oTarget.Location;
             Effect effect = _.EffectVisualEffect(VFX_IMP_UNSUMMON);

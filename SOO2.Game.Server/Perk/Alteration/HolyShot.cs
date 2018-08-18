@@ -50,7 +50,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.HolyShot);
             int damage;

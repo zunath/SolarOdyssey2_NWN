@@ -42,6 +42,8 @@ namespace SOO2.Game.Server.Data.Entities
 
         public int ManaBonus { get; set; }
 
+        public int EnmityRate { get; set; }
+
         public virtual ItemType ItemType { get; set; }
 
         public virtual Skill Skill { get; set; }

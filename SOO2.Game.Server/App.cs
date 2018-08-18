@@ -193,9 +193,7 @@ namespace SOO2.Game.Server
                 string key = type.Namespace;
                 if (lowerCaseKey) key = key + "." + type.Name.ToLower();
                 else key = key + "." + type.Name;
-
-                Console.WriteLine(key);
-
+                
                 builder.RegisterType(type).As<T>().Keyed<T>(key);
             }
         }

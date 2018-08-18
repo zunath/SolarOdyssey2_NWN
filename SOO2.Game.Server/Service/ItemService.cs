@@ -221,6 +221,10 @@ namespace SOO2.Game.Server.Service
             {
                 description += _color.Orange("Tool Level: ") + examinedItem.CraftTierLevel + "\n";
             }
+            if (examinedItem.EnmityRate != 0)
+            {
+                description += _color.Orange("Enmity: " + examinedItem.EnmityRate + "%\n");
+            }
 
             return existingDescription + "\n" + description;
         }
@@ -397,6 +401,7 @@ namespace SOO2.Game.Server.Service
             item.CraftTierLevel = entity.CraftTierLevel;
             item.HPBonus = entity.HPBonus;
             item.ManaBonus = entity.ManaBonus;
+            item.EnmityRate = entity.EnmityRate;
 
             if (entity.Weight > 0)
             {

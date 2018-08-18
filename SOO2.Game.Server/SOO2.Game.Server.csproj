@@ -60,7 +60,7 @@
     <Compile Include="App.cs" />
     <Compile Include="AppState.cs" />
     <Compile Include="BehaviourComponent\AttackHighestEnmity.cs" />
-    <Compile Include="BehaviourComponent\ClearInvalidEnmityTargets.cs" />
+    <Compile Include="BehaviourComponent\CleanUpEnmity.cs" />
     <Compile Include="BehaviourComponent\Contracts\IBehaviourComponent.cs" />
     <Compile Include="Bioware\BiowarePosition.cs" />
     <Compile Include="Bioware\BiowareXP2.cs" />
@@ -225,9 +225,11 @@
     <Compile Include="Event\Creature\OnCreatureEvent.cs" />
     <Compile Include="Event\Module\OnModuleAttack.cs" />
     <Compile Include="Event\Module\OnModuleNWNXChat.cs" />
+    <Compile Include="Event\Player\OnPlayerDamaged.cs" />
     <Compile Include="Extension\BehaviourTreeBuilderExtensions.cs" />
     <Compile Include="NWN\Events\Module\mod_on_attack.cs" />
     <Compile Include="NWN\Events\Module\mod_on_nwnxchat.cs" />
+    <Compile Include="NWN\Events\Player\pc_on_damaged.cs" />
     <Compile Include="Perk\Alteration\Gate.cs" />
     <Compile Include="Perk\Alteration\HolyShot.cs" />
     <Compile Include="Perk\Alteration\Purify.cs" />
@@ -609,6 +611,7 @@
     <Compile Include="ValueObject\Dialog\DialogResponse.cs" />
     <Compile Include="ValueObject\Dialog\PlayerDialog.cs" />
     <Compile Include="ValueObject\Enmity.cs" />
+    <Compile Include="ValueObject\EnmityTable.cs" />
     <Compile Include="ValueObject\ItemVO.cs" />
     <Compile Include="ValueObject\MapPin.cs" />
     <Compile Include="ValueObject\PCPerkHeader.cs" />
@@ -627,21 +630,8 @@
     <None Include="ServerFiles\docker-windows-soo2Start.cmd" />
     <None Include="ServerFiles\Tools\NESS_Spawn_Waypoint_Generator.zip" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\SQL\**\*.sql" />
-  </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Data\SQL\Background\GetActiveBackgrounds.sql" />
-    <Content Include="Data\SQL\Storage\DeleteStorageItemByGlobalID.sql" />
-    <Content Include="Data\SQL\Structure\DeleteContainerItemByGlobalID.sql" />
-    <Content Include="Data\SQL\Structure\GetBuildingInteriorByID.sql" />
-    <Content Include="Data\SQL\Structure\GetBuildingInteriorsByCategoryID.sql" />
-    <Content Include="Data\SQL\Structure\GetBuildingOwners.sql" />
-    <Content Include="Data\SQL\Structure\GetDefaultBuildingInteriorByCategoryID.sql" />
-    <Content Include="Data\SQL\Structure\GetPCTerritoryFlagByBuildingStructureID.sql" />
-    <Content Include="Data\SQL\Structure\SetTerritoryInactive.sql" />
-    <Content Include="Data\SQL\Structure\UpdateBuildingTerritoryFlagsOwner.sql" />
     <Content Include="ServerFiles\Database\soo2-db.sql" />
     <Content Include="ServerFiles\Database\scripts\AddPerkLevels.sql" />
     <Content Include="ServerFiles\Database\scripts\WipePlayerData.sql" />

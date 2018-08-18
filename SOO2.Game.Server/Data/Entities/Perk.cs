@@ -49,6 +49,8 @@ namespace SOO2.Game.Server.Data.Entities
 
         public bool IsTargetSelfOnly { get; set; }
 
+        public int Enmity { get; set; }
+
         public virtual CooldownCategory CooldownCategory { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -39,7 +39,7 @@ namespace SOO2.Game.Server.Perk.Armor
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
         {
         }
 
