@@ -205,6 +205,7 @@
     <Compile Include="Enumeration\CreatureEventType.cs" />
     <Compile Include="Enumeration\CustomAttribute.cs" />
     <Compile Include="Enumeration\CustomEffectType.cs" />
+    <Compile Include="Enumeration\CustomItemPropertyType.cs" />
     <Compile Include="Enumeration\CustomItemType.cs" />
     <Compile Include="Enumeration\DMActionType.cs" />
     <Compile Include="Enumeration\EnmityAdjustmentRuleType.cs" />
@@ -636,6 +637,7 @@
     <Content Include="ServerFiles\Database\soo2-db.sql" />
     <Content Include="ServerFiles\Database\scripts\AddPerkLevels.sql" />
     <Content Include="ServerFiles\Database\scripts\WipePlayerData.sql" />
+    <Content Include="ServerFiles\Solar Odyssey Online 2.mod" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

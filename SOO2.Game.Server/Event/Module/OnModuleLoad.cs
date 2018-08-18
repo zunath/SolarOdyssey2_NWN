@@ -1,4 +1,5 @@
-﻿using SOO2.Game.Server.Enumeration;
+﻿using System;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
 using NWN;
@@ -46,7 +47,7 @@ namespace SOO2.Game.Server.Event.Module
             _structure.OnModuleLoad();
             _objectProcessing.OnModuleLoad();
             _farming.OnModuleLoad();
-
+            
             return true;
         }
 

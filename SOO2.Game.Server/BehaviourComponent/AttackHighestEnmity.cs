@@ -5,7 +5,6 @@ using NWN;
 using SOO2.Game.Server.BehaviourComponent.Contracts;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
-using static NWN.NWScript;
 
 namespace SOO2.Game.Server.BehaviourComponent
 {
