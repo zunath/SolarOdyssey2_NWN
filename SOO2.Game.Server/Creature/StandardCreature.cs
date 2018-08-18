@@ -4,6 +4,8 @@ using System.Xml.Linq;
 using FluentBehaviourTree;
 using SOO2.Game.Server.GameObject;
 using NWN;
+using SOO2.Game.Server.BehaviourComponent;
+using SOO2.Game.Server.Extension;
 using SOO2.Game.Server.Service.Contracts;
 using static NWN.NWScript;
 using Object = NWN.Object;
@@ -27,56 +29,12 @@ namespace SOO2.Game.Server.Creature
 
         public override bool IgnoreNWNEvents => true;
 
-        public override IBehaviourTreeNode Behaviour
-        {
-            get
-            {
-                return _builder
-
-                    .Parallel("Target highest enmity", 1, 2)
-                    .Do("ClearInvalidEnmityTargets", t =>
-                    {
-                        var enmityList = _enmity.GetEnmityTable(Self)
-                            .Where(x => x.Value.TargetObject == null ||
-                                        !x.Value.TargetObject.Area.Equals(Self.Area) ||
-                                        !x.Value.TargetObject.IsValid);
-                        foreach (var obj in enmityList.ToArray())
-                        {
-                            Console.WriteLine("removing id = " + obj.Key);
-                            _enmity.GetEnmityTable(Self).Remove(obj.Key);
-                        }
-
-                        return BehaviourTreeStatus.Running;
-                    })
-                    .Do("AttackHighestEnmity", t =>
-                    {
-                        if (_.GetIsInCombat(Self.Object) == FALSE) return BehaviourTreeStatus.Failure;
-
-                        var enmityTable = _enmity.GetEnmityTable(Self);
-
-                        var target = enmityTable.Values
-                            .OrderByDescending(o => o.Amount)
-                            .SingleOrDefault(x => x.TargetObject.IsValid &&
-                                                  x.TargetObject.Area.Equals(Self.Area));
-
-                        Self.AssignCommand(() =>
-                        {
-                            if (target == null)
-                            {
-                                _.ClearAllActions();
-                            }
-                            else
-                            {
-                                _.ActionAttack(target.TargetObject.Object);
-                            }
-                        });
-
-                        return BehaviourTreeStatus.Running;
-                    })
-                    .End()
-                    .Build();
-            }
-        }
+        public override IBehaviourTreeNode Behaviour => _builder
+            .Parallel("Target highest enmity", 1, 2)
+            .Do<ClearInvalidEnmityTargets>(Self)
+            .Do<AttackHighestEnmity>(Self)
+            .End()
+            .Build();
 
         public override void OnPhysicalAttacked()
         {

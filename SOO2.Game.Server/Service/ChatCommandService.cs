@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
-using SOO2.Game.Server.ChatCommands;
-using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.ChatCommand;
+using SOO2.Game.Server.ChatCommand.Contracts;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;

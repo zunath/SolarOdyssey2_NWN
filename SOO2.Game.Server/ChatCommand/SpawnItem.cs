@@ -1,10 +1,10 @@
-﻿using SOO2.Game.Server.ChatCommands.Contracts;
+﻿using NWN;
+using SOO2.Game.Server.ChatCommand.Contracts;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 
-namespace SOO2.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommand
 {
     [CommandDetails("Spawns an item of a specific quantity on your character. Example: /spawnitem my_item 3", CommandPermissionType.DM)]
     public class SpawnItem: IChatCommand

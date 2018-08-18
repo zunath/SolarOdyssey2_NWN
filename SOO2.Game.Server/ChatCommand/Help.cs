@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SOO2.Game.Server.ChatCommands.Contracts;
+using SOO2.Game.Server.ChatCommand.Contracts;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
 
-namespace SOO2.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommand
 {
     [CommandDetails("Displays all chat commands available to you.", CommandPermissionType.DM | CommandPermissionType.Player)]
     public class Help: IChatCommand

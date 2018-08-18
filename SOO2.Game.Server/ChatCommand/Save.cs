@@ -1,9 +1,9 @@
-﻿using SOO2.Game.Server.ChatCommands.Contracts;
+﻿using NWN;
+using SOO2.Game.Server.ChatCommand.Contracts;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
-using NWN;
 
-namespace SOO2.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommand
 {
     [CommandDetails("Saves your character.", CommandPermissionType.Player)]
     public class Save: IChatCommand

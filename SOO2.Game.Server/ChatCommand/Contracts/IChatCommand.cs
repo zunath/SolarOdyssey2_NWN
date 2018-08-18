@@ -1,6 +1,6 @@
 ﻿using SOO2.Game.Server.GameObject;
 
-namespace SOO2.Game.Server.ChatCommands.Contracts
+namespace SOO2.Game.Server.ChatCommand.Contracts
 {
     public interface IChatCommand
     {

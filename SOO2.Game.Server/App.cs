@@ -5,7 +5,6 @@ using Autofac;
 using FluentBehaviourTree;
 using SOO2.Game.Server.Bioware;
 using SOO2.Game.Server.Bioware.Contracts;
-using SOO2.Game.Server.ChatCommands.Contracts;
 using SOO2.Game.Server.Conversation.Contracts;
 using SOO2.Game.Server.Creature.Contracts;
 using SOO2.Game.Server.CustomEffect.Contracts;
@@ -21,6 +20,8 @@ using SOO2.Game.Server.Perk;
 using SOO2.Game.Server.Service;
 using SOO2.Game.Server.Service.Contracts;
 using NWN;
+using SOO2.Game.Server.BehaviourComponent.Contracts;
+using SOO2.Game.Server.ChatCommand.Contracts;
 
 namespace SOO2.Game.Server
 {
@@ -72,7 +73,9 @@ namespace SOO2.Game.Server
                 throw new Exception(nameof(T) + " must be an interface.");
             }
 
-            string @namespace = Assembly.GetExecutingAssembly().GetName().Name + "." + typeName;
+            string assemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+            typeName = typeName.Replace(assemblyName + ".", string.Empty);
+            string @namespace = assemblyName + "." + typeName;
             return _container.ResolveKeyed<T>(@namespace);
         }
 
@@ -155,7 +158,8 @@ namespace SOO2.Game.Server
             RegisterInterfaceImplementations<IActionItem>(builder);
             RegisterInterfaceImplementations<IPerk>(builder);
             RegisterInterfaceImplementations<ICreature>(builder);
-            
+            RegisterInterfaceImplementations<IBehaviourComponent>(builder);
+
             // Third Party
             builder.RegisterType<BiowarePosition>().As<IBiowarePosition>();
             builder.RegisterType<BiowareXP2>().As<IBiowareXP2>();
@@ -189,7 +193,9 @@ namespace SOO2.Game.Server
                 string key = type.Namespace;
                 if (lowerCaseKey) key = key + "." + type.Name.ToLower();
                 else key = key + "." + type.Name;
-                
+
+                Console.WriteLine(key);
+
                 builder.RegisterType(type).As<T>().Keyed<T>(key);
             }
         }

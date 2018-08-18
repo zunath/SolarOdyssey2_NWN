@@ -1,7 +1,7 @@
 ﻿using System;
 using SOO2.Game.Server.Enumeration;
 
-namespace SOO2.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommand
 {
     public class CommandDetailsAttribute: Attribute
     {

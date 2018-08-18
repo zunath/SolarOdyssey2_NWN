@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using SOO2.Game.Server.ChatCommands.Contracts;
+using NWN;
+using SOO2.Game.Server.ChatCommand.Contracts;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
-using NWN;
 
-namespace SOO2.Game.Server.ChatCommands
+namespace SOO2.Game.Server.ChatCommand
 {
     [CommandDetails("ALPHA Command: Returns you to your bind point.", CommandPermissionType.Player)]
     public class Stuck: IChatCommand
