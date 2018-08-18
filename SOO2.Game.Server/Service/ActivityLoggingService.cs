@@ -83,22 +83,22 @@ namespace SOO2.Game.Server.Service
         {
             switch (nwnxChatChannelID)
             {
-                case (int)ChatChannel.PlayerTalk:
-                case (int)ChatChannel.DMTalk:
+                case (int)ChatChannelType.PlayerTalk:
+                case (int)ChatChannelType.DMTalk:
                     return 3;
-                case (int)ChatChannel.PlayerShout:
-                case (int)ChatChannel.DMShout:
+                case (int)ChatChannelType.PlayerShout:
+                case (int)ChatChannelType.DMShout:
                     return 1;
-                case (int)ChatChannel.PlayerWhisper:
-                case (int)ChatChannel.DMWhisper:
+                case (int)ChatChannelType.PlayerWhisper:
+                case (int)ChatChannelType.DMWhisper:
                     return 2;
-                case (int)ChatChannel.PlayerTell:
-                case (int)ChatChannel.DMTell:
+                case (int)ChatChannelType.PlayerTell:
+                case (int)ChatChannelType.DMTell:
                     return 6;
-                case (int)ChatChannel.ServerMessage:
+                case (int)ChatChannelType.ServerMessage:
                     return 7;
-                case (int)ChatChannel.PlayerParty:
-                case (int)ChatChannel.DMParty:
+                case (int)ChatChannelType.PlayerParty:
+                case (int)ChatChannelType.DMParty:
                     return 4;
                 default:
                     return 5;

@@ -26,6 +26,7 @@ namespace SOO2.Game.Server.Service
         private readonly IColorTokenService _color;
         private readonly IRandomService _random;
         private readonly IFoodService _food;
+        private readonly IEnmityService _enmity;
 
         public AbilityService(INWScript script, 
             IDataContext db,
@@ -36,7 +37,8 @@ namespace SOO2.Game.Server.Service
             INWNXPlayer nwnxPlayer,
             IColorTokenService color,
             IRandomService random,
-            IFoodService food)
+            IFoodService food,
+            IEnmityService enmity)
         {
             _ = script;
             _db = db;
@@ -48,6 +50,7 @@ namespace SOO2.Game.Server.Service
             _color = color;
             _random = random;
             _food = food;
+            _enmity = enmity;
         }
 
         private const int SPELL_STATUS_STARTED = 1;
@@ -58,7 +61,7 @@ namespace SOO2.Game.Server.Service
         {
             NWPlayer pc = NWPlayer.Wrap(_.GetItemActivator());
             NWItem item = NWItem.Wrap(_.GetItemActivated());
-            NWPlayer target = NWPlayer.Wrap(_.GetItemActivatedTarget());
+            NWCreature target = NWCreature.Wrap(_.GetItemActivatedTarget());
             int perkID = item.GetLocalInt("ACTIVATION_PERK_ID");
             if (perkID <= 0) return;
 
@@ -79,7 +82,7 @@ namespace SOO2.Game.Server.Service
 
             if (perkAction.IsHostile() && target.IsPlayer)
             {
-                if (!_pvpSanctuary.IsPVPAttackAllowed(pc, target)) return;
+                if (!_pvpSanctuary.IsPVPAttackAllowed(pc, NWPlayer.Wrap(target.Object))) return;
             }
 
             if (pc.Area.Resref != target.Area.Resref ||
@@ -136,12 +139,13 @@ namespace SOO2.Game.Server.Service
             // Spells w/ casting time
             if (perk.PerkExecutionType.PerkExecutionTypeID == (int)PerkExecutionType.Spell)
             {
-                CastSpell(pc, target, perk, perkAction, perk.CooldownCategory, perk.Enmity);
+                CastSpell(pc, target, perk, perkAction, perk.CooldownCategory);
             }
             // Combat Abilities w/o casting time
             else if (perk.PerkExecutionType.PerkExecutionTypeID == (int)PerkExecutionType.CombatAbility)
             {
-                perkAction.OnImpact(pc, target, perk.Enmity);
+                perkAction.OnImpact(pc, target);
+                ApplyEnmity(pc, target, perk);
 
                 if (manaCost > 0)
                 {
@@ -157,13 +161,27 @@ namespace SOO2.Game.Server.Service
             }
         }
 
+        private void ApplyEnmity(NWPlayer pc, NWCreature target, Data.Entities.Perk perk)
+        {
+            switch ((EnmityAdjustmentRuleType)perk.EnmityAdjustmentRuleID)
+            {
+                case EnmityAdjustmentRuleType.AllTaggedTargets:
+                    _enmity.AdjustEnmityOnAllTaggedCreatures(pc, perk.Enmity);
+                    break;
+                case EnmityAdjustmentRuleType.TargetOnly:
+                    _enmity.AdjustEnmity(target, pc, perk.Enmity);
+                    break;
+                case EnmityAdjustmentRuleType.Custom:
+                    break;
+            }
+
+        }
 
         private void CastSpell(NWPlayer pc,
-                                      NWObject target,
-                                      Data.Entities.Perk entity,
-                                      IPerk perk,
-                                      CooldownCategory cooldown,
-                                      int enmity)
+                               NWObject target,
+                               Data.Entities.Perk entity,
+                               IPerk perk,
+                               CooldownCategory cooldown)
         {
             string spellUUID = Guid.NewGuid().ToString();
             int itemBonus = pc.CastingSpeed;
@@ -226,7 +244,11 @@ namespace SOO2.Game.Server.Service
                 if ((PerkExecutionType)entity.ExecutionTypeID == PerkExecutionType.Spell ||
                     (PerkExecutionType)entity.ExecutionTypeID == PerkExecutionType.CombatAbility)
                 {
-                    perk.OnImpact(pc, target, enmity);
+                    perk.OnImpact(pc, target);
+                    if (target.IsNPC)
+                    {
+                        ApplyEnmity(pc, NWCreature.Wrap(target.Object), entity);
+                    }
                 }
                 else
                 {
@@ -332,7 +354,13 @@ namespace SOO2.Game.Server.Service
 
             IPerk perk = App.ResolveByInterface<IPerk>("Perk." + entity.JavaScriptName);
 
-            perk?.OnImpact(oPC, oTarget, entity.Enmity);
+            perk?.OnImpact(oPC, oTarget);
+
+            if (oTarget.IsNPC)
+            {
+                ApplyEnmity(oPC, NWCreature.Wrap(oTarget.Object), entity);
+            }
+            
 
             oPC.DeleteLocalString("ACTIVE_WEAPON_SKILL_UUID");
             oPC.DeleteLocalInt("ACTIVE_WEAPON_SKILL");

@@ -50,7 +50,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.HolyShot);
             int damage;
@@ -95,7 +95,11 @@ namespace SOO2.Game.Server.Perk.Alteration
             _.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, vfx, oTarget.Object, 1.5f);
 
             _skill.RegisterPCToNPCForSkill(oPC, (NWPlayer)oTarget, SkillType.AlterationMagic);
-            _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectDamage(damage), oTarget.Object);
+
+            oPC.AssignCommand(() =>
+            {
+                _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectDamage(damage), oTarget.Object);
+            });
         }
 
         public void OnPurchased(NWPlayer oPC, int newLevel)
@@ -111,6 +115,10 @@ namespace SOO2.Game.Server.Perk.Alteration
         }
 
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
+        {
+        }
+
+        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
         {
         }
 

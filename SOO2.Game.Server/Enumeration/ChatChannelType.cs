@@ -1,6 +1,6 @@
 ﻿namespace SOO2.Game.Server.Enumeration
 {
-    public enum ChatChannel
+    public enum ChatChannelType
     {
         PlayerTalk = 1,
         PlayerShout = 2,

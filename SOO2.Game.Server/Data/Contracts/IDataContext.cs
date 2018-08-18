@@ -31,6 +31,7 @@ namespace SOO2.Game.Server.Data.Contracts
         IDbSet<Entities.CustomEffect> CustomEffects { get; set; }
         IDbSet<DMRoleDomain> DMRoleDomains { get; set; }
         IDbSet<Download> Downloads { get; set; }
+        IDbSet<EnmityAdjustmentRule> EnmityAdjustmentRules { get; set; }
         IDbSet<FameRegion> FameRegions { get; set; }
         IDbSet<GameTopicCategory> GameTopicCategories { get; set; }
         IDbSet<GameTopic> GameTopics { get; set; }

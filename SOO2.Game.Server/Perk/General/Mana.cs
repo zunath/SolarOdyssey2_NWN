@@ -37,7 +37,7 @@ namespace SOO2.Game.Server.Perk.General
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
         }
 
@@ -56,6 +56,10 @@ namespace SOO2.Game.Server.Perk.General
         }
 
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
+        {
+        }
+
+        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
         {
         }
 

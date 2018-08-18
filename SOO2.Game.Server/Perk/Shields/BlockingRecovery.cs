@@ -46,7 +46,7 @@ namespace SOO2.Game.Server.Perk.Shields
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
             int perkLevel = _perk.GetPCPerkLevel(oPC, PerkType.BlockingRecovery);
             int chance;
@@ -101,6 +101,10 @@ namespace SOO2.Game.Server.Perk.Shields
         }
 
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
+        {
+        }
+
+        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
         {
         }
 

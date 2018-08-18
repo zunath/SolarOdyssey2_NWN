@@ -47,6 +47,7 @@ namespace SOO2.Game.Server.Data
         public virtual IDbSet<Entities.CustomEffect> CustomEffects { get; set; }
         public virtual IDbSet<DMRoleDomain> DMRoleDomains { get; set; }
         public virtual IDbSet<Download> Downloads { get; set; }
+        public virtual IDbSet<EnmityAdjustmentRule> EnmityAdjustmentRules { get; set; }
         public virtual IDbSet<FameRegion> FameRegions { get; set; }
         public virtual IDbSet<GameTopicCategory> GameTopicCategories { get; set; }
         public virtual IDbSet<GameTopic> GameTopics { get; set; }
@@ -194,6 +195,12 @@ namespace SOO2.Game.Server.Data
                 .HasMany(e => e.Users)
                 .WithRequired(e => e.DMRoleDomain)
                 .HasForeignKey(e => e.RoleID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<EnmityAdjustmentRule>()
+                .HasMany(e => e.Perks)
+                .WithRequired(e => e.EnmityAdjustmentRule)
+                .HasForeignKey(e => e.EnmityAdjustmentRuleID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<FameRegion>()

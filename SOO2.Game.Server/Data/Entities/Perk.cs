@@ -51,6 +51,8 @@ namespace SOO2.Game.Server.Data.Entities
 
         public int Enmity { get; set; }
 
+        public int EnmityAdjustmentRuleID { get; set; }
+
         public virtual CooldownCategory CooldownCategory { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -68,5 +70,7 @@ namespace SOO2.Game.Server.Data.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StructureBlueprint> StructureBlueprints { get; set; }
+
+        public virtual EnmityAdjustmentRule EnmityAdjustmentRule { get; set; }
     }
 }

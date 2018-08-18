@@ -58,7 +58,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.Purify);
             int luck = _perk.GetPCPerkLevel(oPC,  PerkType.Lucky);
@@ -106,6 +106,10 @@ namespace SOO2.Game.Server.Perk.Alteration
         }
 
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
+        {
+        }
+
+        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
         {
         }
 

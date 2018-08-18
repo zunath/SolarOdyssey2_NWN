@@ -1,4 +1,5 @@
-﻿using SOO2.Game.Server.Enumeration;
+﻿using System;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
 using NWN;
@@ -52,7 +53,7 @@ namespace SOO2.Game.Server.Perk.Evocation
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.FireBlast);
             int damage;
@@ -94,17 +95,20 @@ namespace SOO2.Game.Server.Perk.Evocation
 
             float damageMultiplier = 1.0f + (intelligence * 0.2f) + (wisdom * 0.1f);
             damage = (int)(damage * damageMultiplier);
-
+            
             _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectVisualEffect(VFX_COM_HIT_FIRE), oTarget.Object);
 
             if (ticks > 0)
             {
                 _customEffect.ApplyCustomEffect(oPC, (NWCreature)oTarget, CustomEffectType.Burning, ticks, level);
             }
-
+            
             _skill.RegisterPCToNPCForSkill(oPC, (NWCreature)oTarget, SkillType.EvocationMagic);
-            _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectDamage(damage, DAMAGE_TYPE_FIRE), oTarget.Object);
 
+            oPC.AssignCommand(() =>
+            {
+                _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectDamage(damage, DAMAGE_TYPE_FIRE), oTarget.Object);
+            });
         }
 
         public void OnPurchased(NWPlayer oPC, int newLevel)
@@ -120,6 +124,10 @@ namespace SOO2.Game.Server.Perk.Evocation
         }
 
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
+        {
+        }
+
+        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
         {
         }
 

@@ -47,7 +47,7 @@ namespace SOO2.Game.Server.Perk.OneHanded
             return baseCooldownTime;
         }
 
-        public void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity)
+        public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
         }
 
@@ -69,6 +69,10 @@ namespace SOO2.Game.Server.Perk.OneHanded
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
         {
             ApplyFeatChanges(oPC, oItem);
+        }
+
+        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
+        {
         }
 
         private void ApplyFeatChanges(NWPlayer oPC, NWItem oItem)

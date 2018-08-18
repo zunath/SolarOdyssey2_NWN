@@ -9,11 +9,12 @@ namespace SOO2.Game.Server.Perk
         int ManaCost(NWPlayer oPC, int baseManaCost);
         float CastingTime(NWPlayer oPC, float baseCastingTime);
         float CooldownTime(NWPlayer oPC, float baseCooldownTime);
-        void OnImpact(NWPlayer oPC, NWObject oTarget, int enmity);
+        void OnImpact(NWPlayer oPC, NWObject oTarget);
         void OnPurchased(NWPlayer oPC, int newLevel);
         void OnRemoved(NWPlayer oPC);
         void OnItemEquipped(NWPlayer oPC, NWItem oItem);
         void OnItemUnequipped(NWPlayer oPC, NWItem oItem);
+        void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount);
         bool IsHostile();
     }
 }

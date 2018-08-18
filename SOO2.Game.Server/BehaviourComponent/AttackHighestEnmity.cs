@@ -27,8 +27,6 @@ namespace SOO2.Game.Server.BehaviourComponent
 
             return builder.Do("AttackHighestEnmity", t =>
             {
-                if (_.GetIsInCombat(self.Object) == FALSE) return BehaviourTreeStatus.Failure;
-
                 var enmityTable = _enmity.GetEnmityTable(self);
 
                 var target = enmityTable.Values
@@ -44,6 +42,7 @@ namespace SOO2.Game.Server.BehaviourComponent
                     }
                     else
                     {
+                        Console.WriteLine("Total enmity: " + target.TotalAmount);
                         _.ActionAttack(target.TargetObject.Object);
                     }
                 });
