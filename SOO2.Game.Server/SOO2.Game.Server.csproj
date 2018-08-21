@@ -586,12 +586,14 @@
     <Compile Include="Service\Contracts\IObjectProcessingService.cs" />
     <Compile Include="Service\Contracts\IBehaviourService.cs" />
     <Compile Include="Service\Contracts\IEnmityService.cs" />
+    <Compile Include="Service\Contracts\IMapService.cs" />
     <Compile Include="Service\ItemService.cs" />
     <Compile Include="Service\Contracts\ITimeService.cs" />
     <Compile Include="Service\KeyItemService.cs" />
     <Compile Include="Service\LocalVariableService.cs" />
     <Compile Include="Service\LootService.cs" />
     <Compile Include="Service\MapPinService.cs" />
+    <Compile Include="Service\MapService.cs" />
     <Compile Include="Service\MenuService.cs" />
     <Compile Include="Service\MigrationService.cs" />
     <Compile Include="Service\ObjectProcessingService.cs" />

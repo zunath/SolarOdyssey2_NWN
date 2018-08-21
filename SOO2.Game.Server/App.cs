@@ -133,6 +133,7 @@ namespace SOO2.Game.Server
             builder.RegisterType<KeyItemService>().As<IKeyItemService>();
             builder.RegisterType<LocalVariableService>().As<ILocalVariableService>();
             builder.RegisterType<LootService>().As<ILootService>();
+            builder.RegisterType<MapService>().As<IMapService>();
             builder.RegisterType<MapPinService>().As<IMapPinService>();
             builder.RegisterType<MenuService>().As<IMenuService>();
             builder.RegisterType<MigrationService>().As<IMigrationService>();
