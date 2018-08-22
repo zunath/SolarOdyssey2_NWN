@@ -35,7 +35,7 @@ namespace SOO2.Game.Server.BehaviourComponent
                     if (target == null ||
                         !val.TargetObject.IsValid ||
                         !target.Area.Equals(self.Area) ||
-                        target.IsDead)
+                        target.CurrentHP <= -11)
                     {
                         _enmity.GetEnmityTable(self).Remove(enmity.Key);
                         continue;

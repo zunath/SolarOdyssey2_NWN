@@ -24,12 +24,12 @@ namespace SOO2.Game.Server.Bioware
 
         public float GetChangeInX(float fDistance, float fAngle)
         {
-            return (float)(fDistance * Math.Cos(fAngle));
+            return fDistance * _.cos(fAngle);
         }
 
         public float GetChangeInY(float fDistance, float fAngle)
         {
-            return (float)(fDistance * Math.Sin(fAngle));
+            return fDistance * _.sin(fAngle);
         }
 
         public Vector GetChangedPosition(Vector vOriginal, float fDistance, float fAngle)

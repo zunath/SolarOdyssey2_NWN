@@ -29,9 +29,12 @@ namespace SOO2.Game.Server.Creature
         public override bool IgnoreNWNEvents => true;
 
         public override IBehaviourTreeNode Behaviour => _builder
-            .Parallel("StandardCreature", 1, 2)
+            .Parallel("StandardCreature", 5, 1)
             .Do<CleanUpEnmity>(Self)
             .Do<AttackHighestEnmity>(Self)
+            .Do<AggroTargetBySight>(Self)
+            //.Do<RandomWalk>(Self)
+            .Do<EquipBestMelee>(Self)
             .End()
             .Build();
 

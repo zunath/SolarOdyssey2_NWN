@@ -128,6 +128,7 @@ namespace SOO2.Game.Server.Conversation.NPCs
         {
             Object store = _.GetNearestObject(OBJECT_TYPE_STORE, Object.OBJECT_SELF);
             _.OpenStore(store, GetPC().Object);
+            EndConversation();
         }
 
         public override void EndDialog()

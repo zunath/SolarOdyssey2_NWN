@@ -59,9 +59,14 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AppState.cs" />
+    <Compile Include="BehaviourComponent\AggroTargetBySight.cs" />
+    <Compile Include="BehaviourComponent\AggroTargetBySound.cs" />
     <Compile Include="BehaviourComponent\AttackHighestEnmity.cs" />
     <Compile Include="BehaviourComponent\CleanUpEnmity.cs" />
     <Compile Include="BehaviourComponent\Contracts\IBehaviourComponent.cs" />
+    <Compile Include="BehaviourComponent\EquipBestMelee.cs" />
+    <Compile Include="BehaviourComponent\EquipBestRanged.cs" />
+    <Compile Include="BehaviourComponent\RandomWalk.cs" />
     <Compile Include="Bioware\BiowarePosition.cs" />
     <Compile Include="Bioware\BiowareXP2.cs" />
     <Compile Include="Bioware\Contracts\IBiowarePosition.cs" />

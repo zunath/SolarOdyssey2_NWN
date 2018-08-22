@@ -3,6 +3,7 @@ using SOO2.Game.Server.NWNX.Contracts;
 using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
+using System.Linq;
 
 namespace SOO2.Game.Server.GameObject
 {
@@ -185,6 +186,22 @@ namespace SOO2.Game.Server.GameObject
 
                 return castingSpeed;
             }
+        }
+
+        public bool HasAnyEffect(params int[] effectIDs)
+        {
+            Effect eff = _.GetFirstEffect(Object);
+            while (_.GetIsEffectValid(eff) == TRUE)
+            {
+                if (effectIDs.Contains(_.GetEffectType(eff)))
+                {
+                    return true;
+                }
+
+                eff = _.GetNextEffect(Object);
+            }
+
+            return false;
         }
 
         public virtual float EnmityRate

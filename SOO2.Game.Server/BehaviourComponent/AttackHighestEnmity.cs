@@ -41,7 +41,6 @@ namespace SOO2.Game.Server.BehaviourComponent
                     }
                     else
                     {
-                        Console.WriteLine("Total enmity: " + target.TotalAmount);
                         _.ActionAttack(target.TargetObject.Object);
                     }
                 });

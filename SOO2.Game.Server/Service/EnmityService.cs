@@ -117,5 +117,22 @@ namespace SOO2.Game.Server.Service
 
             return _state.NPCEnmityTables[npc.GlobalID];
         }
+
+        public bool IsOnEnmityTable(NWCreature npc, NWCreature target)
+        {
+            if (!npc.IsNPC) throw new Exception("Only NPCs have enmity tables.");
+
+            EnmityTable table = GetEnmityTable(npc);
+
+            return table.ContainsKey(target.GlobalID);
+        }
+
+        public bool IsEnmityTableEmpty(NWCreature npc)
+        {
+            if (!npc.IsNPC) throw new Exception("Only NPCs have enmity tables.");
+
+            EnmityTable table = GetEnmityTable(npc);
+            return table.Count <= 0;
+        }
     }
 }
