@@ -58,7 +58,7 @@
         RapidShot = 54,
         RapidToss = 55,
         WeaponFinesse = 56,
-        ZenArchery = 57,
+        ZenMarksmanship = 57,
         ZenTossing = 58,
         WeaponFocusBlades = 59,
         WeaponFocusFinesseBlades = 60,

@@ -2,16 +2,15 @@
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
-using static NWN.NWScript;
 
-namespace SOO2.Game.Server.Perk.Archery
+namespace SOO2.Game.Server.Perk.Firearms
 {
-    public class ZenArchery : IPerk
+    public class ZenMarksmanship : IPerk
     {
         private readonly INWScript _;
         private readonly INWNXCreature _nwnxCreature;
 
-        public ZenArchery(INWScript script,
+        public ZenMarksmanship(INWScript script,
             INWNXCreature nwnxCreature)
         {
             _ = script;
@@ -54,7 +53,7 @@ namespace SOO2.Game.Server.Perk.Archery
 
         public void OnRemoved(NWPlayer oPC)
         {
-            _nwnxCreature.RemoveFeat(oPC, FEAT_ZEN_ARCHERY);
+            _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_ZEN_ARCHERY);
         }
 
         public void OnItemEquipped(NWPlayer oPC, NWItem oItem)
@@ -79,11 +78,11 @@ namespace SOO2.Game.Server.Perk.Archery
                     (equipped.CustomItemType != CustomItemType.Bow && 
                      equipped.CustomItemType != CustomItemType.Crossbow))
             {
-                _nwnxCreature.RemoveFeat(oPC, FEAT_ZEN_ARCHERY);
+                _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_ZEN_ARCHERY);
                 return;
             }
 
-            _nwnxCreature.AddFeat(oPC, FEAT_ZEN_ARCHERY);
+            _nwnxCreature.AddFeat(oPC, NWScript.FEAT_ZEN_ARCHERY);
         }
 
         public bool IsHostile()

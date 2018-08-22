@@ -94,14 +94,14 @@ namespace SOO2.Game.Server.Service
                 case BackgroundType.Cleric:
                     _perk.DoPerkUpgrade(oPC, PerkType.Recover);
                     break;
-                case BackgroundType.Archer:
-                    item1Resref = "bkg_archerbow";
-                    item2Resref = "nw_wamar001";
+                case BackgroundType.Gunslinger:
+                    item1Resref = "bkg_gunblaster";
+                    item2Resref = "blaster_bullets";
                     item2Quantity = 99;
                     break;
-                case BackgroundType.Crossbowman:
-                    item1Resref = "bkg_cbmcrbow";
-                    item2Resref = "nw_wambo001";
+                case BackgroundType.Rifleman:
+                    item1Resref = "bkg_rifleman";
+                    item2Resref = "rifle_bullets";
                     item2Quantity = 99;
                     break;
                 case BackgroundType.Chef:

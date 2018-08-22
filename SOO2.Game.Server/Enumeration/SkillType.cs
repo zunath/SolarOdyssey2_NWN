@@ -7,7 +7,7 @@
         TwoHanded = 2,
         TwinBlades = 3,
         MartialArts = 4,
-        Archery = 5,
+        Firearms = 5,
         Throwing = 6,
         LightArmor = 7,
         HeavyArmor = 8,

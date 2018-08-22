@@ -112,7 +112,7 @@ namespace SOO2.Game.Server.Service
             if (wisBonus > MaxAttributeBonus) wisBonus = MaxAttributeBonus;
             if (chaBonus > MaxAttributeBonus) chaBonus = MaxAttributeBonus;
 
-            if (pcEntity.BackgroundID == (int)BackgroundType.Archer || pcEntity.BackgroundID == (int)BackgroundType.Crossbowman)
+            if (pcEntity.BackgroundID == (int)BackgroundType.Gunslinger || pcEntity.BackgroundID == (int)BackgroundType.Rifleman)
             {
                 dexBonus++;
                 wisBonus++;
@@ -684,7 +684,7 @@ namespace SOO2.Game.Server.Service
                 BASE_ITEM_GLOVES
         };
 
-            int[] archeryTypes = {
+            int[] firearmTypes = {
                 BASE_ITEM_HEAVYCROSSBOW,
                 BASE_ITEM_LIGHTCROSSBOW,
                 BASE_ITEM_LONGBOW,
@@ -706,7 +706,7 @@ namespace SOO2.Game.Server.Service
             else if (twoHandedTypes.Contains(type)) skillID = (int)SkillType.TwoHanded;
             else if (twinBladeTypes.Contains(type)) skillID = (int)SkillType.TwinBlades;
             else if (martialArtsTypes.Contains(type)) skillID = (int)SkillType.MartialArts;
-            else if (archeryTypes.Contains(type)) skillID = (int)SkillType.Archery;
+            else if (firearmTypes.Contains(type)) skillID = (int)SkillType.Firearms;
             else if (throwingTypes.Contains(type)) skillID = (int)SkillType.Throwing;
 
             return skillID;

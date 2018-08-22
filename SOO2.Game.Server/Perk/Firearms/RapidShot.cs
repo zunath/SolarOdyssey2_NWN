@@ -2,9 +2,8 @@
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
-using static NWN.NWScript;
 
-namespace SOO2.Game.Server.Perk.Archery
+namespace SOO2.Game.Server.Perk.Firearms
 {
     public class RapidShot : IPerk
     {
@@ -54,7 +53,7 @@ namespace SOO2.Game.Server.Perk.Archery
 
         public void OnRemoved(NWPlayer oPC)
         {
-            _nwnxCreature.RemoveFeat(oPC, FEAT_RAPID_SHOT);
+            _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_RAPID_SHOT);
         }
 
         public void OnItemEquipped(NWPlayer oPC, NWItem oItem)
@@ -80,11 +79,11 @@ namespace SOO2.Game.Server.Perk.Archery
                 equippedArmor.CustomItemType != CustomItemType.LightArmor ||
                 equippedWeapon.CustomItemType != CustomItemType.Bow)
             {
-                _nwnxCreature.RemoveFeat(oPC, FEAT_RAPID_RELOAD);
+                _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_RAPID_RELOAD);
                 return;
             }
 
-            _nwnxCreature.AddFeat(oPC, FEAT_RAPID_RELOAD);
+            _nwnxCreature.AddFeat(oPC, NWScript.FEAT_RAPID_RELOAD);
         }
 
         public bool IsHostile()

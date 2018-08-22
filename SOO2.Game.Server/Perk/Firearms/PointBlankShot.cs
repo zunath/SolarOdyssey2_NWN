@@ -2,9 +2,8 @@
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
-using static NWN.NWScript;
 
-namespace SOO2.Game.Server.Perk.Archery
+namespace SOO2.Game.Server.Perk.Firearms
 {
     public class PointBlankShot: IPerk
     {
@@ -54,7 +53,7 @@ namespace SOO2.Game.Server.Perk.Archery
 
         public void OnRemoved(NWPlayer oPC)
         {
-            _nwnxCreature.RemoveFeat(oPC, FEAT_POINT_BLANK_SHOT);
+            _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_POINT_BLANK_SHOT);
         }
 
         public void OnItemEquipped(NWPlayer oPC, NWItem oItem)
@@ -74,15 +73,15 @@ namespace SOO2.Game.Server.Perk.Archery
         private void ApplyFeatChanges(NWPlayer oPC, NWItem oItem)
         {
             NWItem armor = oItem ?? oPC.Chest;
-            if (armor.BaseItemType != BASE_ITEM_ARMOR) return;
+            if (armor.BaseItemType != NWScript.BASE_ITEM_ARMOR) return;
             
             if (Equals(armor, oItem) || armor.CustomItemType != CustomItemType.LightArmor)
             {
-                _nwnxCreature.RemoveFeat(oPC, FEAT_POINT_BLANK_SHOT);
+                _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_POINT_BLANK_SHOT);
                 return;
             }
 
-            _nwnxCreature.AddFeat(oPC, FEAT_POINT_BLANK_SHOT);
+            _nwnxCreature.AddFeat(oPC, NWScript.FEAT_POINT_BLANK_SHOT);
         }
 
         public bool IsHostile()

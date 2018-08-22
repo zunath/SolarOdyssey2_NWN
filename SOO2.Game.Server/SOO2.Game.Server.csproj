@@ -243,10 +243,10 @@
     <Compile Include="Perk\Alteration\HolyShot.cs" />
     <Compile Include="Perk\Alteration\Purify.cs" />
     <Compile Include="Perk\Alteration\Recover.cs" />
-    <Compile Include="Perk\Archery\PointBlankShot.cs" />
-    <Compile Include="Perk\Archery\RapidReload.cs" />
-    <Compile Include="Perk\Archery\RapidShot.cs" />
-    <Compile Include="Perk\Archery\ZenArchery.cs" />
+    <Compile Include="Perk\Firearms\PointBlankShot.cs" />
+    <Compile Include="Perk\Firearms\RapidReload.cs" />
+    <Compile Include="Perk\Firearms\RapidShot.cs" />
+    <Compile Include="Perk\Firearms\ZenMarksmanship.cs" />
     <Compile Include="Perk\Armorsmith\HeavyArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\LightArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\SpeedyArmorsmith.cs" />
