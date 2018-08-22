@@ -8,6 +8,7 @@ using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Perk;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject;
@@ -22,16 +23,19 @@ namespace SOO2.Game.Server.Service
         private readonly IColorTokenService _color;
         private readonly IDataContext _db;
         private readonly IBiowareXP2 _biowareXP2;
+        private readonly INWNXCreature _nwnxCreature;
 
         public PerkService(INWScript script,
             IColorTokenService color,
             IDataContext db,
-            IBiowareXP2 biowareXP2)
+            IBiowareXP2 biowareXP2,
+            INWNXCreature nwnxCreature)
         {
             _ = script;
             _color = color;
             _db = db;
             _biowareXP2 = biowareXP2;
+            _nwnxCreature = nwnxCreature;
         }
 
         public void OnModuleItemEquipped()
@@ -235,6 +239,13 @@ namespace SOO2.Game.Server.Service
                     }
 
                     _.SetName(_.GetItemPossessedBy(oPC.Object, perk.ItemResref), perk.Name + " (Lvl. " + pcPerk.PerkLevel + ")");
+                }
+                // If a feat ID is assigned, add the feat to the player if it doesn't exist yet.
+                else if (perk.FeatID != null && 
+                         perk.FeatID > 0 && 
+                         _.GetHasFeat((int)perk.FeatID, oPC.Object) == FALSE)
+                {
+                    _nwnxCreature.AddFeatByLevel(oPC, (int)perk.FeatID, 1);
                 }
 
                 oPC.SendMessage(_color.Green("Perk Purchased: " + perk.Name + " (Lvl. " + pcPerk.PerkLevel + ")"));

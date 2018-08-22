@@ -50,7 +50,12 @@ namespace SOO2.Game.Server.Service
                 
                 _.CreateItemOnObject("open_rest_menu", player.Object);
                 _.AssignCommand(player.Object, () => _.TakeGoldFromCreature(_.GetGold(player.Object), player.Object, 1));
-                _.GiveGoldToCreature(player.Object, 100);
+
+                player.DelayCommand(() =>
+                {
+                    _.GiveGoldToCreature(player.Object, 100);
+                }, 0.5f);
+                
 
                 NWItem knife = NWItem.Wrap(_.CreateItemOnObject("survival_knife", player.Object));
                 knife.Name = player.Name + "'s Survival Knife";
@@ -118,7 +123,7 @@ namespace SOO2.Game.Server.Service
                
                 _skill.ApplyStatChanges(player, null);
 
-                _.DelayCommand(1000, () => _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(999), player.Object));
+                _.DelayCommand(1.0f, () => _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(999), player.Object));
 
                 InitializeHotBar(player);
             }

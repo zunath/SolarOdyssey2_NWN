@@ -6,7 +6,7 @@ namespace SOO2.Game.Server.Service.Contracts
     public interface IAbilityService
     {
         void OnHitCastSpell(NWPlayer oPC);
-        void OnModuleItemActivated();
+        void OnModuleUseFeat();
         void RestoreMana(NWPlayer oPC, int amount);
         PlayerCharacter RestoreMana(NWPlayer oPC, int amount, PlayerCharacter entity);
     }

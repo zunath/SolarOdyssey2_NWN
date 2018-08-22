@@ -10,6 +10,7 @@ using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Perk;
 using SOO2.Game.Server.Service.Contracts;
 using static NWN.NWScript;
+using Object = NWN.Object;
 using PerkExecutionType = SOO2.Game.Server.Enumeration.PerkExecutionType;
 
 namespace SOO2.Game.Server.Service
@@ -27,6 +28,7 @@ namespace SOO2.Game.Server.Service
         private readonly IRandomService _random;
         private readonly IFoodService _food;
         private readonly IEnmityService _enmity;
+        private readonly INWNXEvents _nwnxEvents;
 
         public AbilityService(INWScript script, 
             IDataContext db,
@@ -38,7 +40,8 @@ namespace SOO2.Game.Server.Service
             IColorTokenService color,
             IRandomService random,
             IFoodService food,
-            IEnmityService enmity)
+            IEnmityService enmity,
+            INWNXEvents nwnxEvents)
         {
             _ = script;
             _db = db;
@@ -51,22 +54,19 @@ namespace SOO2.Game.Server.Service
             _random = random;
             _food = food;
             _enmity = enmity;
+            _nwnxEvents = nwnxEvents;
         }
 
         private const int SPELL_STATUS_STARTED = 1;
         private const int SPELL_STATUS_INTERRUPTED = 2;
 
 
-        public void OnModuleItemActivated()
+        public void OnModuleUseFeat()
         {
-            NWPlayer pc = NWPlayer.Wrap(_.GetItemActivator());
-            NWItem item = NWItem.Wrap(_.GetItemActivated());
-            NWCreature target = NWCreature.Wrap(_.GetItemActivatedTarget());
-            int perkID = item.GetLocalInt("ACTIVATION_PERK_ID");
-            if (perkID <= 0) return;
-
-            Data.Entities.Perk perk = _db.Perks.SingleOrDefault(x => x.PerkID == perkID);
-
+            NWPlayer pc = NWPlayer.Wrap(Object.OBJECT_SELF);
+            NWCreature target = NWCreature.Wrap(_nwnxEvents.OnFeatUsed_GetTarget().Object);
+            int featID = _nwnxEvents.OnFeatUsed_GetFeatID();
+            Data.Entities.Perk perk = _db.Perks.SingleOrDefault(x => x.FeatID == featID);
             if (perk == null) return;
 
             IPerk perkAction = App.ResolveByInterface<IPerk>("Perk." + perk.JavaScriptName);

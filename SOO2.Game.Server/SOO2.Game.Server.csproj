@@ -212,6 +212,7 @@
     <Compile Include="Enumeration\CreatureEventType.cs" />
     <Compile Include="Enumeration\CustomAttribute.cs" />
     <Compile Include="Enumeration\CustomEffectType.cs" />
+    <Compile Include="Enumeration\CustomFeatType.cs" />
     <Compile Include="Enumeration\CustomItemPropertyType.cs" />
     <Compile Include="Enumeration\CustomItemType.cs" />
     <Compile Include="Enumeration\DMActionType.cs" />
@@ -234,10 +235,12 @@
     <Compile Include="Event\Creature\OnCreatureEvent.cs" />
     <Compile Include="Event\Module\OnModuleAttack.cs" />
     <Compile Include="Event\Module\OnModuleNWNXChat.cs" />
+    <Compile Include="Event\Module\OnModuleUseFeat.cs" />
     <Compile Include="Event\Player\OnPlayerDamaged.cs" />
     <Compile Include="Extension\BehaviourTreeBuilderExtensions.cs" />
     <Compile Include="NWN\Events\Module\mod_on_attack.cs" />
     <Compile Include="NWN\Events\Module\mod_on_nwnxchat.cs" />
+    <Compile Include="NWN\Events\Module\mod_on_usefeat.cs" />
     <Compile Include="NWN\Events\Player\pc_on_damaged.cs" />
     <Compile Include="Perk\Alteration\Gate.cs" />
     <Compile Include="Perk\Alteration\HolyShot.cs" />

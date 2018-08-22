@@ -88,6 +88,7 @@ namespace SOO2.Game.Server.Event.Module
             // NWNX Event Hooks
             _nwnxEvents.SubscribeEvent(EventType.StartCombatRoundBefore, "mod_on_attack");
             _nwnxEvents.SubscribeEvent(EventType.ExamineObjectBefore, "mod_on_examine");
+            _nwnxEvents.SubscribeEvent(EventType.UseFeatBefore, "mod_on_usefeat");
         }
     }
 }
