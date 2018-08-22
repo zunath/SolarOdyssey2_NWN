@@ -167,9 +167,9 @@ namespace SOO2.Game.Server.Service
             {
                 description += _color.Orange("Recommended Level: ") + examinedItem.RecommendedLevel + "\n";
             }
-            if (examinedItem.AssociatedSkillID > 0)
+            if (examinedItem.AssociatedSkillType > 0)
             {
-                PCSkill pcSkill = _skill.GetPCSkillByID(examiner.GlobalID, examinedItem.AssociatedSkillID);
+                PCSkill pcSkill = _skill.GetPCSkillByID(examiner.GlobalID, (int)examinedItem.AssociatedSkillType);
                 description += _color.Orange("Associated Skill: ") + pcSkill.Skill.Name + "\n";
             }
             if (examinedItem.CustomAC > 0)
@@ -397,7 +397,7 @@ namespace SOO2.Game.Server.Service
             item.CraftBonusWeaponsmith = entity.CraftBonusWeaponsmith;
             item.CraftBonusCooking = entity.CraftBonusCooking;
             item.CraftBonusEngineering = entity.CraftBonusEngineering;
-            item.AssociatedSkillID = entity.AssociatedSkillID;
+            item.AssociatedSkillType = (SkillType)entity.AssociatedSkillID;
             item.CraftTierLevel = entity.CraftTierLevel;
             item.HPBonus = entity.HPBonus;
             item.ManaBonus = entity.ManaBonus;

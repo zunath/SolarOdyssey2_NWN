@@ -113,83 +113,162 @@ namespace SOO2.Game.Server.GameObject
         }
         public virtual CustomItemType CustomItemType
         {
-            get => (CustomItemType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE");
+            get
+            {
+                int itemType = GetItemPropertyValue((int)CustomItemPropertyType.ItemType);
+                return itemType > 0 ? (CustomItemType)itemType : 
+                    (CustomItemType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE", (int)value);
         }
 
         public virtual int RecommendedLevel
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.RecommendedLevel);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL", value);
         }
 
         public virtual int LoggingBonus
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LOGGING_BONUS");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.LoggingBonus);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LOGGING_BONUS");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LOGGING_BONUS", value);
         }
 
         public virtual int MiningBonus
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MINING_BONUS");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.MiningBonus);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MINING_BONUS");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MINING_BONUS", value);
         }
 
         public virtual int CastingSpeed
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CASTING_SPEED");
+            get
+            {
+                int castingSpeed = GetItemPropertyValue((int)CustomItemPropertyType.CastingSpeed);
+                if (castingSpeed <= 0) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CASTING_SPEED");
+
+                if (castingSpeed <= 99) return -castingSpeed;
+                return castingSpeed - 99;
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CASTING_SPEED", value);
         }
 
         public virtual int CraftBonusMetalworking
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusMetalworking);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING", value);
         }
         public virtual int CraftBonusArmorsmith
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ARMORSMITH");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusArmorsmith);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ARMORSMITH");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ARMORSMITH", value);
         }
         public virtual int CraftBonusWeaponsmith
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WEAPONSMITH");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusWeaponsmith);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WEAPONSMITH");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WEAPONSMITH", value);
         }
         public virtual int CraftBonusCooking
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusCooking);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING", value);
         }
         public virtual int CraftBonusEngineering
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING");
+            get
+            {
+                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusEngineering);
+                return craftBonus > 0 ? craftBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING", value);
         }
-        public virtual int AssociatedSkillID
+        public virtual SkillType AssociatedSkillType
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID");
-            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID", value);
+            get
+            {
+                int skillType = GetItemPropertyValue((int)CustomItemPropertyType.AssociatedSkill);
+                return skillType > 0 ? (SkillType)skillType :
+                    (SkillType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID", (int)value);
         }
         public virtual int CraftTierLevel
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_TIER_LEVEL");
+            get
+            {
+                int craftTier = GetItemPropertyValue((int)CustomItemPropertyType.CraftTierLevel);
+                return craftTier > 0 ? craftTier :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_TIER_LEVEL");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_TIER_LEVEL", value);
         }
         public virtual int HPBonus
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_BONUS");
+            get
+            {
+                int hpBonus = GetItemPropertyValue((int) CustomItemPropertyType.HPBonus);
+                return hpBonus > 0 ? hpBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_BONUS");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_BONUS", value);
         }
         public virtual int ManaBonus
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS");
+            get
+            {
+                int manaBonus = GetItemPropertyValue((int)CustomItemPropertyType.ManaBonus);
+                return manaBonus > 0 ? manaBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS", value);
         }
 
         public virtual int EnmityRate
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE");
+            get
+            {
+                int enmityRate = GetItemPropertyValue((int)CustomItemPropertyType.EnmityRate);
+                if (enmityRate <= 0) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE");
+
+                if (enmityRate <= 50) return -enmityRate;
+                return enmityRate - 50;
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE", value);
         }
 
@@ -207,5 +286,23 @@ namespace SOO2.Game.Server.GameObject
         }
 
         public virtual bool IsRanged => _.GetWeaponRanged(Object) == 1;
+
+
+        private int GetItemPropertyValue(int itemPropertyID)
+        {
+            ItemProperty ip = _.GetFirstItemProperty(Object);
+            while (_.GetIsItemPropertyValid(ip) == TRUE)
+            {
+                if (_.GetItemPropertyType(ip) == itemPropertyID)
+                {
+                    return _.GetItemPropertyCostTableValue(ip); 
+                }
+
+                ip = _.GetNextItemProperty(Object);
+            }
+
+            return -1;
+        }
+
     }
 }

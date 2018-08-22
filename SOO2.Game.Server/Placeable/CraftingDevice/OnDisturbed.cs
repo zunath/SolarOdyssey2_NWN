@@ -77,7 +77,7 @@ namespace SOO2.Game.Server.Placeable.CraftingDevice
                         _item.ReturnItem(oPC, oItem);
                         oPC.SendMessage("Tools are not required to make this item.");
                     }
-                    else if (blueprint.CraftTierLevel > oItem.CraftTierLevel || blueprint.SkillID != oItem.AssociatedSkillID)
+                    else if (blueprint.CraftTierLevel > oItem.CraftTierLevel || blueprint.SkillID != (int)oItem.AssociatedSkillType)
                     {
                         _item.ReturnItem(oPC, oItem);
                         oPC.SendMessage("Those tools cannot be used with this blueprint. (Required Tool Level: " + blueprint.CraftTierLevel + ")");

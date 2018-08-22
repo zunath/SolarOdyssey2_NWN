@@ -2,7 +2,8 @@
 {
     public enum CustomItemPropertyType
     {
-        RecommendedLEvel = 100,
+        Unknown = -1,
+        RecommendedLevel = 100,
         LoggingBonus = 101,
         MiningBonus = 102,
         CastingSpeed = 103,
@@ -17,6 +18,7 @@
         CraftBonusEngineering = 112,
         HPBonus = 113,
         ManaBonus = 114,
-        EnmityRate = 115
+        EnmityRate = 115,
+        ItemType = 116
     }
 }
