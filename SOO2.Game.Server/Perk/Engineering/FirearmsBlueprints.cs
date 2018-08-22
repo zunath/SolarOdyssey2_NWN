@@ -1,8 +1,8 @@
 ﻿using SOO2.Game.Server.GameObject;
 
-namespace SOO2.Game.Server.Perk.Woodworking
+namespace SOO2.Game.Server.Perk.Engineering
 {
-    public class SpeedyWoodworking : IPerk
+    public class FirearmsBlueprints : IPerk
     {
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {

@@ -110,8 +110,8 @@ namespace SOO2.Game.Server.Service
                 case BackgroundType.Metalworker:
                     _perk.DoPerkUpgrade(oPC, PerkType.MetalworkingComponentBlueprints);
                     break;
-                case BackgroundType.Woodworker:
-                    _perk.DoPerkUpgrade(oPC, PerkType.WoodComponentsBlueprints);
+                case BackgroundType.Engineer:
+                    _perk.DoPerkUpgrade(oPC, PerkType.ElectronicsBlueprints);
                     break;
                 case BackgroundType.Vagabond:
                     pcEntity.UnallocatedSP = pcEntity.UnallocatedSP + 3;

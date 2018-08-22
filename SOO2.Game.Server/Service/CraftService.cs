@@ -203,7 +203,7 @@ namespace SOO2.Game.Server.Service
             else if (skillType == SkillType.Weaponsmith) perkType = PerkType.SpeedyWeaponsmith;
             else if (skillType == SkillType.Armorsmith) perkType = PerkType.SpeedyArmorsmith;
             else if (skillType == SkillType.Cooking) perkType = PerkType.SpeedyCooking;
-            else if (skillType == SkillType.Woodworking) perkType = PerkType.SpeedyWoodworking;
+            else if (skillType == SkillType.Engineering) perkType = PerkType.SpeedyEngineering;
             else return BaseCraftDelay;
 
             int perkLevel = _perk.GetPCPerkLevel(oPC, perkType);
@@ -461,7 +461,7 @@ namespace SOO2.Game.Server.Service
                     case CraftDeviceType.Cookpot: toolBonus = tools.CraftBonusCooking; break;
                     case CraftDeviceType.MetalworkingBench: toolBonus = tools.CraftBonusMetalworking; break;
                     case CraftDeviceType.WeaponsmithBench: toolBonus = tools.CraftBonusWeaponsmith; break;
-                    case CraftDeviceType.WoorkworkingBench: toolBonus = tools.CraftBonusWoodworking; break;
+                    case CraftDeviceType.EngineeringBench: toolBonus = tools.CraftBonusEngineering; break;
                 }
 
                 effectiveLevel += toolBonus;
@@ -485,8 +485,8 @@ namespace SOO2.Game.Server.Service
                     if (player.BackgroundID == (int)BackgroundType.Weaponsmith)
                         effectiveLevel++;
                     break;
-                case CraftDeviceType.WoorkworkingBench:
-                    if (player.BackgroundID == (int)BackgroundType.Woodworker)
+                case CraftDeviceType.EngineeringBench:
+                    if (player.BackgroundID == (int)BackgroundType.Engineer)
                         effectiveLevel++;
                     break;
             }

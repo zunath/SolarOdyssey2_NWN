@@ -12,7 +12,7 @@
         Rifleman = 7,
         Chef = 8,
         Metalworker = 9,
-        Woodworker = 10,
+        Engineer = 10,
         Vagabond = 11,
         Guard = 12,
         Berserker = 13,

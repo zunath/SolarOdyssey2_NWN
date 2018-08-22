@@ -322,10 +322,9 @@
     <Compile Include="Perk\Weaponsmith\SpeedyWeaponsmith.cs" />
     <Compile Include="Perk\Weapons\Focus.cs" />
     <Compile Include="Perk\Weapons\ImprovedCritical.cs" />
-    <Compile Include="Perk\Woodworking\SpeedyWoodworking.cs" />
-    <Compile Include="Perk\Woodworking\WoodArmorBlueprints.cs" />
-    <Compile Include="Perk\Woodworking\WoodComponentsBlueprints.cs" />
-    <Compile Include="Perk\Woodworking\WoodWeaponBlueprints.cs" />
+    <Compile Include="Perk\Engineering\SpeedyEngineering.cs" />
+    <Compile Include="Perk\Engineering\ElectronicsBlueprints.cs" />
+    <Compile Include="Perk\Engineering\FirearmsBlueprints.cs" />
     <Compile Include="Placeable\CraftingForge\FinishSmelt.cs" />
     <Compile Include="Event\Dialog\ActionTaken.cs" />
     <Compile Include="Event\Dialog\AppearsWhen.cs" />

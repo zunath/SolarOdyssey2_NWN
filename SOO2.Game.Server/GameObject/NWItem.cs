@@ -161,10 +161,10 @@ namespace SOO2.Game.Server.GameObject
             get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING");
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING", value);
         }
-        public virtual int CraftBonusWoodworking
+        public virtual int CraftBonusEngineering
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WOODWORKING");
-            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WOODWORKING", value);
+            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING");
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING", value);
         }
         public virtual int AssociatedSkillID
         {

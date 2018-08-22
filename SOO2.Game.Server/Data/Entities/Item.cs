@@ -34,7 +34,7 @@ namespace SOO2.Game.Server.Data.Entities
 
         public int CraftTierLevel { get; set; }
 
-        public int CraftBonusWoodworking { get; set; }
+        public int CraftBonusEngineering { get; set; }
 
         public int Weight { get; set; }
 

@@ -11,6 +11,7 @@ using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject;
 using SOO2.Game.Server.ValueObject.Skill;
 using static NWN.NWScript;
 
@@ -33,6 +34,7 @@ namespace SOO2.Game.Server.Service
         private readonly IPerkService _perk;
         private readonly IBiowareXP2 _biowareXP2;
         private readonly ICustomEffectService _customEffect;
+        private readonly IEnmityService _enmity;
         private readonly AppState _state;
 
         public SkillService(IDataContext db,
@@ -43,6 +45,7 @@ namespace SOO2.Game.Server.Service
             IPerkService perk,
             IBiowareXP2 biowareXP2,
             ICustomEffectService customEffect,
+            IEnmityService enmity,
             AppState state)
         {
             _db = db;
@@ -53,6 +56,7 @@ namespace SOO2.Game.Server.Service
             _perk = perk;
             _biowareXP2 = biowareXP2;
             _customEffect = customEffect;
+            _enmity = enmity;
             _state = state;
         }
 
@@ -201,13 +205,7 @@ namespace SOO2.Game.Server.Service
             if (!player.IsPlayer) return;
             if (skillID <= 0) return;
 
-            List<NWPlayer> members = new List<NWPlayer>();
-            NWPlayer member = NWPlayer.Wrap(_.GetFirstFactionMember(player.Object));
-            while(member.IsValid)
-            {
-                members.Add(member);
-                member = NWPlayer.Wrap(_.GetNextFactionMember(player.Object));
-            }
+            List<NWPlayer> members = player.GetPartyMembers();
             
             int nth = 1;
             NWCreature creature = NWCreature.Wrap(_.GetNearestCreature(CREATURE_TYPE_IS_ALIVE, 1, player.Object, nth, CREATURE_TYPE_PLAYER_CHAR, 0));
@@ -215,15 +213,17 @@ namespace SOO2.Game.Server.Service
             {
                 if (_.GetDistanceBetween(player.Object, creature.Object) > 20.0f) break;
 
-                NWObject target = NWObject.Wrap(_.GetAttackTarget(creature.Object));
-                if (target.IsValid && members.Contains(target))
+                // Check NPC's enmity table 
+                EnmityTable enmityTable = _enmity.GetEnmityTable(creature);
+                foreach (var member in members)
                 {
-                    if (target.IsValid && target.Area.Equals(player.Area))
+                    if (enmityTable.ContainsKey(member.GlobalID))
                     {
                         RegisterPCToNPCForSkill(player, creature, skillID);
+                        break;
                     }
                 }
-
+                
                 nth++;
                 creature = NWCreature.Wrap(_.GetNearestCreature(CREATURE_TYPE_IS_ALIVE, 1, player.Object, nth, CREATURE_TYPE_PLAYER_CHAR, 0));
             }

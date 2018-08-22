@@ -14,7 +14,7 @@
         MaxDurability = 109,
         AssociatedSkill = 110,
         CraftTierLevel = 111,
-        CraftBonusWoodworking = 112,
+        CraftBonusEngineering = 112,
         HPBonus = 113,
         ManaBonus = 114,
         EnmityRate = 115

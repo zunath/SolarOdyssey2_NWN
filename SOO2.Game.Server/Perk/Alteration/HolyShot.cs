@@ -94,7 +94,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             Effect vfx = _.EffectBeam(VFX_BEAM_SILENT_HOLY, oPC.Object, BODY_NODE_CHEST);
             _.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, vfx, oTarget.Object, 1.5f);
 
-            _skill.RegisterPCToNPCForSkill(oPC, (NWPlayer)oTarget, SkillType.AlterationMagic);
+            _skill.RegisterPCToNPCForSkill(oPC, NWCreature.Wrap(oTarget.Object), SkillType.AlterationMagic);
 
             oPC.AssignCommand(() =>
             {

@@ -396,7 +396,7 @@ namespace SOO2.Game.Server.Service
             item.CraftBonusArmorsmith = entity.CraftBonusArmorsmith;
             item.CraftBonusWeaponsmith = entity.CraftBonusWeaponsmith;
             item.CraftBonusCooking = entity.CraftBonusCooking;
-            item.CraftBonusWoodworking = entity.CraftBonusWoodworking;
+            item.CraftBonusEngineering = entity.CraftBonusEngineering;
             item.AssociatedSkillID = entity.AssociatedSkillID;
             item.CraftTierLevel = entity.CraftTierLevel;
             item.HPBonus = entity.HPBonus;

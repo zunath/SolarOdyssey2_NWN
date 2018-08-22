@@ -24,7 +24,7 @@
         EvocationMagic = 19,
         AlterationMagic = 20,
         SummoningMagic = 21,
-        Woodworking = 22,
+        Engineering = 22,
         Farming = 23,
         Forage = 24,
         Alchemy = 25

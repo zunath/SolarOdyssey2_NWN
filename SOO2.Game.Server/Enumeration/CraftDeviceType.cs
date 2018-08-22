@@ -5,7 +5,7 @@
         ArmorsmithBench = 1,
         WeaponsmithBench = 2,
         Cookpot = 3,
-        WoorkworkingBench = 4,
+        EngineeringBench = 4,
         MetalworkingBench = 5
     }
 }
