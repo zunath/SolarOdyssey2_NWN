@@ -1,5 +1,5 @@
-﻿using SOO2.Game.Server.GameObject;
-using NWN;
+﻿using NWN;
+using SOO2.Game.Server.GameObject;
 
 namespace SOO2.Game.Server.Bioware.Contracts
 {

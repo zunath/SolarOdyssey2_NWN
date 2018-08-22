@@ -3,10 +3,11 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using FluentBehaviourTree;
+using NWN;
+using SOO2.Game.Server.AI.Contracts;
 using SOO2.Game.Server.Bioware;
 using SOO2.Game.Server.Bioware.Contracts;
 using SOO2.Game.Server.Conversation.Contracts;
-using SOO2.Game.Server.Creature.Contracts;
 using SOO2.Game.Server.CustomEffect.Contracts;
 using SOO2.Game.Server.Data;
 using SOO2.Game.Server.Data.Contracts;
@@ -19,8 +20,6 @@ using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Perk;
 using SOO2.Game.Server.Service;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
-using SOO2.Game.Server.BehaviourComponent.Contracts;
 using SOO2.Game.Server.ChatCommand.Contracts;
 
 namespace SOO2.Game.Server
@@ -158,8 +157,8 @@ namespace SOO2.Game.Server
             RegisterInterfaceImplementations<IConversation>(builder);
             RegisterInterfaceImplementations<IActionItem>(builder);
             RegisterInterfaceImplementations<IPerk>(builder);
-            RegisterInterfaceImplementations<ICreature>(builder);
-            RegisterInterfaceImplementations<IBehaviourComponent>(builder);
+            RegisterInterfaceImplementations<IBehaviour>(builder);
+            RegisterInterfaceImplementations<IAIComponent>(builder);
 
             // Third Party
             builder.RegisterType<BiowarePosition>().As<IBiowarePosition>();

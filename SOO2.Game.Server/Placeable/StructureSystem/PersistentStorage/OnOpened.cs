@@ -1,8 +1,8 @@
-﻿using SOO2.Game.Server.Data.Entities;
+﻿using NWN;
+using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Event;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 
 namespace SOO2.Game.Server.Placeable.StructureSystem.PersistentStorage
 {

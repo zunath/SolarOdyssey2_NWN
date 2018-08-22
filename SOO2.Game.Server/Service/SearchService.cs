@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
+using NWN;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject;
-using NWN;
 using static NWN.NWScript;
 
 namespace SOO2.Game.Server.Service

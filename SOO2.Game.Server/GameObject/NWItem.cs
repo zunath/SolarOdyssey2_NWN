@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using NWN;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject.Contracts;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 
@@ -205,5 +205,7 @@ namespace SOO2.Game.Server.GameObject
                 _.DestroyObject(Object);
             }
         }
+
+        public virtual bool IsRanged => _.GetWeaponRanged(Object) == 1;
     }
 }

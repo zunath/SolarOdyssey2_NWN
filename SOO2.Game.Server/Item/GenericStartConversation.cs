@@ -1,8 +1,8 @@
-﻿using SOO2.Game.Server.GameObject;
+﻿using NWN;
+using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Item.Contracts;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject;
-using NWN;
 
 namespace SOO2.Game.Server.Item
 {

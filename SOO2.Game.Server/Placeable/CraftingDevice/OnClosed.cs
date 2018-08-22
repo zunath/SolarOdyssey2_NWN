@@ -1,6 +1,6 @@
-﻿using SOO2.Game.Server.Event;
+﻿using NWN;
+using SOO2.Game.Server.Event;
 using SOO2.Game.Server.GameObject;
-using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 

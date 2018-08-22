@@ -1,8 +1,8 @@
-﻿using SOO2.Game.Server.Conversation.Contracts;
+﻿using NWN;
+using SOO2.Game.Server.Conversation.Contracts;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject.Dialog;
-using NWN;
 
 namespace SOO2.Game.Server.Event.Dialog
 {

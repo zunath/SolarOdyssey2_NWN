@@ -1,6 +1,5 @@
 ﻿using System;
-using SOO2.Game.Server.Creature;
-using SOO2.Game.Server.Creature.Contracts;
+using SOO2.Game.Server.AI.Contracts;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
@@ -30,49 +29,52 @@ namespace SOO2.Game.Server.Event.Creature
 
         public bool Run(params object[] args)
         {
-            string creatureScript = Self.GetLocalString("SCRIPT");
-            ICreature creature = null;
+            string creatureScript = Self.GetLocalString("BEHAVIOUR");
+            if (string.IsNullOrWhiteSpace(creatureScript)) creatureScript = Self.GetLocalString("BEHAVIOR");
+            if (string.IsNullOrWhiteSpace(creatureScript)) creatureScript = Self.GetLocalString("SCRIPT");
+
+            IBehaviour behaviour = null;
 
             if (!string.IsNullOrWhiteSpace(creatureScript) && 
-                App.IsKeyRegistered<ICreature>("Creature." + creatureScript))
+                App.IsKeyRegistered<IBehaviour>("AI." + creatureScript))
             {
-                creature = App.ResolveByInterface<ICreature>("Creature." + creatureScript);
-                if (creature.IgnoreNWNEvents) Self.SetLocalInt("IGNORE_NWN_EVENTS", 1);
-                if (creature.IgnoreOnBlocked) Self.SetLocalInt("IGNORE_NWN_ON_BLOCKED_EVENT", 1);
-                if (creature.IgnoreOnCombatRoundEnd) Self.SetLocalInt("IGNORE_NWN_ON_COMBAT_ROUND_END_EVENT", 1);
-                if (creature.IgnoreOnConversation) Self.SetLocalInt("IGNORE_NWN_ON_CONVERSATION_EVENT", 1);
-                if (creature.IgnoreOnDamaged) Self.SetLocalInt("IGNORE_NWN_ON_DAMAGED_EVENT", 1);
-                if (creature.IgnoreOnDeath) Self.SetLocalInt("IGNORE_NWN_ON_DEATH_EVENT", 1);
-                if (creature.IgnoreOnDisturbed) Self.SetLocalInt("IGNORE_NWN_ON_DISTURBED_EVENT", 1);
-                if (creature.IgnoreOnHeartbeat) Self.SetLocalInt("IGNORE_NWN_ON_HEARTBEAT_EVENT", 1);
-                if (creature.IgnoreOnPerception) Self.SetLocalInt("IGNORE_NWN_ON_PERCEPTION_EVENT", 1);
-                if (creature.IgnoreOnPhysicalAttacked) Self.SetLocalInt("IGNORE_NWN_ON_PHYSICAL_ATTACKED_EVENT", 1);
-                if (creature.IgnoreOnRested) Self.SetLocalInt("IGNORE_NWN_ON_RESTED_EVENT", 1);
-                if (creature.IgnoreOnSpawn) Self.SetLocalInt("IGNORE_NWN_ON_SPAWN_EVENT", 1);
-                if (creature.IgnoreOnSpellCastAt) Self.SetLocalInt("IGNORE_NWN_ON_SPELL_CAST_AT_EVENT", 1);
-                if (creature.IgnoreOnUserDefined) Self.SetLocalInt("IGNORE_NWN_ON_USER_DEFINED_EVENT", 1);
+                behaviour = App.ResolveByInterface<IBehaviour>("AI." + creatureScript);
+                if (behaviour.IgnoreNWNEvents) Self.SetLocalInt("IGNORE_NWN_EVENTS", 1);
+                if (behaviour.IgnoreOnBlocked) Self.SetLocalInt("IGNORE_NWN_ON_BLOCKED_EVENT", 1);
+                if (behaviour.IgnoreOnCombatRoundEnd) Self.SetLocalInt("IGNORE_NWN_ON_COMBAT_ROUND_END_EVENT", 1);
+                if (behaviour.IgnoreOnConversation) Self.SetLocalInt("IGNORE_NWN_ON_CONVERSATION_EVENT", 1);
+                if (behaviour.IgnoreOnDamaged) Self.SetLocalInt("IGNORE_NWN_ON_DAMAGED_EVENT", 1);
+                if (behaviour.IgnoreOnDeath) Self.SetLocalInt("IGNORE_NWN_ON_DEATH_EVENT", 1);
+                if (behaviour.IgnoreOnDisturbed) Self.SetLocalInt("IGNORE_NWN_ON_DISTURBED_EVENT", 1);
+                if (behaviour.IgnoreOnHeartbeat) Self.SetLocalInt("IGNORE_NWN_ON_HEARTBEAT_EVENT", 1);
+                if (behaviour.IgnoreOnPerception) Self.SetLocalInt("IGNORE_NWN_ON_PERCEPTION_EVENT", 1);
+                if (behaviour.IgnoreOnPhysicalAttacked) Self.SetLocalInt("IGNORE_NWN_ON_PHYSICAL_ATTACKED_EVENT", 1);
+                if (behaviour.IgnoreOnRested) Self.SetLocalInt("IGNORE_NWN_ON_RESTED_EVENT", 1);
+                if (behaviour.IgnoreOnSpawn) Self.SetLocalInt("IGNORE_NWN_ON_SPAWN_EVENT", 1);
+                if (behaviour.IgnoreOnSpellCastAt) Self.SetLocalInt("IGNORE_NWN_ON_SPELL_CAST_AT_EVENT", 1);
+                if (behaviour.IgnoreOnUserDefined) Self.SetLocalInt("IGNORE_NWN_ON_USER_DEFINED_EVENT", 1);
             }
 
             CreatureEventType type = (CreatureEventType)args[0];
             switch (type)
             {
                 case CreatureEventType.OnPhysicalAttacked:
-                    creature?.OnPhysicalAttacked();
+                    behaviour?.OnPhysicalAttacked();
                     break;
                 case CreatureEventType.OnBlocked:
-                    creature?.OnBlocked();
+                    behaviour?.OnBlocked();
                     break;
                 case CreatureEventType.OnConversation:
-                    creature?.OnConversation();
+                    behaviour?.OnConversation();
                     break;
                 case CreatureEventType.OnDamaged:
-                    creature?.OnDamaged();
+                    behaviour?.OnDamaged();
                     break;
                 case CreatureEventType.OnDeath:
                     _skill.OnCreatureDeath(Self);
                     _loot.OnCreatureDeath(Self);
 
-                    if (creature != null)
+                    if (behaviour != null)
                     {
                         string behaviourID = Self.GetLocalString("REGISTERED_BEHAVIOUR_ID");
                         if (!string.IsNullOrWhiteSpace(behaviourID))
@@ -81,7 +83,7 @@ namespace SOO2.Game.Server.Event.Creature
                             Self.DeleteLocalString("REGISTERED_BEHAVIOUR_ID");
                         }
 
-                        creature.OnDeath();
+                        behaviour.OnDeath();
                     }
 
                     if (_state.CustomObjectData.ContainsKey(Self.GlobalID))
@@ -91,38 +93,41 @@ namespace SOO2.Game.Server.Event.Creature
 
                     break;
                 case CreatureEventType.OnDisturbed:
-                    creature?.OnDisturbed();
+                    behaviour?.OnDisturbed();
                     break;
                 case CreatureEventType.OnHeartbeat:
-                    creature?.OnHeartbeat();
+                    behaviour?.OnHeartbeat();
                     break;
                 case CreatureEventType.OnPerception:
-                    creature?.OnPerception();
+                    behaviour?.OnPerception();
                     break;
                 case CreatureEventType.OnRested:
-                    creature?.OnRested();
+                    behaviour?.OnRested();
                     break;
                 case CreatureEventType.OnCombatRoundEnd:
-                    creature?.OnCombatRoundEnd();
+                    behaviour?.OnCombatRoundEnd();
                     break;
                 case CreatureEventType.OnSpawn:
-                    if (creature != null)
+                    if (behaviour != null)
                     {
-                        if (creature.Behaviour != null)
+                        if (behaviour.Behaviour != null)
                         {
-                            string behaviourID = _behaviour.RegisterBehaviour(creature.Behaviour);
+                            var result = behaviour.Behaviour
+                                .End()
+                                .Build();
+                            string behaviourID = _behaviour.RegisterBehaviour(result);
                             Self.SetLocalString("REGISTERED_BEHAVIOUR_ID", behaviourID);
                         }
 
-                        creature.OnSpawn();
+                        behaviour.OnSpawn();
 
                     }
                     break;
                 case CreatureEventType.OnSpellCastAt:
-                    creature?.OnSpellCastAt();
+                    behaviour?.OnSpellCastAt();
                     break;
                 case CreatureEventType.OnUserDefined:
-                    creature?.OnUserDefined();
+                    behaviour?.OnUserDefined();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

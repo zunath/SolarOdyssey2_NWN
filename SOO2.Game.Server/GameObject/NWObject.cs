@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using NWN;
 using SOO2.Game.Server.GameObject.Contracts;
 using SOO2.Game.Server.ValueObject;
-using NWN;
 using static NWN.NWScript;
 using Object = NWN.Object;
 

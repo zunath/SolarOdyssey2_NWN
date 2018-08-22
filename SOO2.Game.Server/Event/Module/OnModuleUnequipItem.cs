@@ -1,5 +1,5 @@
-﻿using SOO2.Game.Server.Service.Contracts;
-using NWN;
+﻿using NWN;
+using SOO2.Game.Server.Service.Contracts;
 
 namespace SOO2.Game.Server.Event.Module
 {

@@ -1,6 +1,6 @@
-﻿using SOO2.Game.Server.GameObject;
+﻿using NWN;
+using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 using static NWN.NWScript;
 
 namespace SOO2.Game.Server.Event.Module

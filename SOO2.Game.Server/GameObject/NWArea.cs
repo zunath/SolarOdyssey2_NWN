@@ -1,5 +1,5 @@
-﻿using SOO2.Game.Server.GameObject.Contracts;
-using NWN;
+﻿using NWN;
+using SOO2.Game.Server.GameObject.Contracts;
 using Object = NWN.Object;
 
 namespace SOO2.Game.Server.GameObject

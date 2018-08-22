@@ -1,7 +1,7 @@
 ﻿using System;
+using NWN;
 using SOO2.Game.Server.Bioware.Contracts;
 using SOO2.Game.Server.GameObject;
-using NWN;
 
 namespace SOO2.Game.Server.Bioware
 {

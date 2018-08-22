@@ -59,14 +59,14 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="AppState.cs" />
-    <Compile Include="BehaviourComponent\AggroTargetBySight.cs" />
-    <Compile Include="BehaviourComponent\AggroTargetBySound.cs" />
-    <Compile Include="BehaviourComponent\AttackHighestEnmity.cs" />
-    <Compile Include="BehaviourComponent\CleanUpEnmity.cs" />
-    <Compile Include="BehaviourComponent\Contracts\IBehaviourComponent.cs" />
-    <Compile Include="BehaviourComponent\EquipBestMelee.cs" />
-    <Compile Include="BehaviourComponent\EquipBestRanged.cs" />
-    <Compile Include="BehaviourComponent\RandomWalk.cs" />
+    <Compile Include="AI\AIComponent\AggroTargetBySight.cs" />
+    <Compile Include="AI\AIComponent\AggroTargetBySound.cs" />
+    <Compile Include="AI\AIComponent\AttackHighestEnmity.cs" />
+    <Compile Include="AI\AIComponent\CleanUpEnmity.cs" />
+    <Compile Include="AI\Contracts\IAIComponent.cs" />
+    <Compile Include="AI\AIComponent\EquipBestMelee.cs" />
+    <Compile Include="AI\AIComponent\EquipBestRanged.cs" />
+    <Compile Include="AI\AIComponent\RandomWalk.cs" />
     <Compile Include="Bioware\BiowarePosition.cs" />
     <Compile Include="Bioware\BiowareXP2.cs" />
     <Compile Include="Bioware\Contracts\IBiowarePosition.cs" />
@@ -108,9 +108,10 @@
     <Compile Include="Conversation\ViewPerks.cs" />
     <Compile Include="Conversation\ViewSkills.cs" />
     <Compile Include="Conversation\XPTome.cs" />
-    <Compile Include="Creature\Contracts\ICreature.cs" />
-    <Compile Include="Creature\CreatureBase.cs" />
-    <Compile Include="Creature\StandardCreature.cs" />
+    <Compile Include="AI\Contracts\IBehaviour.cs" />
+    <Compile Include="AI\BehaviourBase.cs" />
+    <Compile Include="AI\SightAggroBehaviour.cs" />
+    <Compile Include="AI\StandardBehaviour.cs" />
     <Compile Include="CustomEffect\AegisEffect.cs" />
     <Compile Include="CustomEffect\BleedingEffect.cs" />
     <Compile Include="CustomEffect\BurningEffect.cs" />

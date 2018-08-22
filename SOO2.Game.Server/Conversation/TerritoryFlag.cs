@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using NWN;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject.Dialog;
 using SOO2.Game.Server.ValueObject.Structure;
-using NWN;
 
 namespace SOO2.Game.Server.Conversation
 {

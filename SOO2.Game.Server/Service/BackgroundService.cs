@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NWN;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 using Background = SOO2.Game.Server.Data.Entities.Background;
 
 namespace SOO2.Game.Server.Service

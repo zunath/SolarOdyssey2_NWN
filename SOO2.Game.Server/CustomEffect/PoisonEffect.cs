@@ -1,7 +1,7 @@
 ﻿using System;
+using NWN;
 using SOO2.Game.Server.CustomEffect.Contracts;
 using SOO2.Game.Server.GameObject;
-using NWN;
 using static NWN.NWScript;
 
 namespace SOO2.Game.Server.CustomEffect

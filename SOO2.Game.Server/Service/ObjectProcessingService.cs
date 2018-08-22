@@ -1,7 +1,7 @@
 ﻿using System;
+using NWN;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 using static NWN.NWScript;
 
 namespace SOO2.Game.Server.Service
@@ -80,6 +80,7 @@ namespace SOO2.Game.Server.Service
             name = "SP_" + split[split.Length - 1];
             name = name.Trim();
 
+            Console.WriteLine("Spawn point = " + name);
             obj.Name = name;
         }
     }

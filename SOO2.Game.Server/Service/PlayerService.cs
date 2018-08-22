@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
+using NWN;
 using SOO2.Game.Server.Data;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
-using NWN;
 using static NWN.NWScript;
 
 namespace SOO2.Game.Server.Service
@@ -50,6 +50,7 @@ namespace SOO2.Game.Server.Service
                 
                 _.CreateItemOnObject("open_rest_menu", player.Object);
                 _.AssignCommand(player.Object, () => _.TakeGoldFromCreature(_.GetGold(player.Object), player.Object, 1));
+                _.GiveGoldToCreature(player.Object, 100);
 
                 NWItem knife = NWItem.Wrap(_.CreateItemOnObject("survival_knife", player.Object));
                 knife.Name = player.Name + "'s Survival Knife";

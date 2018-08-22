@@ -1,7 +1,7 @@
-﻿using SOO2.Game.Server.Enumeration;
+﻿using NWN;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
-using NWN;
 
 namespace SOO2.Game.Server.NWNX
 {
