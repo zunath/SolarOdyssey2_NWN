@@ -14,7 +14,7 @@ namespace SOO2.Game.Server.Perk
         void OnRemoved(NWPlayer oPC);
         void OnItemEquipped(NWPlayer oPC, NWItem oItem);
         void OnItemUnequipped(NWPlayer oPC, NWItem oItem);
-        void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount);
+        void OnCustomEnmityRule(NWPlayer oPC, int amount);
         bool IsHostile();
     }
 }

@@ -172,9 +172,10 @@ namespace SOO2.Game.Server.Service
                     _enmity.AdjustEnmity(target, pc, perk.Enmity);
                     break;
                 case EnmityAdjustmentRuleType.Custom:
+                    IPerk perkAction = App.ResolveByInterface<IPerk>("Perk." + perk.JavaScriptName);
+                    perkAction?.OnCustomEnmityRule(pc, perk.Enmity);
                     break;
             }
-
         }
 
         private void CastSpell(NWPlayer pc,

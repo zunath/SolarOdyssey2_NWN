@@ -118,7 +118,7 @@ namespace SOO2.Game.Server.Perk.Alteration
         {
         }
 
-        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
+        public void OnCustomEnmityRule(NWPlayer oPC, int amount)
         {
         }
 

@@ -1,4 +1,5 @@
-﻿using NWN;
+﻿using System;
+using NWN;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
@@ -72,7 +73,7 @@ namespace SOO2.Game.Server.Perk.OneHanded
             ApplyFeatChanges(oPC, oItem);
         }
 
-        public void OnCustomEntityRule(NWPlayer oPC, NWItem oItem, int amount)
+        public void OnCustomEnmityRule(NWPlayer oPC, int amount)
         {
         }
 
@@ -87,7 +88,7 @@ namespace SOO2.Game.Server.Perk.OneHanded
                 _nwnxCreature.RemoveFeat(oPC, FEAT_IMPROVED_POWER_ATTACK);
                 return;
             }
-
+            
             _nwnxCreature.AddFeat(oPC, FEAT_POWER_ATTACK);
 
             if (perkLevel >= 2)
