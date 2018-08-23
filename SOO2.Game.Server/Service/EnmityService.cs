@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NWN;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
@@ -12,12 +13,15 @@ namespace SOO2.Game.Server.Service
     {
         private readonly INWScript _;
         private readonly AppState _state;
+        private readonly IObjectProcessingService _ops;
 
         public EnmityService(INWScript script,
-            AppState state)
+            AppState state,
+            IObjectProcessingService ops)
         {
             _ = script;
             _state = state;
+            _ops = ops;
         }
 
         private Enmity GetEnmity(NWCreature npc, NWCreature attacker)
@@ -76,7 +80,22 @@ namespace SOO2.Game.Server.Service
                 AdjustEnmity(table.Value.NPCObject, attacker, volatileAdjust, cumulativeAdjust);
             }
         }
-        
+
+        public void OnModuleLoad()
+        {
+            // Register a processing event to remove enmity tables for invalid creatures.
+            _ops.RegisterProcessingEvent(() =>
+            {
+                foreach (var npcTable in _state.NPCEnmityTables.ToArray())
+                {
+                    if (!npcTable.Value.NPCObject.IsValid)
+                    {
+                        _state.NPCEnmityTables.Remove(npcTable.Key);
+                    }
+                }
+            });
+        }
+
         public void OnNPCPhysicallyAttacked()
         {
             NWCreature self = NWCreature.Wrap(Object.OBJECT_SELF);

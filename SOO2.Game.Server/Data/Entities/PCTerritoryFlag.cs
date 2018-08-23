@@ -21,8 +21,7 @@ namespace SOO2.Game.Server.Data.Entities
         public string PlayerID { get; set; }
 
         public int StructureBlueprintID { get; set; }
-
-        [Required]
+        
         [StringLength(64)]
         public string LocationAreaTag { get; set; }
 

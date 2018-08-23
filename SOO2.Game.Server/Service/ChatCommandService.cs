@@ -48,13 +48,13 @@ namespace SOO2.Game.Server.Service
             string command = split[0].Substring(1, split[0].Length-1);
             _nwnxChat.SkipMessage();
 
-            if (!App.IsKeyRegistered<IChatCommand>("ChatCommands." + command))
+            if (!App.IsKeyRegistered<IChatCommand>("ChatCommand." + command))
             {
                 sender.SendMessage(_color.Red("Invalid chat command. Use '/help' to get a list of available commands."));
                 return;
             }
 
-            IChatCommand chatCommand = App.ResolveByInterface<IChatCommand>("ChatCommands." + command);
+            IChatCommand chatCommand = App.ResolveByInterface<IChatCommand>("ChatCommand." + command);
             CommandDetailsAttribute attribute = chatCommand.GetType().GetCustomAttribute<CommandDetailsAttribute>();
             bool isDM = _auth.IsPCRegisteredAsDM(sender);
 

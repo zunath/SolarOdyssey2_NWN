@@ -16,6 +16,7 @@ namespace SOO2.Game.Server.Event.Module
         private readonly IStructureService _structure;
         private readonly IObjectProcessingService _objectProcessing;
         private readonly IFarmingService _farming;
+        private readonly IEnmityService _enmity;
 
         public OnModuleLoad(INWScript script,
             INWNXChat nwnxChat,
@@ -23,7 +24,8 @@ namespace SOO2.Game.Server.Event.Module
             IDeathService death,
             IStructureService structure,
             IObjectProcessingService objectProcessing,
-            IFarmingService farming)
+            IFarmingService farming,
+            IEnmityService enmity)
         {
             _ = script;
             _nwnxChat = nwnxChat;
@@ -32,6 +34,7 @@ namespace SOO2.Game.Server.Event.Module
             _structure = structure;
             _objectProcessing = objectProcessing;
             _farming = farming;
+            _enmity = enmity;
         }
 
         public bool Run(params object[] args)
@@ -47,6 +50,7 @@ namespace SOO2.Game.Server.Event.Module
             _structure.OnModuleLoad();
             _objectProcessing.OnModuleLoad();
             _farming.OnModuleLoad();
+            _enmity.OnModuleLoad();
             
             return true;
         }

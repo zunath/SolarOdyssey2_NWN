@@ -13,5 +13,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void OnPlayerDamaged();
         bool IsOnEnmityTable(NWCreature npc, NWCreature target);
         bool IsEnmityTableEmpty(NWCreature npc);
+        void OnModuleLoad();
     }
 }

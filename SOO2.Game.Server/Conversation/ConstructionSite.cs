@@ -737,7 +737,7 @@ namespace SOO2.Game.Server.Conversation
             Model model = GetDialogCustomData<Model>();
 
             Data.Entities.ConstructionSite site = _structure.GetConstructionSiteByID(model.ConstructionSiteID);
-            site.BuildingInterior = interior;
+            site.BuildingInteriorID = interior.BuildingInteriorID;
             _structure.SaveChanges();
 
             BuildMainPage();

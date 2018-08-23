@@ -10,12 +10,15 @@ namespace SOO2.Game.Server.Service
     {
         private readonly INWScript _;
         private readonly AppState _state;
+        private readonly IErrorService _error;
 
         public ObjectProcessingService(INWScript script,
-            AppState state)
+            AppState state,
+            IErrorService error)
         {
             _ = script;
             _state = state;
+            _error = error;
         }
 
         public void OnModuleLoad()
@@ -43,7 +46,15 @@ namespace SOO2.Game.Server.Service
         {
             foreach (var @event in _state.ProcessingEvents)
             {
-                @event.Value.Invoke();
+                try
+                {
+                    @event.Value.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    _error.LogError(ex, "ObjectProcessingService. EventID = " + @event.Key);
+                }
+                
             }
 
             _.DelayCommand(ProcessingTickInterval, RunProcessor);

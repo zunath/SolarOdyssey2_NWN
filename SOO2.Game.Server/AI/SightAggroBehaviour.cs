@@ -2,6 +2,7 @@
 using NWN;
 using SOO2.Game.Server.AI.AIComponent;
 using SOO2.Game.Server.Extension;
+using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
 
 namespace SOO2.Game.Server.AI
@@ -12,8 +13,9 @@ namespace SOO2.Game.Server.AI
             BehaviourTreeBuilder builder, 
             INWScript script, 
             IEnmityService enmity, 
-            IDialogService dialog) 
-            : base(builder, script, enmity, dialog)
+            IDialogService dialog,
+            INWNXObject nwnxObject) 
+            : base(builder, script, enmity, dialog, nwnxObject)
         {
         }
 

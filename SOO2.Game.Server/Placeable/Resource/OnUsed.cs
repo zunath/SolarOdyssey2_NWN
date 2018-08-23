@@ -15,8 +15,9 @@ namespace SOO2.Game.Server.Placeable.Resource
 
         public bool Run(params object[] args)
         {
+            Object self = Object.OBJECT_SELF;
             NWObject oPC = NWObject.Wrap(_.GetLastUsedBy());
-            oPC.AssignCommand(() => _.ActionAttack(Object.OBJECT_SELF));
+            oPC.AssignCommand(() => _.ActionAttack(self));
             return true;
         }
     }
