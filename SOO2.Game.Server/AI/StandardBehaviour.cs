@@ -1,10 +1,13 @@
-﻿using FluentBehaviourTree;
+﻿using System;
+using FluentBehaviourTree;
 using NWN;
 using SOO2.Game.Server.AI.AIComponent;
 using SOO2.Game.Server.Extension;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
+using static NWN.NWScript;
+using Object = NWN.Object;
 
 namespace SOO2.Game.Server.AI
 {
@@ -35,7 +38,7 @@ namespace SOO2.Game.Server.AI
             .Parallel("StandardBehaviour", 5, 1)
             .Do<CleanUpEnmity>(Self)
             .Do<AttackHighestEnmity>(Self)
-            .Do<OpenBlockingDoor>(Self);
+            .Do<WarpToTargetIfStuck>(Self);
 
         public override void OnPhysicalAttacked()
         {
@@ -62,6 +65,19 @@ namespace SOO2.Game.Server.AI
             else if (!string.IsNullOrWhiteSpace(_nwnxObject.GetDialogResref(Self)))
             {
                 _.BeginConversation(_nwnxObject.GetDialogResref(Self));
+            }
+        }
+
+        public override void OnBlocked()
+        {
+            base.OnBlocked();
+
+            NWObject door = NWObject.Wrap(_.GetBlockingDoor());
+            if (!door.IsValid) return;
+
+            if (_.GetIsDoorActionPossible(door.Object, DOOR_ACTION_OPEN) == TRUE)
+            {
+                _.DoDoorAction(door.Object, DOOR_ACTION_OPEN);
             }
         }
 

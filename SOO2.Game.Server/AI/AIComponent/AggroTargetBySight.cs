@@ -46,7 +46,6 @@ namespace SOO2.Game.Server.AI.AIComponent
                         _.GetDistanceBetween(self.Object, creature.Object) <= aggroRange &&
                         !creature.HasAnyEffect(NWScript.EFFECT_TYPE_INVISIBILITY, NWScript.EFFECT_TYPE_SANCTUARY))
                     {
-                        Console.WriteLine("Aggroing " + creature.Name);
                         _enmity.AdjustEnmity(self, creature, 0, 1);
                     }
                     
