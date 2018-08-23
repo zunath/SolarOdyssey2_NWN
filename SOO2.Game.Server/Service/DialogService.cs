@@ -108,12 +108,12 @@ namespace SOO2.Game.Server.Service
                 !talkTo.IsPlayer &&
                 !talkTo.IsDM)
             {
-                _.BeginConversation("dialog" + dialog.DialogNumber);
+                _.BeginConversation("dialog" + dialog.DialogNumber, new NWN.Object());
             }
             // Everything else
             else
             {
-                player.AssignCommand(() => _.ActionStartConversation(talkTo.Object, "dialog" + dialog.DialogNumber));
+                player.AssignCommand(() => _.ActionStartConversation(talkTo.Object, "dialog" + dialog.DialogNumber, TRUE, FALSE));
             }
         }
 
