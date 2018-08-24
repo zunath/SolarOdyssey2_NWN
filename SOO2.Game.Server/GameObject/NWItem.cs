@@ -108,7 +108,12 @@ namespace SOO2.Game.Server.GameObject
 
         public virtual int CustomAC
         {
-            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_AC");
+            get
+            {
+                int armorClass = GetItemPropertyValue((int)CustomItemPropertyType.ArmorClass);
+                return armorClass > 0 ? armorClass :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_AC");
+            }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_AC", value);
         }
         public virtual CustomItemType CustomItemType

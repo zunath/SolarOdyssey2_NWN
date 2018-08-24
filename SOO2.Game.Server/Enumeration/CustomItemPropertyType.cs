@@ -19,6 +19,7 @@
         HPBonus = 113,
         ManaBonus = 114,
         EnmityRate = 115,
-        ItemType = 116
+        ItemType = 116,
+        ArmorClass = 117
     }
 }

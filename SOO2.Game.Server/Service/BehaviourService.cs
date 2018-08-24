@@ -27,7 +27,6 @@ namespace SOO2.Game.Server.Service
                 {
                     node.Tick(time);
                 }
-                else Console.WriteLine("creature invalid, not running processor");
             });
             _state.NPCBehaviours.Add(behaviourID, creature);
         }

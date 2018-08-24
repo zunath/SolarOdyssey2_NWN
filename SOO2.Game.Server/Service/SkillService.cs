@@ -869,7 +869,7 @@ namespace SOO2.Game.Server.Service
 
                 if (oItem.IsValid)
                 {
-                    int itemAC = oItem.AC;
+                    int itemAC = oItem.AC + oItem.CustomAC;
 
                     ac += itemAC;
                 }
