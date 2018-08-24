@@ -57,7 +57,8 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                if (Object == null) throw new Exception("NWN object has not been set for this wrapper.");
+                if (Object == null || Object == OBJECT_TYPE_INVALID)
+                    throw new Exception("NWN object has not been set for this wrapper.");
 
                 string globalID;
                 if (IsPlayer)

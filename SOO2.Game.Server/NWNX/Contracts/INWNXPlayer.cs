@@ -9,7 +9,7 @@ namespace SOO2.Game.Server.NWNX.Contracts
         void StartGuiTimingBar(NWPlayer player, float seconds, string script);
         void StopGuiTimingBar(NWPlayer player, string script);
         void SetAlwaysWalk(NWPlayer player, int bWalk);
-        QuickBarSlot NWNX_Player_GetQuickBarSlot(NWPlayer player, int slot);
+        QuickBarSlot GetQuickBarSlot(NWPlayer player, int slot);
         void SetQuickBarSlot(NWPlayer player, int slot, QuickBarSlot qbs);
     }
 }

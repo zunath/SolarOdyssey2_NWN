@@ -111,6 +111,7 @@ namespace SOO2.Game.Server
             // Services
             builder.RegisterType<AbilityService>().As<IAbilityService>();
             builder.RegisterType<ActivityLoggingService>().As<IActivityLoggingService>();
+            builder.RegisterType<AppStateService>().As<IAppStateService>();
             builder.RegisterType<AuthorizationService>().As<IAuthorizationService>();
             builder.RegisterType<BackgroundService>().As<IBackgroundService>();
             builder.RegisterType<BehaviourService>().As<IBehaviourService>();

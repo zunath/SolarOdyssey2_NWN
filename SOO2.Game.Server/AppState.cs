@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using SOO2.Game.Server.AI.Contracts;
+using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.ValueObject;
 using SOO2.Game.Server.ValueObject.Dialog;
 using SOO2.Game.Server.ValueObject.Skill;
@@ -15,8 +17,10 @@ namespace SOO2.Game.Server
         public Dictionary<CasterSpellVO, int> NPCEffects { get; }
         public List<CasterSpellVO> EffectsToRemove { get; }
         public Dictionary<string, Action> ProcessingEvents { get; set; }
+        public Queue<string> UnregisterProcessingEvents { get; set; }
         public Dictionary<string, EnmityTable> NPCEnmityTables { get; set; }
         public Dictionary<string, CustomData> CustomObjectData { get; set; } 
+        public Dictionary<string, NWCreature> NPCBehaviours { get; set; }
 
         public AppState()
         {
@@ -27,8 +31,10 @@ namespace SOO2.Game.Server
             NPCEffects = new Dictionary<CasterSpellVO, int>();
             EffectsToRemove = new List<CasterSpellVO>();
             ProcessingEvents = new Dictionary<string, Action>();
+            UnregisterProcessingEvents = new Queue<string>();
             NPCEnmityTables = new Dictionary<string, EnmityTable>();
             CustomObjectData = new Dictionary<string, CustomData>();
+            NPCBehaviours = new Dictionary<string, NWCreature>();
 
             for (int x = 1; x <= Constants.NumberOfDialogs; x++)
             {

@@ -103,7 +103,7 @@ namespace SOO2.Game.Server.NWNX
         }
 
         // Gets the player's quickbar slot info
-        public QuickBarSlot NWNX_Player_GetQuickBarSlot(NWPlayer player, int slot)
+        public QuickBarSlot GetQuickBarSlot(NWPlayer player, int slot)
         {
             string sFunc = "GetQuickBarSlot";
             QuickBarSlot qbs = new QuickBarSlot();

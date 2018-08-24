@@ -44,6 +44,12 @@ namespace SOO2.Game.Server.Service
 
         private void RunProcessor()
         {
+            foreach (var toUnregister in _state.UnregisterProcessingEvents)
+            {
+                _state.ProcessingEvents.Remove(toUnregister);
+            }
+            _state.UnregisterProcessingEvents.Clear();
+
             foreach (var @event in _state.ProcessingEvents)
             {
                 try
@@ -71,7 +77,7 @@ namespace SOO2.Game.Server.Service
         {
             if (_state.ProcessingEvents.ContainsKey(globalID))
             {
-                _state.ProcessingEvents.Remove(globalID);
+                _state.UnregisterProcessingEvents.Enqueue(globalID);
             }
         }
 

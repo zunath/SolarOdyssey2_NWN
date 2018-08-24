@@ -73,24 +73,13 @@ namespace SOO2.Game.Server.Event.Creature
                 case CreatureEventType.OnDeath:
                     _skill.OnCreatureDeath(Self);
                     _loot.OnCreatureDeath(Self);
-
-                    if (behaviour != null)
-                    {
-                        string behaviourID = Self.GetLocalString("REGISTERED_BEHAVIOUR_ID");
-                        if (!string.IsNullOrWhiteSpace(behaviourID))
-                        {
-                            _behaviour.UnregisterBehaviour(behaviourID);
-                            Self.DeleteLocalString("REGISTERED_BEHAVIOUR_ID");
-                        }
-
-                        behaviour.OnDeath();
-                    }
-
+                    
                     if (_state.CustomObjectData.ContainsKey(Self.GlobalID))
                     {
                         _state.CustomObjectData.Remove(Self.GlobalID);
                     }
 
+                    behaviour?.OnDeath();
                     break;
                 case CreatureEventType.OnDisturbed:
                     behaviour?.OnDisturbed();
@@ -108,20 +97,14 @@ namespace SOO2.Game.Server.Event.Creature
                     behaviour?.OnCombatRoundEnd();
                     break;
                 case CreatureEventType.OnSpawn:
-                    if (behaviour != null)
+                    if (behaviour?.Behaviour != null)
                     {
-                        if (behaviour.Behaviour != null)
-                        {
-                            var result = behaviour.Behaviour
-                                .End()
-                                .Build();
-                            string behaviourID = _behaviour.RegisterBehaviour(result);
-                            Self.SetLocalString("REGISTERED_BEHAVIOUR_ID", behaviourID);
-                        }
-
-                        behaviour.OnSpawn();
-
+                        var result = behaviour.Behaviour
+                            .End()
+                            .Build();
+                        _behaviour.RegisterBehaviour(result, Self);
                     }
+                    behaviour?.OnSpawn();
                     break;
                 case CreatureEventType.OnSpellCastAt:
                     behaviour?.OnSpellCastAt();

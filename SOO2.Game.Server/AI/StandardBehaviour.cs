@@ -34,11 +34,19 @@ namespace SOO2.Game.Server.AI
 
         public override bool IgnoreNWNEvents => true;
 
-        public override BehaviourTreeBuilder Behaviour => _builder
-            .Parallel("StandardBehaviour", 5, 1)
-            .Do<CleanUpEnmity>(Self)
-            .Do<AttackHighestEnmity>(Self)
-            .Do<WarpToTargetIfStuck>(Self);
+        public override BehaviourTreeBuilder Behaviour
+        {
+            get
+            {
+                if (!Self.IsValid) return null;
+
+                return _builder
+                    .Parallel("StandardBehaviour", 5, 1)
+                    .Do<CleanUpEnmity>(Self)
+                    .Do<AttackHighestEnmity>(Self)
+                    .Do<WarpToTargetIfStuck>(Self);
+            }
+        } 
 
         public override void OnPhysicalAttacked()
         {

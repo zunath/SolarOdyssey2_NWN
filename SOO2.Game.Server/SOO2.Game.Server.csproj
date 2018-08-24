@@ -496,6 +496,7 @@
     <Compile Include="Placeable\WarpDevice\OnUsed.cs" />
     <Compile Include="Service\AbilityService.cs" />
     <Compile Include="Service\ActivityLoggingService.cs" />
+    <Compile Include="Service\AppStateService.cs" />
     <Compile Include="Service\AuthorizationService.cs" />
     <Compile Include="Service\BackgroundService.cs" />
     <Compile Include="Service\BehaviourService.cs" />
@@ -599,6 +600,7 @@
     <Compile Include="Service\Contracts\IBehaviourService.cs" />
     <Compile Include="Service\Contracts\IEnmityService.cs" />
     <Compile Include="Service\Contracts\IMapService.cs" />
+    <Compile Include="Service\Contracts\IAppStateService.cs" />
     <Compile Include="Service\ItemService.cs" />
     <Compile Include="Service\Contracts\ITimeService.cs" />
     <Compile Include="Service\KeyItemService.cs" />

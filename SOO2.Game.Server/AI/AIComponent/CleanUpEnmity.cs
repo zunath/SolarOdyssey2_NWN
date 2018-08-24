@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentBehaviourTree;
 using NWN;
 using SOO2.Game.Server.AI.Contracts;
@@ -32,14 +33,14 @@ namespace SOO2.Game.Server.AI.AIComponent
 
                     // Remove invalid objects from the enmity table
                     if (target == null ||
-                        !val.TargetObject.IsValid ||
+                        !target.IsValid ||
                         !target.Area.Equals(self.Area) ||
                         target.CurrentHP <= -11)
                     {
                         _enmity.GetEnmityTable(self).Remove(enmity.Key);
                         continue;
                     }
-
+                    
                     _.AdjustReputation(target.Object, self.Object, -100);
 
                     // Reduce volatile enmity every tick

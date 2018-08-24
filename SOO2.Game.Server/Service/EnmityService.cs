@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using NWN;
 using SOO2.Game.Server.GameObject;
@@ -81,21 +82,6 @@ namespace SOO2.Game.Server.Service
             }
         }
 
-        public void OnModuleLoad()
-        {
-            // Register a processing event to remove enmity tables for invalid creatures.
-            _ops.RegisterProcessingEvent(() =>
-            {
-                foreach (var npcTable in _state.NPCEnmityTables.ToArray())
-                {
-                    if (!npcTable.Value.NPCObject.IsValid)
-                    {
-                        _state.NPCEnmityTables.Remove(npcTable.Key);
-                    }
-                }
-            });
-        }
-
         public void OnNPCPhysicallyAttacked()
         {
             NWCreature self = NWCreature.Wrap(Object.OBJECT_SELF);
@@ -128,7 +114,7 @@ namespace SOO2.Game.Server.Service
         public EnmityTable GetEnmityTable(NWCreature npc)
         {
             if (!npc.IsNPC) throw new Exception("Only NPCs have enmity tables.");
-
+            
             if (!_state.NPCEnmityTables.ContainsKey(npc.GlobalID))
             {
                 _state.NPCEnmityTables.Add(npc.GlobalID, new EnmityTable(npc));
