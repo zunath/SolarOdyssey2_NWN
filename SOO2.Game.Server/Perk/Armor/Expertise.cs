@@ -19,7 +19,7 @@ namespace SOO2.Game.Server.Perk.Armor
             return false;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return null;
         }

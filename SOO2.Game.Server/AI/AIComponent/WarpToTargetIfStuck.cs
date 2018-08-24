@@ -28,7 +28,15 @@ namespace SOO2.Game.Server.AI.AIComponent
             {
                 if (_enmity.IsEnmityTableEmpty(self) ||
                     _.GetMovementRate(self.Object) == 1) // 1 = Immobile
+                {
+                    if (self.Data.ContainsKey("WarpToTargetIfStuck_Position"))
+                        self.Data.Remove("WarpToTargetIfStuck_Position");
+                    if (self.Data.ContainsKey("WarpToTargetIfStuck_CyclesStuckInPlace"))
+                        self.Data.Remove("WarpToTargetIfStuck_CyclesStuckInPlace");
+
                     return BehaviourTreeStatus.Failure;
+                }
+                    
                 
                 Vector previousPosition = new Vector();
                 if (self.Data.ContainsKey("WarpToTargetIfStuck_Position"))

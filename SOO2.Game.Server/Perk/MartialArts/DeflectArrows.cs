@@ -23,7 +23,7 @@ namespace SOO2.Game.Server.Perk.MartialArts
             return false;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return null;
         }

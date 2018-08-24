@@ -5,7 +5,7 @@ namespace SOO2.Game.Server.Perk
     public interface IPerk
     {
         bool CanCastSpell(NWPlayer oPC, NWObject oTarget);
-        string CannotCastSpellMessage();
+        string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget);
         int ManaCost(NWPlayer oPC, int baseManaCost);
         float CastingTime(NWPlayer oPC, float baseCastingTime);
         float CooldownTime(NWPlayer oPC, float baseCooldownTime);

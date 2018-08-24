@@ -29,7 +29,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return true;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return null;
         }

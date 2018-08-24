@@ -24,7 +24,7 @@ namespace SOO2.Game.Server.Perk.Armor
             return armor.CustomItemType == CustomItemType.HeavyArmor;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return "You must be equipped with heavy armor to use that combat ability.";
         }

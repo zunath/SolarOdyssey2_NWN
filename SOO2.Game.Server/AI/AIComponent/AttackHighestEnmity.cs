@@ -40,7 +40,11 @@ namespace SOO2.Game.Server.AI.AIComponent
                     }
                     else
                     {
-                        _.ActionAttack(target.TargetObject.Object);
+                        if (_.GetAttackTarget(self.Object) != target.TargetObject.Object)
+                        {
+                            _.ClearAllActions();
+                            _.ActionAttack(target.TargetObject.Object);
+                        }
                     }
                 });
 

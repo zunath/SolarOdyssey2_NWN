@@ -40,7 +40,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return false;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return "Only party members may be targeted with that ability.";
         }

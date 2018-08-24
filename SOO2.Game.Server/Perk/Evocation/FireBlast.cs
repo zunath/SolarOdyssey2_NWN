@@ -33,7 +33,7 @@ namespace SOO2.Game.Server.Perk.Evocation
             return true;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return null;
         }

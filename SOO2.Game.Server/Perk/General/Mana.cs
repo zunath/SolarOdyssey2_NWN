@@ -17,7 +17,7 @@ namespace SOO2.Game.Server.Perk.General
             return false;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return null;
         }

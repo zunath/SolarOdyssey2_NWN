@@ -94,7 +94,7 @@ namespace SOO2.Game.Server.Service
 
             if (!perkAction.CanCastSpell(pc, target))
             {
-                pc.SendMessage(perkAction.CannotCastSpellMessage() ?? "That ability cannot be used at this time.");
+                pc.SendMessage(perkAction.CannotCastSpellMessage(pc, target) ?? "That ability cannot be used at this time.");
                 return;
             }
 
@@ -169,7 +169,10 @@ namespace SOO2.Game.Server.Service
                     _enmity.AdjustEnmityOnAllTaggedCreatures(pc, perk.Enmity);
                     break;
                 case EnmityAdjustmentRuleType.TargetOnly:
-                    _enmity.AdjustEnmity(target, pc, perk.Enmity);
+                    if (target.IsValid)
+                    {
+                        _enmity.AdjustEnmity(target, pc, perk.Enmity);
+                    }
                     break;
                 case EnmityAdjustmentRuleType.Custom:
                     IPerk perkAction = App.ResolveByInterface<IPerk>("Perk." + perk.JavaScriptName);

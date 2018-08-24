@@ -36,7 +36,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             return level >= activeAegisLevel;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return "A more powerful effect already exists on your target.";
         }

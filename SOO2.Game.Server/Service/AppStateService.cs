@@ -48,27 +48,27 @@ namespace SOO2.Game.Server.Service
                     }
                 }
 
-                int count = NWModule.Get().GetLocalInt("current_count") + 1;
-                if (count >= 20)
-                {
-                    Console.WriteLine("******************");
+                //int count = NWModule.Get().GetLocalInt("current_count") + 1;
+                //if (count >= 20)
+                //{
+                //    Console.WriteLine("******************");
 
-                    Console.WriteLine("PlayerDialogs: " + _state.PlayerDialogs.Count);
-                    Console.WriteLine("DialogFilesInUse: " + _state.DialogFilesInUse.Count);
-                    Console.WriteLine("EffectTicks: " + _state.EffectTicks.Count);
-                    Console.WriteLine("CreatureSkillRegistrations: " + _state.CreatureSkillRegistrations.Count);
-                    Console.WriteLine("NPCEffects: " + _state.NPCEffects.Count);
-                    Console.WriteLine("EffectsToRemove: " + _state.EffectsToRemove.Count);
-                    Console.WriteLine("ProcessingEvents: " + _state.ProcessingEvents.Count);
-                    Console.WriteLine("UnregisterProcessingEvents: " + _state.UnregisterProcessingEvents.Count);
-                    Console.WriteLine("NPCEnmityTables: " + _state.NPCEnmityTables.Count);
-                    Console.WriteLine("CustomObjectData: " + _state.CustomObjectData.Count);
-                    Console.WriteLine("NPCBehaviours: " + _state.NPCBehaviours.Count);
+                //    Console.WriteLine("PlayerDialogs: " + _state.PlayerDialogs.Count);
+                //    Console.WriteLine("DialogFilesInUse: " + _state.DialogFilesInUse.Count);
+                //    Console.WriteLine("EffectTicks: " + _state.EffectTicks.Count);
+                //    Console.WriteLine("CreatureSkillRegistrations: " + _state.CreatureSkillRegistrations.Count);
+                //    Console.WriteLine("NPCEffects: " + _state.NPCEffects.Count);
+                //    Console.WriteLine("EffectsToRemove: " + _state.EffectsToRemove.Count);
+                //    Console.WriteLine("ProcessingEvents: " + _state.ProcessingEvents.Count);
+                //    Console.WriteLine("UnregisterProcessingEvents: " + _state.UnregisterProcessingEvents.Count);
+                //    Console.WriteLine("NPCEnmityTables: " + _state.NPCEnmityTables.Count);
+                //    Console.WriteLine("CustomObjectData: " + _state.CustomObjectData.Count);
+                //    Console.WriteLine("NPCBehaviours: " + _state.NPCBehaviours.Count);
 
-                    Console.WriteLine("******************");
-                    count = 0;
-                }
-                NWModule.Get().SetLocalInt("current_count", count);
+                //    Console.WriteLine("******************");
+                //    count = 0;
+                //}
+                //NWModule.Get().SetLocalInt("current_count", count);
 
             });
         }

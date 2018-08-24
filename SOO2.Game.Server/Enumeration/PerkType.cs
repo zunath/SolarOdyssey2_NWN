@@ -105,6 +105,7 @@
         SpeedyEngineering = 101,
         FoodRecipes = 102,
         Meditate = 103,
+        Provoke = 104,
         LightArmorBlueprints = 105,
         SeedPicker = 106,
         TwinBladeMastery = 107

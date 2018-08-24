@@ -9,7 +9,7 @@ namespace SOO2.Game.Server.Perk.Metalworking
             return false;
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return null;
         }

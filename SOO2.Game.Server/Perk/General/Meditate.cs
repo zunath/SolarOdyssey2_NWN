@@ -27,7 +27,7 @@ namespace SOO2.Game.Server.Perk.General
             return CanMeditate(oPC);
         }
 
-        public string CannotCastSpellMessage()
+        public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
             return "You cannot meditate while you or a party member are in combat.";
         }
