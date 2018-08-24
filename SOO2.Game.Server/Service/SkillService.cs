@@ -358,7 +358,8 @@ namespace SOO2.Game.Server.Service
                     continue;
                 
                 float cr = creature.ChallengeRating;
-                float baseXP = cr * 400 + _random.Random(20);
+                float baseXP = cr * 200 + _random.Random(20);
+                int trivialSkillLevel = (int)(cr * 5.0f);
                 float moduleXPAdjustment = _.GetLocalFloat(_.GetModule(), "SKILL_SYSTEM_MODULE_XP_MODIFIER");
                 if (moduleXPAdjustment <= 0.0f) moduleXPAdjustment = 1.0f;
                 baseXP = baseXP * moduleXPAdjustment;
@@ -372,6 +373,9 @@ namespace SOO2.Game.Server.Service
                 {
                     int skillID = skreg.Item1;
                     int skillRank = GetPCSkillByID(preg.Player.GlobalID, skillID).Rank;
+
+                    if (skillRank > trivialSkillLevel) continue;
+                    
                     int points = skreg.Item2.Points;
                     float percentage = points / (float)totalPoints;
                     float adjustedXP = baseXP * percentage;
@@ -381,7 +385,7 @@ namespace SOO2.Game.Server.Service
                     if (skillID == (int)SkillType.MartialArts && receivesMartialArtsPenalty)
                         adjustedXP = adjustedXP * 0.4f;
 
-                    GiveSkillXP(preg.Player, skillID, (int)(adjustedXP));
+                    GiveSkillXP(preg.Player, skillID, (int)adjustedXP);
                 }
 
                 float armorXP = baseXP * 0.20f;
@@ -403,11 +407,21 @@ namespace SOO2.Game.Server.Service
                 totalPoints = lightArmorPoints + heavyArmorPoints;
                 if (totalPoints <= 0) continue;
 
+                int armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.LightArmor).Rank;
                 float percent = lightArmorPoints / (float)totalPoints;
-                GiveSkillXP(preg.Player, SkillType.LightArmor, (int)(armorXP * percent));
 
+                if (armorRank < trivialSkillLevel)
+                {
+                    GiveSkillXP(preg.Player, SkillType.LightArmor, (int)(armorXP * percent));
+                }
+
+                armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.HeavyArmor).Rank;
                 percent = heavyArmorPoints / (float)totalPoints;
-                GiveSkillXP(preg.Player, SkillType.HeavyArmor, (int)(armorXP * percent));
+
+                if (armorRank < trivialSkillLevel)
+                {
+                    GiveSkillXP(preg.Player, SkillType.HeavyArmor, (int)(armorXP * percent));
+                }
             }
 
             _state.CreatureSkillRegistrations.Remove(creature.GlobalID);
