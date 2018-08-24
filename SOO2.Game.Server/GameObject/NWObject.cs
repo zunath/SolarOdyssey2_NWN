@@ -339,7 +339,7 @@ namespace SOO2.Game.Server.GameObject
             {
                 if (!_state.CustomObjectData.ContainsKey(GlobalID))
                 {
-                    _state.CustomObjectData.Add(GlobalID, new CustomData());
+                    _state.CustomObjectData.Add(GlobalID, new CustomData(this));
                 }
 
                 return _state.CustomObjectData[GlobalID];
