@@ -237,6 +237,30 @@ namespace SOO2.Game.Server.Service
             {
                 description += _color.Orange("Summoning Bonus: ") + examinedItem.SummoningBonus + "\n";
             }
+            if (examinedItem.LuckBonus > 0)
+            {
+                description += _color.Orange("Luck Bonus: ") + examinedItem.LuckBonus + "\n";
+            }
+            if (examinedItem.MeditateBonus > 0)
+            {
+                description += _color.Orange("Meditate Bonus: ") + examinedItem.MeditateBonus + "\n";
+            }
+            if (examinedItem.FirstAidBonus > 0)
+            {
+                description += _color.Orange("First Aid Bonus: ") + examinedItem.FirstAidBonus + "\n";
+            }
+            if (examinedItem.HPRegenBonus > 0)
+            {
+                description += _color.Orange("HP Regen Bonus: ") + examinedItem.HPRegenBonus + "\n";
+            }
+            if (examinedItem.ManaRegenBonus > 0)
+            {
+                description += _color.Orange("Mana Regen Bonus: ") + examinedItem.ManaRegenBonus + "\n";
+            }
+            if (examinedItem.BaseAttackBonus > 0)
+            {
+                description += _color.Orange("Base Attack Bonus: ") + examinedItem.BaseAttackBonus + "\n";
+            }
 
             return existingDescription + "\n" + description;
         }
@@ -417,6 +441,12 @@ namespace SOO2.Game.Server.Service
             item.EvocationBonus = entity.EvocationBonus;
             item.AlterationBonus = entity.AlterationBonus;
             item.SummoningBonus = entity.SummoningBonus;
+            item.LuckBonus = entity.LuckBonus;
+            item.MeditateBonus = entity.MeditateBonus;
+            item.FirstAidBonus = entity.FirstAidBonus;
+            item.HPRegenBonus = entity.HPRegenBonus;
+            item.ManaRegenBonus = entity.ManaRegenBonus;
+            item.BaseAttackBonus = entity.BaseAttackBonus;
 
             if (entity.Weight > 0)
             {

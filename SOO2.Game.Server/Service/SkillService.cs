@@ -869,7 +869,14 @@ namespace SOO2.Game.Server.Service
                 perkBAB += _perk.GetPCPerkLevel(oPC, PerkType.TossAccuracy);
             }
 
-            return 1 + skillBAB + perkBAB; // Note: Always add 1 to BAB. 0 will cause a crash in NWNX.
+            int equipmentBAB = 0;
+            for (int x = 0; x < NUM_INVENTORY_SLOTS; x++)
+            {
+                NWItem equipped = NWItem.Wrap(_.GetItemInSlot(x, oPC.Object));
+                equipmentBAB += equipped.BaseAttackBonus;
+            }
+
+            return 1 + skillBAB + perkBAB + equipmentBAB; // Note: Always add 1 to BAB. 0 will cause a crash in NWNX.
         }
 
         private int CalculateItemAC(NWPlayer oPC, NWItem ignoreItem)

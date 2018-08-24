@@ -357,6 +357,16 @@ namespace SOO2.Game.Server.GameObject
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_REGEN_BONUS", value);
         }
+        public virtual int BaseAttackBonus
+        {
+            get
+            {
+                int baseAttackBonus = GetItemPropertyValue((int)CustomItemPropertyType.BaseAttackBonus);
+                return baseAttackBonus > 0 ? baseAttackBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS", value);
+        }
 
 
 

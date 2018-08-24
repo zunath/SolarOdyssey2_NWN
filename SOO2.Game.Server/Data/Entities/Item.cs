@@ -60,6 +60,8 @@ namespace SOO2.Game.Server.Data.Entities
 
         public int ManaRegenBonus { get; set; }
 
+        public int BaseAttackBonus { get; set; }
+
         public virtual ItemType ItemType { get; set; }
 
         public virtual Skill Skill { get; set; }

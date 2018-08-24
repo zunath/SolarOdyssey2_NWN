@@ -28,6 +28,7 @@
         MeditateBonus = 122,
         FirstAidBonus = 123,
         HPRegenBonus = 124,
-        ManaRegenBonus = 125
+        ManaRegenBonus = 125,
+        BaseAttackBonus = 126
     }
 }
