@@ -11,19 +11,16 @@ namespace SOO2.Game.Server.Perk.Alteration
         private readonly INWScript _;
         private readonly IPerkService _perk;
         private readonly IRandomService _random;
-        private readonly ICustomEffectService _customEffect;
         private readonly ISkillService _skill;
 
         public Recover(INWScript script,
             IPerkService perk,
             IRandomService random,
-            ICustomEffectService customEffect,
             ISkillService skill)
         {
             _ = script;
             _perk = perk;
             _random = random;
-            _customEffect = customEffect;
             _skill = skill;
         }
 
@@ -55,6 +52,7 @@ namespace SOO2.Game.Server.Perk.Alteration
         public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.Recover);
+            int alterationBonus = oPC.AlterationBonus;
             int amountMin;
             int amountMax;
             float length;
@@ -101,9 +99,14 @@ namespace SOO2.Game.Server.Perk.Alteration
                 default: return;
             }
 
+            amountMin += alterationBonus * 2;
+            amountMax += alterationBonus * 3;
+            length += alterationBonus;
+            regenAmount += alterationBonus / 3;
+
             int healAmount = _random.Random(amountMin, amountMax) + 1;
 
-            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky);
+            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
             if (_random.Random(100) + 1 <= luck)
             {
                 length = length * 2;

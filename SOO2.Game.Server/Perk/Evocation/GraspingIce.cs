@@ -54,32 +54,33 @@ namespace SOO2.Game.Server.Perk.Evocation
             int level = _perk.GetPCPerkLevel(oPC, PerkType.GraspingIce);
             int damage;
             float slowLength = 0.0f;
+            int evocationBonus = oPC.EvocationBonus;
 
             switch (level)
             {
                 case 1:
-                    damage = _random.Random(6) + 1;
+                    damage = _random.Random(6 + evocationBonus) + 1;
                     break;
                 case 2:
-                    damage = _random.Random(6) + 1;
+                    damage = _random.Random(6 + evocationBonus) + 1;
                     slowLength = 3.0f;
                     break;
                 case 3:
-                    damage = _random.Random(6) + 1;
-                    damage += _random.Random(6) + 1;
+                    damage = _random.Random(6 + evocationBonus) + 1;
+                    damage += _random.Random(6 + evocationBonus) + 1;
                     slowLength = 3.0f;
                     break;
                 case 4:
-                    damage = _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
+                    damage = _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
                     slowLength = 3.0f;
                     break;
                 case 5:
-                    damage = _random.Random(8) + 1;
-                    damage += _random.Random(8) + 1;
-                    damage += _random.Random(8) + 1;
+                    damage = _random.Random(8 + evocationBonus) + 1;
+                    damage += _random.Random(8 + evocationBonus) + 1;
+                    damage += _random.Random(8 + evocationBonus) + 1;
                     slowLength = 3.0f;
                     break;
                 default:

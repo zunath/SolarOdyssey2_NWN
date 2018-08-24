@@ -44,6 +44,22 @@ namespace SOO2.Game.Server.Data.Entities
 
         public int EnmityRate { get; set; }
 
+        public int EvocationBonus { get; set; }
+
+        public int AlterationBonus { get; set; }
+
+        public int SummoningBonus { get; set; }
+
+        public int LuckBonus { get; set; }
+
+        public int MeditateBonus { get; set; }
+
+        public int FirstAidBonus { get; set; }
+
+        public int HPRegenBonus { get; set; }
+
+        public int ManaRegenBonus { get; set; }
+
         public virtual ItemType ItemType { get; set; }
 
         public virtual Skill Skill { get; set; }

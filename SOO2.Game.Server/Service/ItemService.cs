@@ -223,7 +223,19 @@ namespace SOO2.Game.Server.Service
             }
             if (examinedItem.EnmityRate != 0)
             {
-                description += _color.Orange("Enmity: " + examinedItem.EnmityRate + "%\n");
+                description += _color.Orange("Enmity: ") + examinedItem.EnmityRate +  "%\n";
+            }
+            if (examinedItem.EvocationBonus > 0)
+            {
+                description += _color.Orange("Evocation Bonus: ") + examinedItem.EvocationBonus + "\n";
+            }
+            if (examinedItem.AlterationBonus > 0)
+            {
+                description += _color.Orange("Alteration Bonus: ") + examinedItem.AlterationBonus + "\n";
+            }
+            if (examinedItem.SummoningBonus > 0)
+            {
+                description += _color.Orange("Summoning Bonus: ") + examinedItem.SummoningBonus + "\n";
             }
 
             return existingDescription + "\n" + description;
@@ -402,6 +414,9 @@ namespace SOO2.Game.Server.Service
             item.HPBonus = entity.HPBonus;
             item.ManaBonus = entity.ManaBonus;
             item.EnmityRate = entity.EnmityRate;
+            item.EvocationBonus = entity.EvocationBonus;
+            item.AlterationBonus = entity.AlterationBonus;
+            item.SummoningBonus = entity.SummoningBonus;
 
             if (entity.Weight > 0)
             {

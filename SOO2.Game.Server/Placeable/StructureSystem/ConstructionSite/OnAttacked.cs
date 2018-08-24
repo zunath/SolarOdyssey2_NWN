@@ -103,7 +103,7 @@ namespace SOO2.Game.Server.Placeable.StructureSystem.ConstructionSite
                     NWItem item = NWItem.Wrap(_.GetItemPossessedBy(oPC.Object, comp.StructureComponent.Resref));
                     if (item.IsValid)
                     {
-                        int reuseChance = isMangle ? 0 : _perk.GetPCPerkLevel(oPC, PerkType.ConservativeConstruction) * 2 + _perk.GetPCPerkLevel(oPC, PerkType.Lucky);
+                        int reuseChance = isMangle ? 0 : _perk.GetPCPerkLevel(oPC, PerkType.ConservativeConstruction) * 2 + _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
                         if (_random.Random(100) + 1 <= reuseChance)
                         {
                             oPC.SendMessage("You conserve a resource...");
@@ -150,7 +150,7 @@ namespace SOO2.Game.Server.Placeable.StructureSystem.ConstructionSite
 
                 if (hasteChance > 0)
                 {
-                    hasteChance += _perk.GetPCPerkLevel(oPC, PerkType.Lucky) * 2;
+                    hasteChance += _perk.GetPCPerkLevel(oPC, PerkType.Lucky) * 2 + oPC.LuckBonus;
                 }
 
                 PlayerCharacter pcEntity = _player.GetPlayerEntity(oPC);
@@ -174,7 +174,7 @@ namespace SOO2.Game.Server.Placeable.StructureSystem.ConstructionSite
 
         private int CalculateMangleChance(NWPlayer oPC, int level, int rank)
         {
-            int perkLevel = _perk.GetPCPerkLevel(oPC, PerkType.MangleMaster) + (_perk.GetPCPerkLevel(oPC, PerkType.Lucky) / 2);
+            int perkLevel = _perk.GetPCPerkLevel(oPC, PerkType.MangleMaster) + (_perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus) / 2;
             int delta = level - rank;
             int perkReduction = perkLevel * 5;
             int mangleChance;

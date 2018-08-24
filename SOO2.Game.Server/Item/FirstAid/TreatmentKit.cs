@@ -67,7 +67,7 @@ namespace SOO2.Game.Server.Item.FirstAid
             }
 
             PCSkill skill = _skill.GetPCSkill((NWPlayer)user, SkillType.FirstAid);
-            return 12.0f - (skill.Rank * 0.1f);
+            return 12.0f - (skill.Rank + user.FirstAidBonus / 2) * 0.1f;
         }
 
         public bool FaceTarget()

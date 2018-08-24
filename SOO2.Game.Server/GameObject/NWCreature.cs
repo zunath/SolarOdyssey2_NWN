@@ -223,5 +223,124 @@ namespace SOO2.Game.Server.GameObject
             }
         }
 
+        public virtual int EvocationBonus
+        {
+            get
+            {
+                int evocationBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    evocationBonus += item.EvocationBonus;
+                }
+
+                return evocationBonus;
+            }
+        }
+
+        public virtual int AlterationBonus
+        {
+            get
+            {
+                int alterationBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    alterationBonus += item.AlterationBonus;
+                }
+
+                return alterationBonus;
+            }
+        }
+
+        public virtual int SummoningBonus
+        {
+            get
+            {
+                int summoningBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    summoningBonus += item.SummoningBonus;
+                }
+
+                return summoningBonus;
+            }
+        }
+
+        public virtual int LuckBonus
+        {
+            get
+            {
+                int luckBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    luckBonus += item.LuckBonus;
+                }
+
+                return luckBonus;
+            }
+        }
+        public virtual int MeditateBonus
+        {
+            get
+            {
+                int meditateBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    meditateBonus += item.MeditateBonus;
+                }
+
+                return meditateBonus;
+            }
+        }
+
+        public virtual int FirstAidBonus
+        {
+            get
+            {
+                int firstAidBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    firstAidBonus += item.FirstAidBonus;
+                }
+
+                return firstAidBonus;
+            }
+        }
+
+        public virtual int HPRegenBonus
+        {
+            get
+            {
+                int hpRegenBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    hpRegenBonus += item.HPRegenBonus;
+                }
+
+                return hpRegenBonus;
+            }
+        }
+
+        public virtual int ManaRegenBonus
+        {
+            get
+            {
+                int manaRegenBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    manaRegenBonus += item.ManaRegenBonus;
+                }
+
+                return manaRegenBonus;
+            }
+        }
+
     }
 }

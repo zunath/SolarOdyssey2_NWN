@@ -277,6 +277,90 @@ namespace SOO2.Game.Server.GameObject
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE", value);
         }
 
+        public virtual int EvocationBonus
+        {
+            get
+            {
+                int evocationBonus = GetItemPropertyValue((int)CustomItemPropertyType.EvocationBonus);
+                return evocationBonus > 0 ? evocationBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_EVOCATION_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_EVOCATION_BONUS", value);
+        }
+        public virtual int AlterationBonus
+        {
+            get
+            {
+                int alterationBonus = GetItemPropertyValue((int)CustomItemPropertyType.AlterationBonus);
+                return alterationBonus > 0 ? alterationBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ALTERATION_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ALTERATION_BONUS", value);
+        }
+        public virtual int SummoningBonus
+        {
+            get
+            {
+                int summoningBonus = GetItemPropertyValue((int)CustomItemPropertyType.SummoningBonus);
+                return summoningBonus > 0 ? summoningBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SUMMONING_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SUMMONING_BONUS", value);
+        }
+        public virtual int LuckBonus
+        {
+            get
+            {
+                int luckBonus = GetItemPropertyValue((int)CustomItemPropertyType.LuckBonus);
+                return luckBonus > 0 ? luckBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LUCK_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LUCK_BONUS", value);
+        }
+        public virtual int MeditateBonus
+        {
+            get
+            {
+                int meditateBonus = GetItemPropertyValue((int)CustomItemPropertyType.MeditateBonus);
+                return meditateBonus > 0 ? meditateBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MEDITATE_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MEDITATE_BONUS", value);
+        }
+        public virtual int FirstAidBonus
+        {
+            get
+            {
+                int firstAidBonus = GetItemPropertyValue((int)CustomItemPropertyType.FirstAidBonus);
+                return firstAidBonus > 0 ? firstAidBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_FIRST_AID_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_FIRST_AID_BONUS", value);
+        }
+        public virtual int HPRegenBonus
+        {
+            get
+            {
+                int hpRegenBonus = GetItemPropertyValue((int)CustomItemPropertyType.HPRegenBonus);
+                return hpRegenBonus > 0 ? hpRegenBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_REGEN_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_REGEN_BONUS", value);
+        }
+        public virtual int ManaRegenBonus
+        {
+            get
+            {
+                int manaRegenBonus = GetItemPropertyValue((int)CustomItemPropertyType.ManaRegenBonus);
+                return manaRegenBonus > 0 ? manaRegenBonus :
+                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_REGEN_BONUS");
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_REGEN_BONUS", value);
+        }
+
+
+
+
         public virtual void ReduceItemStack()
         {
             int stackSize = _.GetItemStackSize(Object);

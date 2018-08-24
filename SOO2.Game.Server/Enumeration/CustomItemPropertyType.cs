@@ -20,6 +20,14 @@
         ManaBonus = 114,
         EnmityRate = 115,
         ItemType = 116,
-        ArmorClass = 117
+        ArmorClass = 117,
+        EvocationBonus = 118,
+        AlterationBonus = 119,
+        SummoningBonus = 120,
+        LuckBonus = 121,
+        MeditateBonus = 122,
+        FirstAidBonus = 123,
+        HPRegenBonus = 124,
+        ManaRegenBonus = 125
     }
 }

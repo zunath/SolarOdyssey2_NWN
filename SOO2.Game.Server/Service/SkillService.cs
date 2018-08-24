@@ -374,7 +374,7 @@ namespace SOO2.Game.Server.Service
                     int skillID = skreg.Item1;
                     int skillRank = GetPCSkillByID(preg.Player.GlobalID, skillID).Rank;
 
-                    if (skillRank > trivialSkillLevel) continue;
+                    if (skillRank >= trivialSkillLevel) continue;
                     
                     int points = skreg.Item2.Points;
                     float percentage = points / (float)totalPoints;

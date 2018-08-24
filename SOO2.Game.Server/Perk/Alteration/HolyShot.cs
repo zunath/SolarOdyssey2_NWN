@@ -54,32 +54,33 @@ namespace SOO2.Game.Server.Perk.Alteration
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.HolyShot);
             int damage;
+            int alterationBonus = oPC.AlterationBonus;
 
             switch (level)
             {
                 case 1:
-                    damage = _random.Random(8) + 1;
+                    damage = _random.Random(8 + alterationBonus) + 1;
                     break;
                 case 2:
-                    damage = _random.Random(6) + 1;
-                    damage += _random.Random(6) + 1;
+                    damage = _random.Random(6 + alterationBonus) + 1;
+                    damage += _random.Random(6 + alterationBonus) + 1;
                     break;
                 case 3:
-                    damage = _random.Random(6) + 1;
-                    damage += _random.Random(6) + 1;
+                    damage = _random.Random(6 + alterationBonus) + 1;
+                    damage += _random.Random(6 + alterationBonus) + 1;
                     break;
                 case 4:
-                    damage = _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
+                    damage = _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
                     break;
                 case 5:
-                    damage = _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
+                    damage = _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
+                    damage += _random.Random(4 + alterationBonus) + 1;
                     break;
                 default:
                     return;
@@ -88,7 +89,7 @@ namespace SOO2.Game.Server.Perk.Alteration
             int wisdom = oPC.WisdomModifier;
             int intelligence = oPC.IntelligenceModifier;
 
-            float damageMultiplier = 1.0f + (intelligence * 0.2f) + (wisdom * 0.1f);
+            float damageMultiplier = 1.0f + (intelligence * 0.4f) + (wisdom * 0.2f);
             damage = (int)(damage * damageMultiplier);
 
             Effect vfx = _.EffectBeam(VFX_BEAM_SILENT_HOLY, oPC.Object, BODY_NODE_CHEST);

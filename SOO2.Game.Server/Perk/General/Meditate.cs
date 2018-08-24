@@ -82,6 +82,8 @@ namespace SOO2.Game.Server.Perk.General
                     amount = 3;
                     break;
             }
+            amount += oPC.MeditateBonus;
+
             oPC.AssignCommand(() =>
             {
                 _.ActionPlayAnimation(ANIMATION_LOOPING_MEDITATE, 1.0f, 6.1f);

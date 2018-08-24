@@ -81,7 +81,7 @@ namespace SOO2.Game.Server.Placeable.ForagePoint
             if (dc <= 4) dc = 4;
             int searchAttempts = 1 + CalculateSearchAttempts(oPC);
 
-            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky);
+            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
             if (_random.Random(100) + 1 <= luck / 2)
             {
                 dc--;

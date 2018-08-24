@@ -53,32 +53,33 @@ namespace SOO2.Game.Server.Perk.Evocation
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.LightningShock);
             int damage;
+            int evocationBonus = oPC.EvocationBonus;
 
             switch (level)
             {
                 case 1:
-                    damage = _random.Random(8) + 1;
+                    damage = _random.Random(8 + evocationBonus) + 1;
                     break;
                 case 2:
-                    damage = _random.Random(6) + 1;
-                    damage += _random.Random(6) + 1;
+                    damage = _random.Random(6 + evocationBonus) + 1;
+                    damage += _random.Random(6 + evocationBonus) + 1;
                     break;
                 case 3:
-                    damage = _random.Random(6) + 1;
-                    damage += _random.Random(6) + 1;
+                    damage = _random.Random(6 + evocationBonus) + 1;
+                    damage += _random.Random(6 + evocationBonus) + 1;
                     break;
                 case 4:
-                    damage = _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
+                    damage = _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
                     break;
                 case 5:
-                    damage = _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
-                    damage += _random.Random(4) + 1;
+                    damage = _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
+                    damage += _random.Random(4 + evocationBonus) + 1;
                     break;
                 default:
                     return;

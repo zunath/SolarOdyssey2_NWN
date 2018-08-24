@@ -109,7 +109,7 @@ namespace SOO2.Game.Server.Placeable.PlantSeed
 
             int xp = (int)_skill.CalculateSkillAdjustedXP(200, plant.Level, rank);
 
-            if (_random.Random(100) + 1 <= _perk.GetPCPerkLevel(oPC, PerkType.Lucky))
+            if (_random.Random(100) + 1 <= _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus)
             {
                 xp *= 2;
             }

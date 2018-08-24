@@ -75,7 +75,7 @@ namespace SOO2.Game.Server.Perk.Alteration
                 default: return;
             }
             
-            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky);
+            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
             if(_random.Random(100) + 1 <= luck)
             {
                 ticks = ticks * 2;
@@ -83,7 +83,8 @@ namespace SOO2.Game.Server.Perk.Alteration
 
             int wisdom = oPC.WisdomModifier;
             int intelligence = oPC.IntelligenceModifier;
-            ticks = ticks + intelligence + (wisdom * 2);
+            int alterationBonus = oPC.AlterationBonus / 2;
+            ticks = ticks + intelligence + (wisdom * 2) + alterationBonus;
 
             _customEffect.ApplyCustomEffect(oPC, (NWPlayer)oTarget, CustomEffectType.Aegis, ticks, level);
             _skill.ApplyStatChanges((NWPlayer)oTarget, null);

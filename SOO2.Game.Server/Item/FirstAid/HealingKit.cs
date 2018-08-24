@@ -46,7 +46,7 @@ namespace SOO2.Game.Server.Item.FirstAid
             int luck = _perk.GetPCPerkLevel((NWPlayer)user, PerkType.Lucky);
             int perkDurationBonus = _perk.GetPCPerkLevel((NWPlayer)user, PerkType.HealingKitExpert) * 6 + (luck * 2);
             float duration = 30.0f + (skill.Rank * 0.4f) + perkDurationBonus;
-            int restoreAmount = 1 + item.GetLocalInt("HEALING_BONUS");
+            int restoreAmount = 1 + item.GetLocalInt("HEALING_BONUS") + user.FirstAidBonus;
 
             int perkBlastBonus = _perk.GetPCPerkLevel((NWPlayer)user, PerkType.ImmediateImprovement);
             if (perkBlastBonus > 0)

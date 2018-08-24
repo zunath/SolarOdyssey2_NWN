@@ -39,7 +39,7 @@ namespace SOO2.Game.Server.Item.FirstAid
         public void ApplyEffects(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)
         {
             _customEffect.RemovePCCustomEffect((NWPlayer)target, CustomEffectType.Bleeding);
-            _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(2), target.Object);
+            _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(2 + user.FirstAidBonus/2), target.Object);
             user.SendMessage("You finish bandaging " + target.Name + "'s wounds.");
 
             PCSkill skill = _skill.GetPCSkill((NWPlayer)user, SkillType.FirstAid);
