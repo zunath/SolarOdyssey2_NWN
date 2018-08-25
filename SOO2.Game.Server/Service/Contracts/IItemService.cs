@@ -4,12 +4,15 @@ namespace SOO2.Game.Server.Service.Contracts
 {
     public interface IItemService
     {
+        int[] ArmorBaseItemTypes { get; }
+        int[] WeaponBaseItemTypes { get; }
+
         string GetNameByResref(string resref);
-        void OnModuleItemAcquired();
         void OnModuleActivatedItem();
-        void OnModuleHeartbeat();
-        string OnModuleExamine(string existingDescription, NWPlayer examiner, NWObject examinedObject);
         void OnModuleEquipItem();
+        string OnModuleExamine(string existingDescription, NWPlayer examiner, NWObject examinedObject);
+        void OnModuleHeartbeat();
+        void OnModuleItemAcquired();
         void ReturnItem(NWObject target, NWItem item);
         void StripAllItemProperties(NWItem item);
     }

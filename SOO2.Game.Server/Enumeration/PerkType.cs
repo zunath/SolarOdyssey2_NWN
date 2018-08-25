@@ -84,12 +84,12 @@
         ProcessingEfficiency = 80,
         RefineryManagement = 81,
         Refining = 82,
-        // 83 is open
-        MetalWeaponBlueprints = 84,
+        CombatRuneInstallationWeapons = 83,
+        WeaponBlueprints = 84,
         ForageExpert = 85,
-        // 86 is open
+        MagicRuneInstallationWeapons = 86,
         HeavyArmorBlueprints = 87,
-        // 88 is open
+        CraftingRuneInstallationWeapons = 88,
         SeedSearcher = 89,
         CarefulForager = 90,
         FarmingEfficiency = 91,
@@ -97,8 +97,8 @@
         OreBagger = 93,
         WoodBagger = 94,
         SpecialObjectBlueprints = 95,
-        ElectronicsBlueprints = 96,
-        // 97 is open
+        EngineeringBlueprints = 96,
+        SpecialRuneInstallationWeapons = 97,
         SpeedyWeaponsmith = 98,
         SpeedyArmorsmith = 99,
         SpeedyCooking = 100,
@@ -108,7 +108,12 @@
         Provoke = 104,
         LightArmorBlueprints = 105,
         SeedPicker = 106,
-        TwinBladeMastery = 107
+        TwinBladeMastery = 107,
+        BuildingBlueprints = 108,
+        CombatRuneInstallationArmors = 109,
+        MagicRuneInstallationArmors = 110,
+        CraftingRuneInstallationArmors = 111,
+        SpecialRuneInstallationArmors = 112
     }
 
 }

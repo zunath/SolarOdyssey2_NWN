@@ -16,6 +16,7 @@ namespace SOO2.Game.Server.Event.Module
         private readonly IItemService _item;
         private readonly INWNXEvents _nwnxEvents;
         private readonly IExaminationService _examination;
+        private readonly IRuneService _rune;
 
         public OnModuleExamine(
             INWScript script,
@@ -24,7 +25,8 @@ namespace SOO2.Game.Server.Event.Module
             IPerkService perk,
             IItemService item,
             INWNXEvents nwnxEvents,
-            IExaminationService examination)
+            IExaminationService examination,
+            IRuneService rune)
         {
             _ = script;
             _farming = farming;
@@ -33,6 +35,7 @@ namespace SOO2.Game.Server.Event.Module
             _item = item;
             _nwnxEvents = nwnxEvents;
             _examination = examination;
+            _rune = rune;
         }
 
         public bool Run(params object[] args)
@@ -42,6 +45,7 @@ namespace SOO2.Game.Server.Event.Module
             if (_examination.OnModuleExamine(examiner, examinedObject)) return true;
 
             string description = _.GetDescription(examinedObject.Object, TRUE) + "\n\n";
+            description = _rune.OnModuleExamine(description, examiner, examinedObject);
             description = _item.OnModuleExamine(description, examiner, examinedObject);
             description = _perk.OnModuleExamine(description, examiner, examinedObject);
             description = _durability.OnModuleExamine(description, examinedObject);

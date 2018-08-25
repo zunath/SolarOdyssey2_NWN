@@ -75,12 +75,12 @@ namespace SOO2.Game.Server.Service
             NWItem oItem = NWItem.Wrap(_.GetItemActivated());
             NWObject oTarget = NWObject.Wrap(_.GetItemActivatedTarget());
             Location targetLocation = _.GetItemActivatedTargetLocation();
-
+            
             string className = oItem.GetLocalString("JAVA_SCRIPT");
-            if (className == string.Empty) className = oItem.GetLocalString("ACTIVATE_JAVA_SCRIPT");
-            if (className == string.Empty) className = oItem.GetLocalString("JAVA_ACTION_SCRIPT");
-            if (className == string.Empty) className = oItem.GetLocalString("SCRIPT");
-            if (className == string.Empty) return;
+            if (string.IsNullOrWhiteSpace(className)) className = oItem.GetLocalString("ACTIVATE_JAVA_SCRIPT");
+            if (string.IsNullOrWhiteSpace(className)) className = oItem.GetLocalString("JAVA_ACTION_SCRIPT");
+            if (string.IsNullOrWhiteSpace(className)) className = oItem.GetLocalString("SCRIPT");
+            if (string.IsNullOrWhiteSpace(className)) return;
 
             oPC.ClearAllActions();
 
@@ -263,6 +263,83 @@ namespace SOO2.Game.Server.Service
             }
 
             return existingDescription + "\n" + description;
+        }
+
+        public int[] ArmorBaseItemTypes
+        {
+            get
+            {
+                int[] armorTypes =
+                {
+                    BASE_ITEM_AMULET,
+                    BASE_ITEM_ARMOR,
+                    BASE_ITEM_BELT,
+                    BASE_ITEM_BRACER,
+                    BASE_ITEM_CLOAK,
+                    BASE_ITEM_GLOVES,
+                    BASE_ITEM_HELMET,
+                    BASE_ITEM_LARGESHIELD,
+                    BASE_ITEM_SMALLSHIELD,
+                    BASE_ITEM_TOWERSHIELD
+                };
+
+                return armorTypes;
+            }
+        }
+
+        public int[] WeaponBaseItemTypes
+        {
+            get
+            {
+                int[] weaponTypes =
+                {
+                    BASE_ITEM_ARROW,
+                    BASE_ITEM_BASTARDSWORD,
+                    BASE_ITEM_BATTLEAXE,
+                    BASE_ITEM_BOLT,
+                    BASE_ITEM_BULLET,
+                    BASE_ITEM_CLUB,
+                    BASE_ITEM_DAGGER,
+                    BASE_ITEM_DART,
+                    BASE_ITEM_DIREMACE,
+                    BASE_ITEM_DOUBLEAXE,
+                    BASE_ITEM_DWARVENWARAXE,
+                    BASE_ITEM_GREATAXE,
+                    BASE_ITEM_GREATSWORD,
+                    BASE_ITEM_GRENADE,
+                    BASE_ITEM_HALBERD,
+                    BASE_ITEM_HANDAXE,
+                    BASE_ITEM_HEAVYCROSSBOW,
+                    BASE_ITEM_HEAVYFLAIL,
+                    BASE_ITEM_KAMA,
+                    BASE_ITEM_KATANA,
+                    BASE_ITEM_KUKRI,
+                    BASE_ITEM_LIGHTCROSSBOW,
+                    BASE_ITEM_LIGHTFLAIL,
+                    BASE_ITEM_LIGHTHAMMER,
+                    BASE_ITEM_LIGHTMACE,
+                    BASE_ITEM_LONGBOW,
+                    BASE_ITEM_LONGSWORD,
+                    BASE_ITEM_MORNINGSTAR,
+                    BASE_ITEM_QUARTERSTAFF,
+                    BASE_ITEM_RAPIER,
+                    BASE_ITEM_SCIMITAR,
+                    BASE_ITEM_SCYTHE,
+                    BASE_ITEM_SHORTBOW,
+                    BASE_ITEM_SHORTSPEAR,
+                    BASE_ITEM_SHORTSWORD,
+                    BASE_ITEM_SHURIKEN,
+                    BASE_ITEM_SICKLE,
+                    BASE_ITEM_SLING,
+                    BASE_ITEM_THROWINGAXE,
+                    BASE_ITEM_TRIDENT,
+                    BASE_ITEM_TWOBLADEDSWORD,
+                    BASE_ITEM_WARHAMMER,
+                    BASE_ITEM_WHIP
+                };
+
+                return weaponTypes;
+            }
         }
 
         public void OnModuleEquipItem()

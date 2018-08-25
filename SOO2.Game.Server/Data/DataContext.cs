@@ -95,6 +95,7 @@ namespace SOO2.Game.Server.Data
         public virtual IDbSet<Quest> Quests { get; set; }
         public virtual IDbSet<QuestState> QuestStates { get; set; }
         public virtual IDbSet<QuestTypeDomain> QuestTypeDomains { get; set; }
+        public virtual IDbSet<Entities.Rune> Runes { get; set; }
         public virtual IDbSet<ServerConfiguration> ServerConfigurations { get; set; }
         public virtual IDbSet<SkillCategory> SkillCategories { get; set; }
         public virtual IDbSet<Skill> Skills { get; set; }
@@ -524,7 +525,7 @@ namespace SOO2.Game.Server.Data
                 .HasMany(e => e.QuestStates)
                 .WithRequired(e => e.QuestTypeDomain)
                 .WillCascadeOnDelete(false);
-
+            
             modelBuilder.Entity<ServerConfiguration>()
                 .Property(e => e.ServerName)
                 .IsUnicode(false);

@@ -80,7 +80,7 @@ namespace SOO2.Game.Server.Service
             switch ((BackgroundType)backgroundID)
             {
                 case BackgroundType.Weaponsmith:
-                    _perk.DoPerkUpgrade(oPC, PerkType.MetalWeaponBlueprints);
+                    _perk.DoPerkUpgrade(oPC, PerkType.WeaponBlueprints);
                     break;
                 case BackgroundType.Armorsmith:
                     _perk.DoPerkUpgrade(oPC, PerkType.LightArmorBlueprints);
@@ -108,7 +108,7 @@ namespace SOO2.Game.Server.Service
                     _perk.DoPerkUpgrade(oPC, PerkType.FoodRecipes);
                     break;
                 case BackgroundType.Engineer:
-                    _perk.DoPerkUpgrade(oPC, PerkType.ElectronicsBlueprints);
+                    _perk.DoPerkUpgrade(oPC, PerkType.EngineeringBlueprints);
                     break;
                 case BackgroundType.Vagabond:
                     pcEntity.UnallocatedSP = pcEntity.UnallocatedSP + 3;

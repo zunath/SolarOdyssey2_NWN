@@ -190,6 +190,7 @@
     <Compile Include="Data\Entities\QuestRewardItem.cs" />
     <Compile Include="Data\Entities\QuestState.cs" />
     <Compile Include="Data\Entities\QuestTypeDomain.cs" />
+    <Compile Include="Data\Entities\Rune.cs" />
     <Compile Include="Data\Entities\ServerConfiguration.cs" />
     <Compile Include="Data\Entities\Skill.cs" />
     <Compile Include="Data\Entities\SkillCategory.cs" />
@@ -250,6 +251,10 @@
     <Compile Include="Perk\Alteration\HolyShot.cs" />
     <Compile Include="Perk\Alteration\Purify.cs" />
     <Compile Include="Perk\Alteration\Recover.cs" />
+    <Compile Include="Perk\Armorsmith\CombatRuneInstallationArmors.cs" />
+    <Compile Include="Perk\Armorsmith\CraftingRuneInstallationArmors.cs" />
+    <Compile Include="Perk\Armorsmith\MagicRuneInstallationArmors.cs" />
+    <Compile Include="Perk\Armorsmith\SpecialRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armor\Provoke.cs" />
     <Compile Include="Perk\Firearms\PointBlankShot.cs" />
     <Compile Include="Perk\Firearms\RapidReload.cs" />
@@ -323,12 +328,16 @@
     <Compile Include="Perk\TwinBlade\TwinBladeMastery.cs" />
     <Compile Include="Perk\TwoHanded\Cleave.cs" />
     <Compile Include="Perk\TwoHanded\Knockdown.cs" />
-    <Compile Include="Perk\Weaponsmith\MetalWeaponBlueprints.cs" />
+    <Compile Include="Perk\Weaponsmith\CraftingRuneInstallationWeapons.cs" />
+    <Compile Include="Perk\Weaponsmith\MagicRuneInstallationWeapons.cs" />
+    <Compile Include="Perk\Weaponsmith\CombatRuneInstallationWeapons.cs" />
+    <Compile Include="Perk\Weaponsmith\SpecialRuneInstallationWeapons.cs" />
+    <Compile Include="Perk\Weaponsmith\WeaponBlueprints.cs" />
     <Compile Include="Perk\Weaponsmith\SpeedyWeaponsmith.cs" />
     <Compile Include="Perk\Weapons\Focus.cs" />
     <Compile Include="Perk\Weapons\ImprovedCritical.cs" />
     <Compile Include="Perk\Engineering\SpeedyEngineering.cs" />
-    <Compile Include="Perk\Engineering\ElectronicsBlueprints.cs" />
+    <Compile Include="Perk\Engineering\EngineeringBlueprints.cs" />
     <Compile Include="Placeable\CraftingForge\FinishSmelt.cs" />
     <Compile Include="Event\Dialog\ActionTaken.cs" />
     <Compile Include="Event\Dialog\AppearsWhen.cs" />
@@ -492,6 +501,8 @@
     <Compile Include="Placeable\TrashCan\OnDisturbed.cs" />
     <Compile Include="Placeable\TrashCan\OnOpened.cs" />
     <Compile Include="Placeable\WarpDevice\OnUsed.cs" />
+    <Compile Include="Rune\Contracts\IRune.cs" />
+    <Compile Include="Rune\AbilityScoreRune.cs" />
     <Compile Include="Service\AbilityService.cs" />
     <Compile Include="Service\ActivityLoggingService.cs" />
     <Compile Include="Service\AppStateService.cs" />
@@ -599,6 +610,7 @@
     <Compile Include="Service\Contracts\IEnmityService.cs" />
     <Compile Include="Service\Contracts\IMapService.cs" />
     <Compile Include="Service\Contracts\IAppStateService.cs" />
+    <Compile Include="Service\Contracts\IRuneService.cs" />
     <Compile Include="Service\ItemService.cs" />
     <Compile Include="Service\Contracts\ITimeService.cs" />
     <Compile Include="Service\KeyItemService.cs" />
@@ -615,6 +627,7 @@
     <Compile Include="Service\PVPSanctuaryService.cs" />
     <Compile Include="Service\QuestService.cs" />
     <Compile Include="Service\RandomService.cs" />
+    <Compile Include="Service\RuneService.cs" />
     <Compile Include="Service\SearchService.cs" />
     <Compile Include="Service\SerializationService.cs" />
     <Compile Include="Service\SkillService.cs" />
@@ -631,6 +644,7 @@
     <Compile Include="ValueObject\ItemVO.cs" />
     <Compile Include="ValueObject\MapPin.cs" />
     <Compile Include="ValueObject\PCPerkHeader.cs" />
+    <Compile Include="ValueObject\RuneSlots.cs" />
     <Compile Include="ValueObject\Skill\CreatureSkillRegistration.cs" />
     <Compile Include="ValueObject\Skill\PlayerSkillPointTracker.cs" />
     <Compile Include="ValueObject\Skill\PlayerSkillRegistration.cs" />

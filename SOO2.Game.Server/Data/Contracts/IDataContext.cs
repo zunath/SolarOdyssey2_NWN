@@ -79,6 +79,7 @@ namespace SOO2.Game.Server.Data.Contracts
         IDbSet<Quest> Quests { get; set; }
         IDbSet<QuestState> QuestStates { get; set; }
         IDbSet<QuestTypeDomain> QuestTypeDomains { get; set; }
+        IDbSet<Entities.Rune> Runes { get; set; }
         IDbSet<ServerConfiguration> ServerConfigurations { get; set; }
         IDbSet<SkillCategory> SkillCategories { get; set; }
         IDbSet<Skill> Skills { get; set; }

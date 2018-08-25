@@ -21,6 +21,7 @@ using SOO2.Game.Server.Perk;
 using SOO2.Game.Server.Service;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ChatCommand.Contracts;
+using SOO2.Game.Server.Rune.Contracts;
 
 namespace SOO2.Game.Server
 {
@@ -144,6 +145,7 @@ namespace SOO2.Game.Server
             builder.RegisterType<PVPSanctuaryService>().As<IPVPSanctuaryService>();
             builder.RegisterType<QuestService>().As<IQuestService>();
             builder.RegisterType<RandomService>().As<IRandomService>();
+            builder.RegisterType<RuneService>().As<IRuneService>();
             builder.RegisterType<SearchService>().As<ISearchService>();
             builder.RegisterType<SerializationService>().As<ISerializationService>();
             builder.RegisterType<SkillService>().As<ISkillService>();
@@ -160,6 +162,7 @@ namespace SOO2.Game.Server
             RegisterInterfaceImplementations<IPerk>(builder);
             RegisterInterfaceImplementations<IBehaviour>(builder);
             RegisterInterfaceImplementations<IAIComponent>(builder);
+            RegisterInterfaceImplementations<IRune>(builder);
 
             // Third Party
             builder.RegisterType<BiowarePosition>().As<IBiowarePosition>();
