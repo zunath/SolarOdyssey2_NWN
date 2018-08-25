@@ -80,14 +80,14 @@
         Aegis = 76,
         Recover = 77,
         HolyShot = 78,
-        SpeedyProcessing = 79,
+        SpeedyRefining = 79,
         ProcessingEfficiency = 80,
         RefineryManagement = 81,
         Refining = 82,
         // 83 is open
         MetalWeaponBlueprints = 84,
         ForageExpert = 85,
-        FirearmsBlueprints = 86,
+        // 86 is open
         HeavyArmorBlueprints = 87,
         // 88 is open
         SeedSearcher = 89,

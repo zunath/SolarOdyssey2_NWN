@@ -2,7 +2,7 @@
 
 namespace SOO2.Game.Server.Perk.Engineering
 {
-    public class FirearmsBlueprints : IPerk
+    public class SpeedyRefining : IPerk
     {
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {

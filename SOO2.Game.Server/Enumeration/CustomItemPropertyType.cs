@@ -29,6 +29,15 @@
         FirstAidBonus = 123,
         HPRegenBonus = 124,
         ManaRegenBonus = 125,
-        BaseAttackBonus = 126
+        BaseAttackBonus = 126,
+        RunicSlotRed = 127,
+        RunicSlotBlue = 128,
+        RunicSlotGreen = 129,
+        RunicSlotYellow = 130,
+        RunicSlotPrismatic = 131,
+        RedRune = 132,
+        BlueRune = 133,
+        GreenRune = 134,
+        YellowRune = 135
     }
 }

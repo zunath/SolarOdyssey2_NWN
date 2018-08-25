@@ -135,7 +135,7 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
             item.Destroy();
 
             // Ready to smelt
-            float baseCraftDelay = 18.0f - (_perk.GetPCPerkLevel(pc, PerkType.SpeedyProcessing) * 0.1f);
+            float baseCraftDelay = 18.0f - (_perk.GetPCPerkLevel(pc, PerkType.SpeedyRefining) * 0.1f);
 
             pc.IsBusy = true;
             forge.SetLocalObject("FORGE_USER", pc.Object);
