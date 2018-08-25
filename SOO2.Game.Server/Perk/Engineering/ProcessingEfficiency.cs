@@ -1,8 +1,8 @@
 ﻿using SOO2.Game.Server.GameObject;
 
-namespace SOO2.Game.Server.Perk.Metalworking
+namespace SOO2.Game.Server.Perk.Engineering
 {
-    public class SpeedyMetalworking : IPerk
+    public class ProcessingEfficiency : IPerk
     {
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {

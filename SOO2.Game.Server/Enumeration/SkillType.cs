@@ -13,7 +13,7 @@
         HeavyArmor = 8,
         Shields = 9,
         Mining = 10,
-        Metalworking = 11,
+        // 11 is open
         Weaponsmith = 12,
         Armorsmith = 13,
         Logging = 14,
@@ -23,10 +23,10 @@
         ItemRepair = 18,
         EvocationMagic = 19,
         AlterationMagic = 20,
-        SummoningMagic = 21,
+        // 21 is open
         Engineering = 22,
         Farming = 23,
         Forage = 24,
-        Alchemy = 25
+        // 25 is open
     }
 }

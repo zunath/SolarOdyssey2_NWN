@@ -65,42 +65,42 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
             }
 
             string[] allowed = {
-                "coal",
-                "copper_ore",
-                "tin_ore",
-                "iron_ore",
-                "gold_ore",
-                "platinum_ore",
-                "adamantium_ore",
-                "cobalt_ore",
-                "silver_ore",
-                "titanium_ore",
-                "mithril_ore"
+                "power_unit",
+                "raw_veldite",
+                "raw_scordspar",
+                "raw_plagionite",
+                "raw_keromber",
+                "raw_jasioclase",
+                "raw_hemorgite",
+                "raw_ochne",
+                "raw_croknor",
+                "raw_arkoxit",
+                "raw_bisteiss"
         };
 
             if (!allowed.Contains(item.Resref))
             {
-                ReturnItemToPC(pc, item, "Only coal and ore may be placed inside.");
+                ReturnItemToPC(pc, item, "Only power units and raw materials may be placed inside.");
                 return false;
             }
 
             int level = _craft.GetIngotLevel(item.Resref);
-            PCSkill pcSkill = _skill.GetPCSkill(pc, SkillType.Metalworking);
+            PCSkill pcSkill = _skill.GetPCSkill(pc, SkillType.Engineering);
             if (pcSkill == null) return false;
 
             int delta = pcSkill.Rank - level;
             if (delta <= -4)
             {
-                ReturnItemToPC(pc, item, "You do not have enough skill to smelt this ore.");
+                ReturnItemToPC(pc, item, "You do not have enough skill to refine this material.");
                 return false;
             }
 
-            int pcPerklevel = _perk.GetPCPerkLevel(pc, PerkType.Smelting);
+            int pcPerklevel = _perk.GetPCPerkLevel(pc, PerkType.Refining);
             int orePerkLevel = _craft.GetIngotPerkLevel(item.Resref);
 
             if (pcPerklevel < orePerkLevel)
             {
-                ReturnItemToPC(pc, item, "You do not have the perk necessary to smelt this ore.");
+                ReturnItemToPC(pc, item, "You do not have the perk necessary to refine this material.");
                 return false;
             }
 
@@ -129,13 +129,13 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
             }
             else if (charges <= 0)
             {
-                ReturnItemToPC(pc, item, "You must light the forge with coal before smelting.");
+                ReturnItemToPC(pc, item, "You must power the refinery with a power unit before refining.");
                 return;
             }
             item.Destroy();
 
             // Ready to smelt
-            float baseCraftDelay = 18.0f - (_perk.GetPCPerkLevel(pc, PerkType.SpeedySmelter) * 0.1f);
+            float baseCraftDelay = 18.0f - (_perk.GetPCPerkLevel(pc, PerkType.SpeedyProcessing) * 0.1f);
 
             pc.IsBusy = true;
             forge.SetLocalObject("FORGE_USER", pc.Object);
@@ -157,7 +157,7 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
 
         private int CalculatePerkCoalBonusCharges(NWPlayer pc)
         {
-            int perkLevel = _perk.GetPCPerkLevel(pc, PerkType.CoalManagement);
+            int perkLevel = _perk.GetPCPerkLevel(pc, PerkType.RefineryManagement);
 
             switch (perkLevel)
             {

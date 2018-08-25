@@ -121,7 +121,7 @@ namespace SOO2.Game.Server.Service
                 _.ActionPlayAnimation(ANIMATION_FIREFORGET_SALUTE);
             });
 
-            oPC.SendMessage("Hunger: " + _menu.BuildBar(entity.CurrentHunger, entity.MaxHunger, 100));
+            oPC.SendMessage("Nourishment: " + _menu.BuildBar(entity.CurrentHunger, entity.MaxHunger, 100));
             _db.SaveChanges();
 
             if (isTainted)

@@ -47,7 +47,7 @@ namespace SOO2.Game.Server.Service
                     _color.Green("Character Name: ") + target.Name + "\n" +
                     _color.Green("Respawn Area: ") + respawnAreaName + "\n" +
                     _color.Green("Skill Points: ") + playerEntity.TotalSPAcquired + " (Unallocated: " + playerEntity.UnallocatedSP + ")" + "\n" +
-                    _color.Green("Hunger: ") + playerEntity.CurrentHunger + " / " + playerEntity.MaxHunger + "\n" +
+                    _color.Green("Nourishment: ") + playerEntity.CurrentHunger + " / " + playerEntity.MaxHunger + "\n" +
                     _color.Green("Mana: ") + playerEntity.CurrentMana + " / " + playerEntity.MaxMana + "\n" +
                     _color.Green("Skill Levels: ") + "\n\n");
 

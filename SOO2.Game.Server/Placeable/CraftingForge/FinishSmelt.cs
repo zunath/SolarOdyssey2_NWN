@@ -43,7 +43,7 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
             forge.DeleteLocalString("FORGE_ORE");
             player.IsBusy = false;
 
-            PCSkill pcSkill = _skill.GetPCSkill(player, SkillType.Metalworking);
+            PCSkill pcSkill = _skill.GetPCSkill(player, SkillType.Engineering);
             int level = _craft.GetIngotLevel(resref);
             string ingotResref = _craft.GetIngotResref(resref);
             if (pcSkill == null || level < 0 || string.IsNullOrWhiteSpace(ingotResref)) return false;
@@ -59,7 +59,7 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
                 count++;
             }
 
-            if (_random.Random(100) + 1 <= _perk.GetPCPerkLevel(player, PerkType.SmeltingMastery) * 10)
+            if (_random.Random(100) + 1 <= _perk.GetPCPerkLevel(player, PerkType.ProcessingEfficiency) * 10)
             {
                 count++;
             }
@@ -70,7 +70,7 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
             }
 
             int xp = (int)_skill.CalculateSkillAdjustedXP(100, level, pcSkill.Rank);
-            _skill.GiveSkillXP(player, SkillType.Metalworking, xp);
+            _skill.GiveSkillXP(player, SkillType.Engineering, xp);
 
             if (_random.Random(100) + 1 <= 3)
             {

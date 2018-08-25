@@ -146,7 +146,7 @@ namespace SOO2.Game.Server.Conversation
             string header = _color.Green("Name: ") + player.Name + "\n\n";
             header += _color.Green("Skill Points: ") + totalSkillCount + " / " + _skill.SkillCap + "\n";
             header += _color.Green("Unallocated SP: ") + playerEntity.UnallocatedSP + "\n";
-            header += _color.Green("Hunger: ") + _menu.BuildBar(playerEntity.CurrentHunger, playerEntity.MaxHunger, 100) + "\n";
+            header += _color.Green("Nourishment: ") + _menu.BuildBar(playerEntity.CurrentHunger, playerEntity.MaxHunger, 100) + "\n";
             header += _color.Green("Mana: ") + _menu.BuildBar(playerEntity.CurrentMana, playerEntity.MaxMana, 100, _color.TokenStart(32, 223, 219)) + "\n";
 
             return header;

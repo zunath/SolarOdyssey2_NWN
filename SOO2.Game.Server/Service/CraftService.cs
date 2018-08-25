@@ -199,8 +199,7 @@ namespace SOO2.Game.Server.Service
             float adjustedSpeed = 1.0f;
             SkillType skillType = (SkillType) skillID;
 
-            if (skillType == SkillType.Metalworking) perkType = PerkType.SpeedyMetalworking;
-            else if (skillType == SkillType.Weaponsmith) perkType = PerkType.SpeedyWeaponsmith;
+            if (skillType == SkillType.Weaponsmith) perkType = PerkType.SpeedyWeaponsmith;
             else if (skillType == SkillType.Armorsmith) perkType = PerkType.SpeedyArmorsmith;
             else if (skillType == SkillType.Cooking) perkType = PerkType.SpeedyCooking;
             else if (skillType == SkillType.Engineering) perkType = PerkType.SpeedyEngineering;
@@ -477,10 +476,6 @@ namespace SOO2.Game.Server.Service
                     if (player.BackgroundID == (int)BackgroundType.Chef)
                         effectiveLevel++;
                     break;
-                case CraftDeviceType.MetalworkingBench:
-                    if (player.BackgroundID == (int)BackgroundType.Metalworker)
-                        effectiveLevel++;
-                    break;
                 case CraftDeviceType.WeaponsmithBench:
                     if (player.BackgroundID == (int)BackgroundType.Weaponsmith)
                         effectiveLevel++;
@@ -500,35 +495,35 @@ namespace SOO2.Game.Server.Service
             string ingotResref;
             switch (oreResref)
             {
-                case "copper_ore":
-                    ingotResref = "copper_ingot";
+                case "raw_veldite":
+                    ingotResref = "ref_veldite";
                     break;
-                case "tin_ore":
-                    ingotResref = "tin_ingot";
+                case "raw_scordspar":
+                    ingotResref = "ref_scordspar";
                     break;
-                case "iron_ore":
-                    ingotResref = "iron_ingot";
+                case "raw_plagionite":
+                    ingotResref = "ref_plagionite";
                     break;
-                case "gold_ore":
-                    ingotResref = "gold_ingot";
+                case "raw_keromber":
+                    ingotResref = "ref_keromber";
                     break;
-                case "platinum_ore":
-                    ingotResref = "platinum_ingot";
+                case "raw_jasioclase":
+                    ingotResref = "ref_jasioclase";
                     break;
-                case "adamantium_ore":
-                    ingotResref = "adamantium_ingot";
+                case "raw_hemorgite":
+                    ingotResref = "ref_hemorgite";
                     break;
-                case "cobalt_ore":
-                    ingotResref = "cobalt_ingot";
+                case "raw_ochne":
+                    ingotResref = "ref_ochne";
                     break;
-                case "silver_ore":
-                    ingotResref = "silver_ingot";
+                case "raw_croknor":
+                    ingotResref = "ref_croknor";
                     break;
-                case "titanium_ore":
-                    ingotResref = "titanium_ingot";
+                case "raw_arkoxit":
+                    ingotResref = "ref_arkoxit";
                     break;
-                case "mithril_ore":
-                    ingotResref = "mithril_ingot";
+                case "raw_bisteiss":
+                    ingotResref = "ref_bisteiss";
                     break;
                 default:
                     return "";
@@ -542,34 +537,34 @@ namespace SOO2.Game.Server.Service
             int level;
             switch (oreResref)
             {
-                case "copper_ore":
+                case "raw_veldite":
                     level = 3;
                     break;
-                case "tin_ore":
+                case "raw_scordspar":
                     level = 8;
                     break;
-                case "iron_ore":
+                case "raw_plagionite":
                     level = 13;
                     break;
-                case "gold_ore":
+                case "raw_keromber":
                     level = 18;
                     break;
-                case "platinum_ore":
+                case "raw_jasioclase":
                     level = 23;
                     break;
-                case "adamantium_ore":
+                case "raw_hemorgite":
                     level = 28;
                     break;
-                case "cobalt_ore":
+                case "raw_ochne":
                     level = 33;
                     break;
-                case "silver_ore":
+                case "raw_croknor":
                     level = 38;
                     break;
-                case "titanium_ore":
+                case "raw_arkoxit":
                     level = 43;
                     break;
-                case "mithril_ore":
+                case "raw_bisteiss":
                     level = 48;
                     break;
                 default:
@@ -584,35 +579,35 @@ namespace SOO2.Game.Server.Service
             int level;
             switch (oreResref)
             {
-                case "copper_ore":
-                case "coal":
+                case "raw_veldite":
+                case "power_unit":
                     level = 1;
                     break;
-                case "tin_ore":
+                case "raw_scordspar":
                     level = 2;
                     break;
-                case "iron_ore":
+                case "raw_plagionite":
                     level = 3;
                     break;
-                case "gold_ore":
+                case "raw_keromber":
                     level = 4;
                     break;
-                case "platinum_ore":
+                case "raw_jasioclase":
                     level = 5;
                     break;
-                case "adamantium_ore":
+                case "raw_hemorgite":
                     level = 6;
                     break;
-                case "cobalt_ore":
+                case "raw_ochne":
                     level = 7;
                     break;
-                case "silver_ore":
+                case "raw_croknor":
                     level = 8;
                     break;
-                case "titanium_ore":
+                case "raw_arkoxit":
                     level = 9;
                     break;
-                case "mithril_ore":
+                case "raw_bisteiss":
                     level = 10;
                     break;
                 default:

@@ -107,9 +107,6 @@ namespace SOO2.Game.Server.Service
                 case BackgroundType.Chef:
                     _perk.DoPerkUpgrade(oPC, PerkType.FoodRecipes);
                     break;
-                case BackgroundType.Metalworker:
-                    _perk.DoPerkUpgrade(oPC, PerkType.MetalworkingComponentBlueprints);
-                    break;
                 case BackgroundType.Engineer:
                     _perk.DoPerkUpgrade(oPC, PerkType.ElectronicsBlueprints);
                     break;

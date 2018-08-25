@@ -302,13 +302,10 @@
     <Compile Include="Perk\Harvesting\WoodBagger.cs" />
     <Compile Include="Perk\MartialArts\CircleKick.cs" />
     <Compile Include="Perk\MartialArts\DeflectArrows.cs" />
-    <Compile Include="Perk\Metalworking\CoalManagement.cs" />
-    <Compile Include="Perk\Metalworking\ComponentBlueprints.cs" />
-    <Compile Include="Perk\Metalworking\Smelting.cs" />
-    <Compile Include="Perk\Metalworking\SmeltingMastery.cs" />
-    <Compile Include="Perk\Metalworking\SpeedyMetalworking.cs" />
-    <Compile Include="Perk\Metalworking\SpeedySmelting.cs" />
-    <Compile Include="Perk\Metalworking\ToolBlueprints.cs" />
+    <Compile Include="Perk\Engineering\RefineryManagement.cs" />
+    <Compile Include="Perk\Engineering\Refining.cs" />
+    <Compile Include="Perk\Engineering\ProcessingEfficiency.cs" />
+    <Compile Include="Perk\Engineering\SpeedyProcessing.cs" />
     <Compile Include="Perk\OneHanded\BladePowerAttack.cs" />
     <Compile Include="Perk\OneHanded\BluntPowerAttack.cs" />
     <Compile Include="Perk\OneHanded\CalledShot.cs" />
