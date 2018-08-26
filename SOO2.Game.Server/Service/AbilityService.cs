@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using NWN;
 using SOO2.Game.Server.Bioware.Contracts;
@@ -344,6 +346,7 @@ namespace SOO2.Game.Server.Service
         public void RestoreMana(NWPlayer oPC, int amount)
         {
             PlayerCharacter entity = _db.PlayerCharacters.Single(x => x.PlayerID == oPC.GlobalID);
+            ((IObjectContextAdapter)_db).ObjectContext.Refresh(RefreshMode.StoreWins, entity);
             RestoreMana(oPC, amount, entity);
             _db.SaveChanges();
         }
