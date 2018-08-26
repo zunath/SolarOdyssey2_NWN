@@ -8,6 +8,9 @@ namespace SOO2.Game.Server.Rune
     {
         public string CanApply(NWPlayer player, NWItem target, params string[] args)
         {
+            if (target.CustomAC >= 50)
+                return "You cannot improve that item's AC any further.";
+
             return null;
         }
 
@@ -20,7 +23,7 @@ namespace SOO2.Game.Server.Rune
         public string Description(NWPlayer player, NWItem target, params string[] args)
         {
             int amount = Convert.ToInt32(args[0]);
-            return "Armor Class +" + amount;
+            return "AC +" + amount;
         }
     }
 }
