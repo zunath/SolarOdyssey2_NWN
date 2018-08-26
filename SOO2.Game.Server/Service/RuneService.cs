@@ -1,6 +1,8 @@
-﻿using NWN;
+﻿using System;
+using NWN;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject;
 using static NWN.NWScript;
@@ -11,12 +13,15 @@ namespace SOO2.Game.Server.Service
     {
         private readonly INWScript _;
         private readonly IColorTokenService _color;
+        private readonly INWNXDamage _nwnxDamage;
 
         public RuneService(INWScript script,
-            IColorTokenService color)
+            IColorTokenService color,
+            INWNXDamage nwnxDamage)
         {
             _ = script;
             _color = color;
+            _nwnxDamage = nwnxDamage;
         }
 
         public CustomItemPropertyType GetRuneType(NWItem item)
@@ -140,5 +145,13 @@ namespace SOO2.Game.Server.Service
             return existingDescription + "\n" + description;
         }
 
+        public void OnModuleApplyDamage()
+        {
+            var data = _nwnxDamage.GetDamageEventData();
+            NWObject damager = data.Damager;
+            NWItem weapon = NWItem.Wrap(_.GetLastWeaponUsed(damager.Object));
+            data.Base += weapon.DamageBonus;
+            _nwnxDamage.SetDamageEventData(data);
+        }
     }
 }

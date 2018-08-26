@@ -410,7 +410,13 @@ namespace SOO2.Game.Server.GameObject
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS", value);
         }
-        
+
+        public virtual int DamageBonus
+        {
+            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_DAMAGE_BONUS");
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_DAMAGE_BONUS", value);
+        }
+
         public virtual void ReduceItemStack()
         {
             int stackSize = _.GetItemStackSize(Object);

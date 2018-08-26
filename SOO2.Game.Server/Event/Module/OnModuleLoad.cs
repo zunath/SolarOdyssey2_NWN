@@ -17,6 +17,7 @@ namespace SOO2.Game.Server.Event.Module
         private readonly IObjectProcessingService _objectProcessing;
         private readonly IFarmingService _farming;
         private readonly IAppStateService _appStateService;
+        private readonly INWNXDamage _nwnxDamage;
 
         public OnModuleLoad(INWScript script,
             INWNXChat nwnxChat,
@@ -25,7 +26,8 @@ namespace SOO2.Game.Server.Event.Module
             IStructureService structure,
             IObjectProcessingService objectProcessing,
             IFarmingService farming,
-            IAppStateService appStateService)
+            IAppStateService appStateService,
+            INWNXDamage nwnxDamage)
         {
             _ = script;
             _nwnxChat = nwnxChat;
@@ -35,6 +37,7 @@ namespace SOO2.Game.Server.Event.Module
             _objectProcessing = objectProcessing;
             _farming = farming;
             _appStateService = appStateService;
+            _nwnxDamage = nwnxDamage;
         }
 
         public bool Run(params object[] args)
@@ -89,10 +92,11 @@ namespace SOO2.Game.Server.Event.Module
             _.SetEventScript(_.GetModule(), NWScript.EVENT_SCRIPT_MODULE_ON_LOSE_ITEM, "mod_on_unacquire");
             _.SetEventScript(_.GetModule(), NWScript.EVENT_SCRIPT_MODULE_ON_USER_DEFINED_EVENT, "mod_on_user");
 
-            // NWNX Event Hooks
+            // NWNX Hooks
             _nwnxEvents.SubscribeEvent(EventType.StartCombatRoundBefore, "mod_on_attack");
             _nwnxEvents.SubscribeEvent(EventType.ExamineObjectBefore, "mod_on_examine");
             _nwnxEvents.SubscribeEvent(EventType.UseFeatBefore, "mod_on_usefeat");
+            _nwnxDamage.SetDamageEventScript("mod_on_applydmg");
         }
     }
 }

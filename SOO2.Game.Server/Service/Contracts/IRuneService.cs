@@ -11,5 +11,6 @@ namespace SOO2.Game.Server.Service.Contracts
         bool IsRune(NWItem item);
         string PrismaticString();
         string OnModuleExamine(string existingDescription, NWPlayer examiner, NWObject examinedObject);
+        void OnModuleApplyDamage();
     }
 }

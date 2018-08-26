@@ -169,6 +169,7 @@ namespace SOO2.Game.Server
             builder.RegisterType<BiowareXP2>().As<IBiowareXP2>();
             builder.RegisterType<NWNXChat>().As<INWNXChat>();
             builder.RegisterType<NWNXCreature>().As<INWNXCreature>();
+            builder.RegisterType<NWNXDamage>().As<INWNXDamage>();
             builder.RegisterType<NWNXEvents>().As<INWNXEvents>();
             builder.RegisterType<NWNXItem>().As<INWNXItem>();
             builder.RegisterType<NWNXObject>().As<INWNXObject>();

@@ -236,12 +236,17 @@
     <Compile Include="Event\Area\OnAreaExit.cs" />
     <Compile Include="Event\Area\OnAreaEnter.cs" />
     <Compile Include="Event\Creature\OnCreatureEvent.cs" />
+    <Compile Include="Event\Module\OnModuleApplyDamage.cs" />
     <Compile Include="Event\Module\OnModuleAttack.cs" />
     <Compile Include="Event\Module\OnModuleNWNXChat.cs" />
     <Compile Include="Event\Module\OnModuleUseFeat.cs" />
     <Compile Include="Event\Player\OnPlayerDamaged.cs" />
     <Compile Include="Extension\BehaviourTreeBuilderExtensions.cs" />
     <Compile Include="Item\Rune.cs" />
+    <Compile Include="NWNX\DamageData.cs" />
+    <Compile Include="NWNX\Contracts\INWNXDamage.cs" />
+    <Compile Include="NWNX\NWNXDamage.cs" />
+    <Compile Include="NWN\Events\Module\mod_on_applydmg.cs" />
     <Compile Include="NWN\Events\Module\mod_on_attack.cs" />
     <Compile Include="NWN\Events\Module\mod_on_nwnxchat.cs" />
     <Compile Include="NWN\Events\Module\mod_on_usefeat.cs" />
@@ -507,6 +512,7 @@
     <Compile Include="Rune\Contracts\IRune.cs" />
     <Compile Include="Rune\AbilityScoreRune.cs" />
     <Compile Include="Rune\CookingRune.cs" />
+    <Compile Include="Rune\DamageRune.cs" />
     <Compile Include="Rune\DurabilityRune.cs" />
     <Compile Include="Rune\EngineeringRune.cs" />
     <Compile Include="Rune\EnhancementBonusRune.cs" />

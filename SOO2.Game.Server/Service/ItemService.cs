@@ -240,6 +240,10 @@ namespace SOO2.Game.Server.Service
             {
                 description += _color.Orange("Base Attack Bonus: ") + examinedItem.BaseAttackBonus + "\n";
             }
+            if (examinedItem.DamageBonus > 0)
+            {
+                description += _color.Orange("Damage Bonus: ") + examinedItem.DamageBonus + "\n";
+            }
 
             return existingDescription + "\n" + description;
         }
