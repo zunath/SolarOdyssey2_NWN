@@ -49,14 +49,14 @@ namespace SOO2.Game.Server.Item
             RuneSlots slots = _rune.GetRuneSlots(targetItem);
             CustomItemPropertyType runeType = _rune.GetRuneType(runeItem);
             int runeID = runeItem.GetLocalInt("RUNE_ID");
-            string runeValue = runeItem.GetLocalString("RUNE_VALUE");
+            string[] runeArgs = runeItem.GetLocalString("RUNE_VALUE").Split(',');
             int runeLevel = runeItem.RecommendedLevel;
 
-            var dbRune = _db.Runes.Single(x => x.RuneID == runeID);
+            var dbRune = _db.Runes.Single(x => x.RuneID == runeID && x.IsActive);
             IRune rune = App.ResolveByInterface<IRune>("Rune." + dbRune.Script);
-            rune.Apply(player, targetItem, runeValue);
+            rune.Apply(player, targetItem, runeArgs);
 
-            string description = rune.Description(player, targetItem, runeValue);
+            string description = rune.Description(player, targetItem, runeArgs);
             bool usePrismatic = false;
             switch (runeType)
             {
@@ -165,12 +165,12 @@ namespace SOO2.Game.Server.Item
             CustomItemPropertyType runeType = _rune.GetRuneType(rune);
             RuneSlots runeSlots = _rune.GetRuneSlots(targetItem);
             int runeID = rune.GetLocalInt("RUNE_ID");
-            string runeValue = rune.GetLocalString("RUNE_VALUE");
+            string[] runeArgs = rune.GetLocalString("RUNE_VALUE").Split(',');
 
             // Check for a misconfigured rune item.
             if (runeType == CustomItemPropertyType.Unknown) return "Rune color couldn't be found. Notify an admin that this rune item is not set up properly.";
             if (runeID <= 0) return "Rune ID couldn't be found. Notify an admin that this rune item is not set up properly.";
-            if (string.IsNullOrWhiteSpace(runeValue)) return "Rune value couldn't be found. Notify an admin that this rune item is not set up properly.";
+            if (runeArgs.Length <= 0) return "Rune value couldn't be found. Notify an admin that this rune item is not set up properly.";
 
             // No available slots on target item
             if (runeType == CustomItemPropertyType.RedRune && !runeSlots.CanRedRuneBeAdded) return "That item has no available red runic slots.";
@@ -241,7 +241,7 @@ namespace SOO2.Game.Server.Item
             if (!targetItem.Possessor.Equals(player)) return "Targeted item must be in your inventory.";
 
             // Look for a database entry for this rune type.
-            var dbRune = _db.Runes.SingleOrDefault(x => x.RuneID == runeID);
+            var dbRune = _db.Runes.SingleOrDefault(x => x.RuneID == runeID && x.IsActive);
             if (dbRune == null)
             {
                 return "Couldn't find a matching rune ID in the database. Inform an admin of this issue.";
@@ -249,7 +249,7 @@ namespace SOO2.Game.Server.Item
 
             // Run the individual rune's rules for application. Will return the error message or a null.
             IRune runeRules = App.ResolveByInterface<IRune>("Rune." + dbRune.Script);
-            return runeRules.CanApply(player, targetItem, runeValue);
+            return runeRules.CanApply(player, targetItem, runeArgs);
         }
 
         public bool AllowLocationTarget()

@@ -147,7 +147,6 @@
     <Compile Include="Data\Entities\GameTopic.cs" />
     <Compile Include="Data\Entities\GameTopicCategory.cs" />
     <Compile Include="Data\Entities\GrowingPlant.cs" />
-    <Compile Include="Data\Entities\Item.cs" />
     <Compile Include="Data\Entities\ItemType.cs" />
     <Compile Include="Data\Entities\KeyItem.cs" />
     <Compile Include="Data\Entities\KeyItemCategory.cs" />
@@ -501,6 +500,7 @@
     <Compile Include="Placeable\TrashCan\OnDisturbed.cs" />
     <Compile Include="Placeable\TrashCan\OnOpened.cs" />
     <Compile Include="Placeable\WarpDevice\OnUsed.cs" />
+    <Compile Include="Rune\ArmorClassRune.cs" />
     <Compile Include="Rune\Contracts\IRune.cs" />
     <Compile Include="Rune\AbilityScoreRune.cs" />
     <Compile Include="Service\AbilityService.cs" />

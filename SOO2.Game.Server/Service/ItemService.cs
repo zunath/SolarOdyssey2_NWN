@@ -2,7 +2,6 @@
 using System.Linq;
 using NWN;
 using SOO2.Game.Server.Bioware.Contracts;
-using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
@@ -17,31 +16,22 @@ namespace SOO2.Game.Server.Service
     public class ItemService : IItemService
     {
         private readonly INWScript _;
-        private readonly IDataContext _db;
-        private readonly IDurabilityService _durability;
         private readonly IBiowareXP2 _xp2;
         private readonly ISkillService _skill;
         private readonly IColorTokenService _color;
-        private readonly INWNXItem _nwnxItem;
         private readonly INWNXPlayer _nwnxPlayer;
 
         public ItemService(
             INWScript script,
-            IDataContext db,
-            IDurabilityService durability,
             IBiowareXP2 xp2,
             ISkillService skill,
             IColorTokenService color,
-            INWNXItem nwnxItem,
             INWNXPlayer nwnxPlayer)
         {
             _ = script;
-            _db = db;
-            _durability = durability;
             _xp2 = xp2;
             _skill = skill;
             _color = color;
-            _nwnxItem = nwnxItem;
             _nwnxPlayer = nwnxPlayer;
         }
 
@@ -58,17 +48,7 @@ namespace SOO2.Game.Server.Service
             item.Destroy();
             return name;
         }
-
-        public void OnModuleItemAcquired()
-        {
-            NWPlayer oPC = NWPlayer.Wrap(_.GetModuleItemAcquiredBy());
-
-            if (!oPC.IsPlayer) return;
-
-            NWItem item = NWItem.Wrap(_.GetModuleItemAcquired());
-            ApplyItemFeatures(item);
-        }
-
+        
         public void OnModuleActivatedItem()
         {
             NWPlayer oPC = NWPlayer.Wrap(_.GetItemActivator());
@@ -160,7 +140,6 @@ namespace SOO2.Game.Server.Service
             if (examinedObject.ObjectType != OBJECT_TYPE_ITEM) return existingDescription;
 
             NWItem examinedItem = NWItem.Wrap(examinedObject.Object);
-            ApplyItemFeatures(examinedItem);
             string description = "";
 
             if (examinedItem.RecommendedLevel > 0)
@@ -485,54 +464,6 @@ namespace SOO2.Game.Server.Service
             {
                 if (item.Charges > 0) item.ReduceCharges();
                 else item.Destroy();
-            }
-        }
-
-        private Data.Entities.Item GetItemEntity(NWItem item)
-        {
-            return _db.Items.SingleOrDefault(x => x.Resref == item.Resref);
-        }
-
-        private void ApplyItemFeatures(NWItem item)
-        {
-            Data.Entities.Item entity = GetItemEntity(item);
-
-            if (entity == null) return;
-
-            item.CustomAC = entity.AC;
-            item.CustomItemType = (CustomItemType) entity.ItemTypeID;
-            item.RecommendedLevel = entity.RecommendedLevel;
-            item.LoggingBonus = entity.LoggingBonus;
-            item.MiningBonus = entity.MiningBonus;
-            item.CastingSpeed = entity.CastingSpeed;
-            item.CraftBonusMetalworking = entity.CraftBonusMetalworking;
-            item.CraftBonusArmorsmith = entity.CraftBonusArmorsmith;
-            item.CraftBonusWeaponsmith = entity.CraftBonusWeaponsmith;
-            item.CraftBonusCooking = entity.CraftBonusCooking;
-            item.CraftBonusEngineering = entity.CraftBonusEngineering;
-            item.AssociatedSkillType = (SkillType)entity.AssociatedSkillID;
-            item.CraftTierLevel = entity.CraftTierLevel;
-            item.HPBonus = entity.HPBonus;
-            item.ManaBonus = entity.ManaBonus;
-            item.EnmityRate = entity.EnmityRate;
-            item.EvocationBonus = entity.EvocationBonus;
-            item.AlterationBonus = entity.AlterationBonus;
-            item.SummoningBonus = entity.SummoningBonus;
-            item.LuckBonus = entity.LuckBonus;
-            item.MeditateBonus = entity.MeditateBonus;
-            item.FirstAidBonus = entity.FirstAidBonus;
-            item.HPRegenBonus = entity.HPRegenBonus;
-            item.ManaRegenBonus = entity.ManaRegenBonus;
-            item.BaseAttackBonus = entity.BaseAttackBonus;
-
-            if (entity.Weight > 0)
-            {
-                _nwnxItem.SetWeight(item, entity.Weight);
-            }
-
-            if (entity.DurabilityPoints > 0)
-            {
-                _durability.SetMaxDurability(item, entity.DurabilityPoints);
             }
         }
     }

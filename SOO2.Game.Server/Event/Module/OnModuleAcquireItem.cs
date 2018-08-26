@@ -8,18 +8,15 @@ namespace SOO2.Game.Server.Event.Module
         private readonly INWScript _;
         private readonly IKeyItemService _keyItem;
         private readonly IQuestService _quest;
-        private readonly IItemService _item;
 
         public OnModuleAcquireItem(
             INWScript script, 
             IKeyItemService keyItem,
-            IQuestService quest,
-            IItemService item)
+            IQuestService quest)
         {
             _ = script;
             _keyItem = keyItem;
             _quest = quest;
-            _item = item;
         }
 
         public bool Run(params object[] args)
@@ -28,7 +25,6 @@ namespace SOO2.Game.Server.Event.Module
             _.ExecuteScript("x2_mod_def_aqu", Object.OBJECT_SELF);
             _keyItem.OnModuleItemAcquired();
             _quest.OnModuleItemAcquired();
-            _item.OnModuleItemAcquired();
             return true;
 
         }

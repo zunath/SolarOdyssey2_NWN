@@ -9,7 +9,6 @@ namespace SOO2.Game.Server.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ItemType()
         {
-            Items = new HashSet<Item>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -18,8 +17,5 @@ namespace SOO2.Game.Server.Data.Entities
         [Required]
         [StringLength(32)]
         public string Name { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
     }
 }

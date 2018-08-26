@@ -10,7 +10,6 @@ namespace SOO2.Game.Server.Data.Entities
         public Skill()
         {
             CraftBlueprints = new HashSet<CraftBlueprint>();
-            Items = new HashSet<Item>();
             PCSkills = new HashSet<PCSkill>();
             PerkLevelSkillRequirements = new HashSet<PerkLevelSkillRequirement>();
             SkillXPRequirements = new HashSet<SkillXPRequirement>();
@@ -47,10 +46,7 @@ namespace SOO2.Game.Server.Data.Entities
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CraftBlueprint> CraftBlueprints { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Item> Items { get; set; }
-
+        
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PCSkill> PCSkills { get; set; }
 

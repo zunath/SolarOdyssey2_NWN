@@ -41,11 +41,10 @@ namespace SOO2.Game.Server.Rune
             return result;
         }
 
-        private Tuple<int, int, string> ParseData(string data)
+        private Tuple<int, int, string> ParseData(params string[] data)
         {
-            string[] split = data.Split(',');
-            string strType = split[0];
-            int amount = Convert.ToInt32(split[1]);
+            string strType = data[0];
+            int amount = Convert.ToInt32(data[1]);
             int type = -1;
 
             switch (strType)
@@ -75,16 +74,16 @@ namespace SOO2.Game.Server.Rune
 
         
 
-        public string CanApply(NWPlayer player, NWItem target, string value)
+        public string CanApply(NWPlayer player, NWItem target, params string[] args)
         {
-            var parsed = ParseData(value);
+            var parsed = ParseData(args);
             var info = GetExistingIPInfo(target, parsed.Item1);
             return info.Item2 >= 12 ? "You cannot improve that item's stat any further." : null;
         }
 
-        public void Apply(NWPlayer player, NWItem target, string value)
+        public void Apply(NWPlayer player, NWItem target, params string[] args)
         {
-            var data = ParseData(value);
+            var data = ParseData(args);
             if (data.Item1 < 0) return;
 
             var existingValues = GetExistingIPInfo(target, data.Item1);
@@ -95,9 +94,9 @@ namespace SOO2.Game.Server.Rune
             _biowareXP2.IPSafeAddItemProperty(target, ip, 0.0f, AddItemPropertyPolicy.ReplaceExisting, true, false);
         }
 
-        public string Description(NWPlayer player, NWItem target, string value)
+        public string Description(NWPlayer player, NWItem target, params string[] args)
         {
-            var data = ParseData(value);
+            var data = ParseData(args);
             if (data.Item1 < 0) return "Invalid";
             return data.Item3;
         }

@@ -36,7 +36,6 @@ namespace SOO2.Game.Server.Data.Contracts
         IDbSet<GameTopicCategory> GameTopicCategories { get; set; }
         IDbSet<GameTopic> GameTopics { get; set; }
         IDbSet<GrowingPlant> GrowingPlants { get; set; }
-        IDbSet<Entities.Item> Items { get; set; }
         IDbSet<ItemType> ItemTypes { get; set; }
         IDbSet<KeyItemCategory> KeyItemCategories { get; set; }
         IDbSet<KeyItem> KeyItems { get; set; }

@@ -52,7 +52,6 @@ namespace SOO2.Game.Server.Data
         public virtual IDbSet<GameTopicCategory> GameTopicCategories { get; set; }
         public virtual IDbSet<GameTopic> GameTopics { get; set; }
         public virtual IDbSet<GrowingPlant> GrowingPlants { get; set; }
-        public virtual IDbSet<Entities.Item> Items { get; set; }
         public virtual IDbSet<ItemType> ItemTypes { get; set; }
         public virtual IDbSet<KeyItemCategory> KeyItemCategories { get; set; }
         public virtual IDbSet<KeyItem> KeyItems { get; set; }
@@ -218,12 +217,7 @@ namespace SOO2.Game.Server.Data
                 .HasMany(e => e.GameTopics)
                 .WithRequired(e => e.GameTopicCategory)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ItemType>()
-                .HasMany(e => e.Items)
-                .WithRequired(e => e.ItemType)
-                .WillCascadeOnDelete(false);
-
+            
             modelBuilder.Entity<KeyItemCategory>()
                 .HasMany(e => e.KeyItems)
                 .WithRequired(e => e.KeyItemCategory)
@@ -543,13 +537,7 @@ namespace SOO2.Game.Server.Data
                 .HasMany(e => e.CraftBlueprints)
                 .WithRequired(e => e.Skill)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Skill>()
-                .HasMany(e => e.Items)
-                .WithRequired(e => e.Skill)
-                .HasForeignKey(e => e.AssociatedSkillID)
-                .WillCascadeOnDelete(false);
-
+            
             modelBuilder.Entity<Skill>()
                 .HasMany(e => e.PCSkills)
                 .WithRequired(e => e.Skill)

@@ -12,7 +12,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void OnModuleEquipItem();
         string OnModuleExamine(string existingDescription, NWPlayer examiner, NWObject examinedObject);
         void OnModuleHeartbeat();
-        void OnModuleItemAcquired();
         void ReturnItem(NWObject target, NWItem item);
         void StripAllItemProperties(NWItem item);
     }

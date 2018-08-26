@@ -94,25 +94,42 @@ namespace SOO2.Game.Server.GameObject
             }
         }
 
+        // For the custom item properties:
+        // If a toolset-placed item property exists, mark the value and remove the item property.
+        // Otherwise, return the local variable stored on the item.
+
         public virtual float MaxDurability
         {
-            get => _durability.GetMaxDurability(this);
+            get
+            {
+                int maxDurability = GetItemPropertyValueAndRemove((int) CustomItemPropertyType.MaxDurability);
+                if (maxDurability <= -1) return _durability.GetMaxDurability(this);
+                MaxDurability = maxDurability;
+                return maxDurability;
+            } 
             set => _durability.SetMaxDurability(this, value);
         }
 
         public virtual float Durability
         {
-            get => _durability.GetDurability(this);
+            get
+            {
+                int durability = GetItemPropertyValueAndRemove((int) CustomItemPropertyType.Durability);
+                if(durability <= -1) return _durability.GetDurability(this);
+                Durability = durability;
+                return durability;
+            } 
             set => _durability.SetDurability(this, value);
         }
-
+        
         public virtual int CustomAC
         {
             get
             {
-                int armorClass = GetItemPropertyValue((int)CustomItemPropertyType.ArmorClass);
-                return armorClass > 0 ? armorClass :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_AC");
+                int armorClass = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.ArmorClass);
+                if (armorClass <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_AC");
+                CustomAC = armorClass;
+                return armorClass;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_AC", value);
         }
@@ -120,9 +137,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int itemType = GetItemPropertyValue((int)CustomItemPropertyType.ItemType);
-                return itemType > 0 ? (CustomItemType)itemType : 
-                    (CustomItemType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE");
+                int itemType = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.ItemType);
+                if (itemType <= -1) return (CustomItemType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE");
+                CustomItemType = (CustomItemType)itemType;
+                return (CustomItemType)itemType;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE", (int)value);
         }
@@ -131,9 +149,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.RecommendedLevel);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL");
+                int recommendedLevel = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.RecommendedLevel);
+                if(recommendedLevel <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL");
+                RecommendedLevel = recommendedLevel;
+                return recommendedLevel;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL", value);
         }
@@ -142,9 +161,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.LoggingBonus);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LOGGING_BONUS");
+                int loggingBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.LoggingBonus);
+                if(loggingBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LOGGING_BONUS");
+                LoggingBonus = loggingBonus;
+                return loggingBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LOGGING_BONUS", value);
         }
@@ -153,9 +173,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.MiningBonus);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MINING_BONUS");
+                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.MiningBonus);
+                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MINING_BONUS");
+                MiningBonus = craftBonus;
+                return craftBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MINING_BONUS", value);
         }
@@ -164,11 +185,13 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int castingSpeed = GetItemPropertyValue((int)CustomItemPropertyType.CastingSpeed);
+                int castingSpeed = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CastingSpeed);
                 if (castingSpeed <= 0) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CASTING_SPEED");
-
-                if (castingSpeed <= 99) return -castingSpeed;
-                return castingSpeed - 99;
+                
+                if (castingSpeed <= 99) castingSpeed = -castingSpeed;
+                else castingSpeed = castingSpeed - 99;
+                CastingSpeed = castingSpeed;
+                return castingSpeed;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CASTING_SPEED", value);
         }
@@ -177,9 +200,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusMetalworking);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING");
+                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftBonusMetalworking);
+                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING");
+                CraftBonusMetalworking = craftBonus;
+                return craftBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING", value);
         }
@@ -187,9 +211,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusArmorsmith);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ARMORSMITH");
+                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftBonusArmorsmith);
+                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ARMORSMITH");
+                CraftBonusArmorsmith = craftBonus;
+                return craftBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ARMORSMITH", value);
         }
@@ -197,9 +222,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusWeaponsmith);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WEAPONSMITH");
+                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftBonusWeaponsmith);
+                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WEAPONSMITH");
+                CraftBonusWeaponsmith = craftBonus;
+                return craftBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_WEAPONSMITH", value);
         }
@@ -207,9 +233,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusCooking);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING");
+                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftBonusCooking);
+                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING");
+                CraftBonusCooking = craftBonus;
+                return craftBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_COOKING", value);
         }
@@ -217,9 +244,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftBonus = GetItemPropertyValue((int)CustomItemPropertyType.CraftBonusEngineering);
-                return craftBonus > 0 ? craftBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING");
+                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftBonusEngineering);
+                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING");
+                CraftBonusEngineering = craftBonus;
+                return craftBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_ENGINEERING", value);
         }
@@ -227,9 +255,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int skillType = GetItemPropertyValue((int)CustomItemPropertyType.AssociatedSkill);
-                return skillType > 0 ? (SkillType)skillType :
-                    (SkillType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID");
+                int skillType = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.AssociatedSkill);
+                if(skillType <= -1) return (SkillType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID");
+                AssociatedSkillType = (SkillType)skillType;
+                return (SkillType)skillType;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ASSOCIATED_SKILL_ID", (int)value);
         }
@@ -237,9 +266,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int craftTier = GetItemPropertyValue((int)CustomItemPropertyType.CraftTierLevel);
-                return craftTier > 0 ? craftTier :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_TIER_LEVEL");
+                int craftTier = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftTierLevel);
+                if(craftTier <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_TIER_LEVEL");
+                CraftTierLevel = craftTier;
+                return craftTier;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_TIER_LEVEL", value);
         }
@@ -247,9 +277,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int hpBonus = GetItemPropertyValue((int) CustomItemPropertyType.HPBonus);
-                return hpBonus > 0 ? hpBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_BONUS");
+                int hpBonus = GetItemPropertyValueAndRemove((int) CustomItemPropertyType.HPBonus);
+                if(hpBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_BONUS");
+                HPBonus = hpBonus;
+                return hpBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_BONUS", value);
         }
@@ -257,9 +288,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int manaBonus = GetItemPropertyValue((int)CustomItemPropertyType.ManaBonus);
-                return manaBonus > 0 ? manaBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS");
+                int manaBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.ManaBonus);
+                if(manaBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS");
+                ManaBonus = manaBonus;
+                return manaBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_BONUS", value);
         }
@@ -268,11 +300,13 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int enmityRate = GetItemPropertyValue((int)CustomItemPropertyType.EnmityRate);
+                int enmityRate = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.EnmityRate);
                 if (enmityRate <= 0) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE");
 
-                if (enmityRate <= 50) return -enmityRate;
-                return enmityRate - 50;
+                if (enmityRate <= 50) enmityRate = -enmityRate;
+                else enmityRate = enmityRate - 50;
+                EnmityRate = enmityRate;
+                return enmityRate;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ENMITY_RATE", value);
         }
@@ -281,9 +315,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int evocationBonus = GetItemPropertyValue((int)CustomItemPropertyType.EvocationBonus);
-                return evocationBonus > 0 ? evocationBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_EVOCATION_BONUS");
+                int evocationBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.EvocationBonus);
+                if(evocationBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_EVOCATION_BONUS");
+                EvocationBonus = evocationBonus;
+                return evocationBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_EVOCATION_BONUS", value);
         }
@@ -291,9 +326,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int alterationBonus = GetItemPropertyValue((int)CustomItemPropertyType.AlterationBonus);
-                return alterationBonus > 0 ? alterationBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ALTERATION_BONUS");
+                int alterationBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.AlterationBonus);
+                if(alterationBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ALTERATION_BONUS");
+                AlterationBonus = alterationBonus;
+                return alterationBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_ALTERATION_BONUS", value);
         }
@@ -301,9 +337,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int summoningBonus = GetItemPropertyValue((int)CustomItemPropertyType.SummoningBonus);
-                return summoningBonus > 0 ? summoningBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SUMMONING_BONUS");
+                int summoningBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.SummoningBonus);
+                if(summoningBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SUMMONING_BONUS");
+                SummoningBonus = summoningBonus;
+                return summoningBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SUMMONING_BONUS", value);
         }
@@ -311,9 +348,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int luckBonus = GetItemPropertyValue((int)CustomItemPropertyType.LuckBonus);
-                return luckBonus > 0 ? luckBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LUCK_BONUS");
+                int luckBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.LuckBonus);
+                if(luckBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LUCK_BONUS");
+                LuckBonus = luckBonus;
+                return luckBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_LUCK_BONUS", value);
         }
@@ -321,9 +359,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int meditateBonus = GetItemPropertyValue((int)CustomItemPropertyType.MeditateBonus);
-                return meditateBonus > 0 ? meditateBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MEDITATE_BONUS");
+                int meditateBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.MeditateBonus);
+                if(meditateBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MEDITATE_BONUS");
+                MeditateBonus = meditateBonus;
+                return meditateBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MEDITATE_BONUS", value);
         }
@@ -331,9 +370,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int firstAidBonus = GetItemPropertyValue((int)CustomItemPropertyType.FirstAidBonus);
-                return firstAidBonus > 0 ? firstAidBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_FIRST_AID_BONUS");
+                int firstAidBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.FirstAidBonus);
+                if(firstAidBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_FIRST_AID_BONUS");
+                FirstAidBonus = firstAidBonus;
+                return firstAidBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_FIRST_AID_BONUS", value);
         }
@@ -341,9 +381,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int hpRegenBonus = GetItemPropertyValue((int)CustomItemPropertyType.HPRegenBonus);
-                return hpRegenBonus > 0 ? hpRegenBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_REGEN_BONUS");
+                int hpRegenBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.HPRegenBonus);
+                if(hpRegenBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_REGEN_BONUS");
+                HPRegenBonus = hpRegenBonus;
+                return hpRegenBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_HP_REGEN_BONUS", value);
         }
@@ -351,9 +392,10 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int manaRegenBonus = GetItemPropertyValue((int)CustomItemPropertyType.ManaRegenBonus);
-                return manaRegenBonus > 0 ? manaRegenBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_REGEN_BONUS");
+                int manaRegenBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.ManaRegenBonus);
+                if(manaRegenBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_REGEN_BONUS");
+                ManaRegenBonus = manaRegenBonus;
+                return manaRegenBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_MANA_REGEN_BONUS", value);
         }
@@ -361,16 +403,14 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                int baseAttackBonus = GetItemPropertyValue((int)CustomItemPropertyType.BaseAttackBonus);
-                return baseAttackBonus > 0 ? baseAttackBonus :
-                    _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS");
+                int baseAttackBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.BaseAttackBonus);
+                if(baseAttackBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS");
+                BaseAttackBonus = baseAttackBonus;
+                return baseAttackBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS", value);
         }
-
-
-
-
+        
         public virtual void ReduceItemStack()
         {
             int stackSize = _.GetItemStackSize(Object);
@@ -387,14 +427,16 @@ namespace SOO2.Game.Server.GameObject
         public virtual bool IsRanged => _.GetWeaponRanged(Object) == 1;
 
 
-        private int GetItemPropertyValue(int itemPropertyID)
+        private int GetItemPropertyValueAndRemove(int itemPropertyID)
         {
             ItemProperty ip = _.GetFirstItemProperty(Object);
             while (_.GetIsItemPropertyValid(ip) == TRUE)
             {
                 if (_.GetItemPropertyType(ip) == itemPropertyID)
                 {
-                    return _.GetItemPropertyCostTableValue(ip); 
+                    var result = _.GetItemPropertyCostTableValue(ip);
+                    _.RemoveItemProperty(Object, ip);
+                    return result;
                 }
 
                 ip = _.GetNextItemProperty(Object);
