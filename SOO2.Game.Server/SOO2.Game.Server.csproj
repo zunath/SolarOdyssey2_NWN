@@ -509,6 +509,7 @@
     <Compile Include="Rune\CookingRune.cs" />
     <Compile Include="Rune\DurabilityRune.cs" />
     <Compile Include="Rune\EngineeringRune.cs" />
+    <Compile Include="Rune\EnhancementBonusRune.cs" />
     <Compile Include="Rune\EnmityRune.cs" />
     <Compile Include="Rune\EvocationMagicRune.cs" />
     <Compile Include="Rune\FirstAidRune.cs" />
