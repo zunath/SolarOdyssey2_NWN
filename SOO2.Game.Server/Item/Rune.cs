@@ -7,6 +7,7 @@ using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject;
 using System.Linq;
 using SOO2.Game.Server.Data.Contracts;
+using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Rune.Contracts;
 using static NWN.NWScript;
 
@@ -20,6 +21,7 @@ namespace SOO2.Game.Server.Item
         private readonly IRuneService _rune;
         private readonly IDataContext _db;
         private readonly IColorTokenService _color;
+        private readonly ISkillService _skill;
 
         public Rune(
             INWScript script,
@@ -27,7 +29,8 @@ namespace SOO2.Game.Server.Item
             IItemService item,
             IRuneService rune,
             IDataContext db,
-            IColorTokenService color)
+            IColorTokenService color,
+            ISkillService skill)
         {
             _perk = perk;
             _item = item;
@@ -35,6 +38,7 @@ namespace SOO2.Game.Server.Item
             _rune = rune;
             _db = db;
             _color = color;
+            _skill = skill;
         }
 
         public CustomData StartUseItem(NWCreature user, NWItem item, NWObject target, Location targetLocation)
@@ -108,6 +112,21 @@ namespace SOO2.Game.Server.Item
 
             targetItem.RecommendedLevel += runeLevel;
             runeItem.Destroy();
+
+            SkillType skillType;
+            if (_item.ArmorBaseItemTypes.Contains(targetItem.BaseItemType))
+            {
+                skillType = SkillType.Armorsmith;
+            }
+            else if (_item.WeaponBaseItemTypes.Contains(targetItem.BaseItemType))
+            {
+                skillType = SkillType.Weaponsmith;
+            }
+            else return;
+
+            PCSkill pcSkill = _skill.GetPCSkill(player, skillType);
+            int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(400, runeLevel, pcSkill.Rank);
+            _skill.GiveSkillXP(player, skillType, xp);
         }
 
         public float Seconds(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)

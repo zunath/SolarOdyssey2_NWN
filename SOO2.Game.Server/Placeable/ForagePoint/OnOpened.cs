@@ -107,14 +107,14 @@ namespace SOO2.Game.Server.Placeable.ForagePoint
                         _.CreateItemOnObject(spawnItem.Resref, point.Object, spawnItem.Quantity);
                     }
 
-                    float xp = _skill.CalculateSkillAdjustedXP(50, level, rank);
+                    float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(50, level, rank);
                     _skill.GiveSkillXP(oPC, SkillType.Forage, (int)xp);
                 }
                 else
                 {
                     oPC.FloatingText(_color.SkillCheck("Search: *failure*: (" + roll + " vs. DC: " + dc + ")"));
 
-                    float xp = _skill.CalculateSkillAdjustedXP(10, level, rank);
+                    float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(10, level, rank);
                     _skill.GiveSkillXP(oPC, SkillType.Forage, (int)xp);
                 }
                 dc += _random.Random(3) + 1;

@@ -345,7 +345,29 @@ namespace SOO2.Game.Server.Service
         {
             CreatureSkillRegistration reg = GetCreatureSkillRegistration(creature.GlobalID);
             List<PlayerSkillRegistration> playerRegs = reg.GetAllRegistrations();
+            int partyLevel = reg.Registrations.OrderByDescending(o => o.Value.HighestRank).First().Value.HighestRank;
+            
+            // Identify base XP using delta between party level and enemy level.
+            float cr = creature.ChallengeRating;
+            int enemyLevel = (int)(cr * 5.0f);
+            int delta = enemyLevel - partyLevel;
+            float baseXP = 0;
 
+            if (delta >= 6) baseXP = 500;
+            else if (delta == 5) baseXP = 450;
+            else if (delta == 4) baseXP = 425;
+            else if (delta == 3) baseXP = 400;
+            else if (delta == 2) baseXP = 350;
+            else if (delta == 1) baseXP = 325;
+            else if (delta == 0) baseXP = 300;
+            else if (delta == -1) baseXP = 250;
+            else if (delta == -2) baseXP = 200;
+            else if (delta == -3) baseXP = 150;
+            else if (delta == -4) baseXP = 100;
+            else if (delta == -5) baseXP = 90;
+            else if (delta == -6) baseXP = 70;
+            
+            // Process each player skill registration.
             foreach (PlayerSkillRegistration preg in playerRegs)
             {
                 // Rules for acquiring skill XP:
@@ -357,13 +379,6 @@ namespace SOO2.Game.Server.Service
                         _.GetDistanceBetween(preg.Player.Object, creature.Object) > 30.0f)
                     continue;
                 
-                float cr = creature.ChallengeRating;
-                float baseXP = cr * 200 + _random.Random(20);
-                int trivialSkillLevel = (int)(cr * 5.0f);
-                float moduleXPAdjustment = _.GetLocalFloat(_.GetModule(), "SKILL_SYSTEM_MODULE_XP_MODIFIER");
-                if (moduleXPAdjustment <= 0.0f) moduleXPAdjustment = 1.0f;
-                baseXP = baseXP * moduleXPAdjustment;
-
                 List<Tuple<int, PlayerSkillPointTracker>> skillRegs = preg.GetSkillRegistrationPoints();
                 int totalPoints = preg.GetTotalSkillRegistrationPoints();
                 bool receivesMartialArtsPenalty = CheckForMartialArtsPenalty(skillRegs);
@@ -373,13 +388,12 @@ namespace SOO2.Game.Server.Service
                 {
                     int skillID = skreg.Item1;
                     int skillRank = GetPCSkillByID(preg.Player.GlobalID, skillID).Rank;
-
-                    if (skillRank >= trivialSkillLevel) continue;
                     
                     int points = skreg.Item2.Points;
                     float percentage = points / (float)totalPoints;
-                    float adjustedXP = baseXP * percentage;
-                    adjustedXP = CalculateSkillAdjustedXP(adjustedXP, skreg.Item2.RegisteredLevel, skillRank);
+                    float skillLDP = CalculatePartyLevelDifferencePenalty(partyLevel, skillRank);
+                    float adjustedXP = baseXP * percentage * skillLDP;
+                    adjustedXP = CalculateRegisteredSkillLevelAdjustedXP(adjustedXP, skreg.Item2.RegisteredLevel, skillRank);
 
                     // Penalty to martial arts XP for using a shield.
                     if (skillID == (int)SkillType.MartialArts && receivesMartialArtsPenalty)
@@ -408,23 +422,32 @@ namespace SOO2.Game.Server.Service
                 if (totalPoints <= 0) continue;
 
                 int armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.LightArmor).Rank;
+                float armorLDP = CalculatePartyLevelDifferencePenalty(partyLevel, armorRank);
                 float percent = lightArmorPoints / (float)totalPoints;
 
-                if (armorRank < trivialSkillLevel)
-                {
-                    GiveSkillXP(preg.Player, SkillType.LightArmor, (int)(armorXP * percent));
-                }
-
+                GiveSkillXP(preg.Player, SkillType.LightArmor, (int)(armorXP * percent * armorLDP));
+                
                 armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.HeavyArmor).Rank;
+                armorLDP = CalculatePartyLevelDifferencePenalty(partyLevel, armorRank);
                 percent = heavyArmorPoints / (float)totalPoints;
 
-                if (armorRank < trivialSkillLevel)
-                {
-                    GiveSkillXP(preg.Player, SkillType.HeavyArmor, (int)(armorXP * percent));
-                }
+                GiveSkillXP(preg.Player, SkillType.HeavyArmor, (int)(armorXP * percent * armorLDP));
             }
 
             _state.CreatureSkillRegistrations.Remove(creature.GlobalID);
+        }
+
+        private float CalculatePartyLevelDifferencePenalty(int highestSkillRank, int skillRank)
+        {
+            int levelDifference = highestSkillRank - skillRank;
+            float levelDifferencePenalty = 1.0f;
+            if (levelDifference > 10)
+            {
+                levelDifferencePenalty = 1.0f - 0.05f * (levelDifference - 10);
+                if (levelDifferencePenalty < 0.20f) levelDifferencePenalty = 0.20f;
+            }
+
+            return levelDifferencePenalty;
         }
 
         private bool CheckForMartialArtsPenalty(List<Tuple<int, PlayerSkillPointTracker>> skillRegs)
@@ -484,10 +507,10 @@ namespace SOO2.Game.Server.Service
             RemoveWeaponPenalties(oItem);
         }
 
-        public float CalculateSkillAdjustedXP(float xp, int registeredLevel, int skillRank)
+        public float CalculateRegisteredSkillLevelAdjustedXP(float xp, int registeredLevel, int skillRank)
         {
             int delta = registeredLevel - skillRank;
-            float levelAdjustment = 0.2f * delta;
+            float levelAdjustment = 0.14f * delta;
 
             if (levelAdjustment > 1.0f) levelAdjustment = 1.0f;
             if (levelAdjustment < -1.0f) levelAdjustment = -1.0f;
@@ -754,8 +777,8 @@ namespace SOO2.Game.Server.Service
             if (oTarget.ObjectType != OBJECT_TYPE_CREATURE) return;
             
             CreatureSkillRegistration reg = GetCreatureSkillRegistration(oTarget.GlobalID);
-
-            reg.AddSkillRegistrationPoint(oPC, skillID, oSpellOrigin.RecommendedLevel);
+            PCSkill pcSkill = GetPCSkill(oPC, skillID);
+            reg.AddSkillRegistrationPoint(oPC, skillID, oSpellOrigin.RecommendedLevel, pcSkill.Rank);
 
             // Add a registration point if a shield is equipped. This is to prevent players from swapping out a weapon for a shield
             // just before they kill an enemy.
@@ -764,7 +787,8 @@ namespace SOO2.Game.Server.Service
                 oShield.BaseItemType == BASE_ITEM_LARGESHIELD ||
                 oShield.BaseItemType == BASE_ITEM_TOWERSHIELD)
             {
-                reg.AddSkillRegistrationPoint(oPC, (int)SkillType.Shields, oShield.RecommendedLevel);
+                pcSkill = GetPCSkill(oPC, SkillType.Shields);
+                reg.AddSkillRegistrationPoint(oPC, (int)SkillType.Shields, oShield.RecommendedLevel, pcSkill.Rank);
             }
 
             if (_random.Random(100) + 1 <= 3)
@@ -783,7 +807,7 @@ namespace SOO2.Game.Server.Service
             if (pcSkill == null) return;
             
             CreatureSkillRegistration reg = GetCreatureSkillRegistration(npc.GlobalID);
-            reg.AddSkillRegistrationPoint(pc, skillID, pcSkill.Rank);
+            reg.AddSkillRegistrationPoint(pc, skillID, pcSkill.Rank, pcSkill.Rank);
         }
 
         public void RegisterPCToNPCForSkill(NWPlayer pc, NWCreature npc, SkillType skillType)

@@ -77,7 +77,7 @@ namespace SOO2.Game.Server.Item
             PCSkill pcSkill = _skill.GetPCSkill((NWPlayer)user, SkillType.Farming);
             if (pcSkill == null) return;
 
-            int xp = (int)_skill.CalculateSkillAdjustedXP(100, growingPlant.Plant.Level, pcSkill.Rank);
+            int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, growingPlant.Plant.Level, pcSkill.Rank);
             _skill.GiveSkillXP((NWPlayer)user, SkillType.Farming, xp);
         }
 

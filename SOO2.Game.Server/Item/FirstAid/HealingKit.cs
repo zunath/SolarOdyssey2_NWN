@@ -63,7 +63,7 @@ namespace SOO2.Game.Server.Item.FirstAid
             _.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, regeneration, target.Object, duration);
             user.SendMessage("You successfully treat " + target.Name + "'s wounds.");
 
-            int xp = (int)_skill.CalculateSkillAdjustedXP(100, item.RecommendedLevel, skill.Rank);
+            int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, item.RecommendedLevel, skill.Rank);
             _skill.GiveSkillXP((NWPlayer)user, SkillType.FirstAid, xp);
         }
 

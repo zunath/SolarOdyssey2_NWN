@@ -10,7 +10,7 @@ namespace SOO2.Game.Server.Service.Contracts
         int SkillCap { get; }
 
         void ApplyStatChanges(NWPlayer player, NWItem ignoreItem);
-        float CalculateSkillAdjustedXP(float xp, int registeredLevel, int skillRank);
+        float CalculateRegisteredSkillLevelAdjustedXP(float xp, int registeredLevel, int skillRank);
         List<SkillCategory> GetActiveCategories();
         PCSkill GetPCSkill(NWPlayer player, int skillID);
         PCSkill GetPCSkill(NWPlayer player, SkillType skill);

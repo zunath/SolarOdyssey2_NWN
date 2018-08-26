@@ -191,7 +191,7 @@ namespace SOO2.Game.Server.Placeable.Resource
 
                 float deltaModifier = CalculateXPDeltaModifier(difficultyRating, skill.Rank);
                 float baseXP = (100 + _random.Random(20)) * deltaModifier;
-                int xp = (int)_skill.CalculateSkillAdjustedXP(baseXP, oWeapon.RecommendedLevel, skill.Rank);
+                int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(baseXP, oWeapon.RecommendedLevel, skill.Rank);
                 _skill.GiveSkillXP(oPC, skillType, xp);
 
                 oPC.DeleteLocalInt("RESOURCE_ATTEMPT_FAILURE_COUNT");

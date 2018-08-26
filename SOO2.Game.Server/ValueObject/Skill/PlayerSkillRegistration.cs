@@ -8,6 +8,7 @@ namespace SOO2.Game.Server.ValueObject.Skill
     {
         public NWPlayer Player { get; private set; }
         private Dictionary<int, PlayerSkillPointTracker> SkillPoints { get; set; }
+        public int HighestRank { get; private set; }
 
         public PlayerSkillRegistration(NWPlayer oPC)
         {
@@ -16,8 +17,9 @@ namespace SOO2.Game.Server.ValueObject.Skill
         }
 
 
-        public void AddSkillPointRegistration(int skillID, int level)
+        public void AddSkillPointRegistration(int skillID, int weaponLevel, int skillRank)
         {
+            if (skillRank > HighestRank) HighestRank = skillRank;
             PlayerSkillPointTracker tracker;
 
             if (!SkillPoints.ContainsKey(skillID))
@@ -28,10 +30,10 @@ namespace SOO2.Game.Server.ValueObject.Skill
 
             tracker.Points++;
 
-            // Always take the lowest level.
-            if (tracker.RegisteredLevel == -1 || level < tracker.RegisteredLevel)
+            // Always take the lowest weapon level.
+            if (tracker.RegisteredLevel == -1 || weaponLevel < tracker.RegisteredLevel)
             {
-                tracker.RegisteredLevel = level;
+                tracker.RegisteredLevel = weaponLevel;
             }
 
             SkillPoints[skillID] = tracker;

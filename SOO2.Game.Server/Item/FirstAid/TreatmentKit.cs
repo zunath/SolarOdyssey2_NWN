@@ -55,7 +55,7 @@ namespace SOO2.Game.Server.Item.FirstAid
             user.SendMessage("You successfully treat " + target.Name + "'s infection.");
 
             PCSkill skill = _skill.GetPCSkill((NWPlayer)user, SkillType.FirstAid);
-            int xp = (int)_skill.CalculateSkillAdjustedXP(100, item.RecommendedLevel, skill.Rank);
+            int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, item.RecommendedLevel, skill.Rank);
             _skill.GiveSkillXP((NWPlayer)user, SkillType.FirstAid, xp);
         }
 

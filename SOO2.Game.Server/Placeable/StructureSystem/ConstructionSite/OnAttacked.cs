@@ -141,7 +141,7 @@ namespace SOO2.Game.Server.Placeable.StructureSystem.ConstructionSite
 
                 if (entity.StructureBlueprint.GivesSkillXP)
                 {
-                    int xp = (int)_skill.CalculateSkillAdjustedXP(100, 0, rank);
+                    int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, 0, rank);
                     _skill.GiveSkillXP(oPC, SkillType.Construction, xp);
                 }
 

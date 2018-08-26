@@ -328,7 +328,7 @@ namespace SOO2.Game.Server.Service
                 xpModifier = 0.2f;
             }
 
-            float xp = _skill.CalculateSkillAdjustedXP(250, blueprint.Level, pcSkill.Rank) * xpModifier;
+            float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(250, blueprint.Level, pcSkill.Rank) * xpModifier;
             tempStorage.Destroy();
             _skill.GiveSkillXP(oPC, blueprint.SkillID, (int)xp);
 

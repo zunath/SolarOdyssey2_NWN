@@ -69,7 +69,7 @@ namespace SOO2.Game.Server.Placeable.CraftingForge
                 _.CreateItemOnObject(ingotResref, player.Object);
             }
 
-            int xp = (int)_skill.CalculateSkillAdjustedXP(100, level, pcSkill.Rank);
+            int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, level, pcSkill.Rank);
             _skill.GiveSkillXP(player, SkillType.Engineering, xp);
 
             if (_random.Random(100) + 1 <= 3)

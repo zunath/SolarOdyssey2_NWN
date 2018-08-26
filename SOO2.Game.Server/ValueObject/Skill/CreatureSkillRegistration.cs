@@ -29,10 +29,10 @@ namespace SOO2.Game.Server.ValueObject.Skill
             }
         }
 
-        public void AddSkillRegistrationPoint(NWPlayer oPC, int skillID, int level)
+        public void AddSkillRegistrationPoint(NWPlayer oPC, int skillID, int weaponLevel, int skillRank)
         {
             PlayerSkillRegistration reg = GetRegistration(oPC);
-            reg.AddSkillPointRegistration(skillID, level);
+            reg.AddSkillPointRegistration(skillID, weaponLevel, skillRank);
         }
 
         public List<PlayerSkillRegistration> GetAllRegistrations()
