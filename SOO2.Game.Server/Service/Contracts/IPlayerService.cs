@@ -13,5 +13,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void SaveCharacter(NWPlayer player);
         void SaveLocation(NWPlayer player);
         void ShowMOTD(NWPlayer player);
+        void OnModuleUseFeat();
     }
 }

@@ -11,6 +11,7 @@ using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
 using SOO2.Game.Server.ValueObject.Structure;
 using static NWN.NWScript;
+using Object = NWN.Object;
 
 namespace SOO2.Game.Server.Service
 {
@@ -36,6 +37,8 @@ namespace SOO2.Game.Server.Service
         private readonly IColorTokenService _color;
         private readonly IItemService _item;
         private readonly IPlayerService _player;
+        private readonly INWNXEvents _nwnxEvents;
+        private readonly IDialogService _dialog;
 
         public StructureService(
             INWScript script,
@@ -43,7 +46,9 @@ namespace SOO2.Game.Server.Service
             INWNXChat nwnxChat,
             IColorTokenService color,
             IItemService item,
-            IPlayerService player)
+            IPlayerService player,
+            INWNXEvents nwnxEvents,
+            IDialogService dialog)
         {
             _ = script;
             _db = db;
@@ -51,6 +56,8 @@ namespace SOO2.Game.Server.Service
             _color = color;
             _item = item;
             _player = player;
+            _nwnxEvents = nwnxEvents;
+            _dialog = dialog;
         }
 
         public void OnModuleLoad()
@@ -1190,6 +1197,29 @@ namespace SOO2.Game.Server.Service
 
             sender.SetLocalString("NEW_CONTAINER_NAME", text);
             sender.SendMessage("New container name received. Please press the 'Next' button in the conversation window.");
+        }
+
+        public void OnModuleUseFeat()
+        {
+            NWPlayer pc = NWPlayer.Wrap(Object.OBJECT_SELF);
+            Location targetLocation = _nwnxEvents.OnFeatUsed_GetTargetLocation();
+            int featID = _nwnxEvents.OnFeatUsed_GetFeatID();
+
+            if (featID != (int) CustomFeatType.StructureTool) return;
+
+
+            bool isMovingStructure = IsPCMovingStructure(pc);
+
+            if (isMovingStructure)
+            {
+                MoveStructure(pc, targetLocation);
+            }
+            else
+            {
+                pc.SetLocalLocation("BUILD_TOOL_LOCATION_TARGET", targetLocation);
+                _dialog.StartConversation(pc, pc, "BuildToolMenu");
+            }
+
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SOO2.Game.Server.Event.Trigger
             string triggerID = _.GetLocalString(Object.OBJECT_SELF, "TRIGGER_ID");
             if (string.IsNullOrWhiteSpace(triggerID))
             {
-                triggerID = Guid.NewGuid().ToString();
+                triggerID = Guid.NewGuid().ToString("N");
                 _.SetLocalString(Object.OBJECT_SELF, "TRIGGER_ID", triggerID);
             }
 

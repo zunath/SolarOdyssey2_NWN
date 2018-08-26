@@ -187,7 +187,7 @@ namespace SOO2.Game.Server.Service
                                IPerk perk,
                                CooldownCategory cooldown)
         {
-            string spellUUID = Guid.NewGuid().ToString();
+            string spellUUID = Guid.NewGuid().ToString("N");
             int itemBonus = pc.CastingSpeed;
             float baseCastingTime = perk.CastingTime(pc, (float)entity.BaseCastingTime);
             float castingTime = baseCastingTime;
@@ -311,7 +311,7 @@ namespace SOO2.Game.Server.Service
 
         private void HandleQueueWeaponSkill(NWPlayer pc, Data.Entities.Perk entity, IPerk ability)
         {
-            string queueUUID = Guid.NewGuid().ToString();
+            string queueUUID = Guid.NewGuid().ToString("N");
             pc.SetLocalInt("ACTIVE_WEAPON_SKILL", entity.PerkID);
             pc.SetLocalString("ACTIVE_WEAPON_SKILL_UUID", queueUUID);
             pc.SendMessage("Weapon skill '" + entity.Name + "' queued for next attack.");

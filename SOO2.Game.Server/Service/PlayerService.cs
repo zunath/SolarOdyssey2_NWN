@@ -4,10 +4,12 @@ using NWN;
 using SOO2.Game.Server.Data;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
 using static NWN.NWScript;
+using Object = NWN.Object;
 
 namespace SOO2.Game.Server.Service
 {
@@ -19,6 +21,10 @@ namespace SOO2.Game.Server.Service
         private readonly IColorTokenService _color;
         private readonly INWNXCreature _nwnxCreature;
         private readonly ISkillService _skill;
+        private readonly INWNXPlayer _player;
+        private readonly INWNXPlayerQuickBarSlot _qbs;
+        private readonly IDialogService _dialog;
+        private readonly INWNXEvents _nwnxEvents;
 
         public PlayerService(
             INWScript script, 
@@ -26,7 +32,11 @@ namespace SOO2.Game.Server.Service
             IDeathService death, 
             IColorTokenService color,
             INWNXCreature nwnxCreature,
-            ISkillService skill)
+            ISkillService skill,
+            INWNXPlayer player,
+            INWNXPlayerQuickBarSlot qbs,
+            IDialogService dialog,
+            INWNXEvents nwnxEvents)
         {
             _ = script;
             _db = db;
@@ -34,6 +44,10 @@ namespace SOO2.Game.Server.Service
             _color = color;
             _nwnxCreature = nwnxCreature;
             _skill = skill;
+            _player = player;
+            _qbs = qbs;
+            _dialog = dialog;
+            _nwnxEvents = nwnxEvents;
         }
 
         public void InitializePlayer(NWPlayer player)
@@ -48,7 +62,6 @@ namespace SOO2.Game.Server.Service
                 player.DestroyAllInventoryItems();
                 player.InitializePlayer();
                 
-                _.CreateItemOnObject("open_rest_menu", player.Object);
                 _.AssignCommand(player.Object, () => _.TakeGoldFromCreature(_.GetGold(player.Object), player.Object, 1));
 
                 player.DelayCommand(() =>
@@ -98,6 +111,8 @@ namespace SOO2.Game.Server.Service
                 _nwnxCreature.AddFeatByLevel(player, FEAT_WEAPON_PROFICIENCY_EXOTIC, 1);
                 _nwnxCreature.AddFeatByLevel(player, FEAT_WEAPON_PROFICIENCY_MARTIAL, 1);
                 _nwnxCreature.AddFeatByLevel(player, FEAT_WEAPON_PROFICIENCY_SIMPLE, 1);
+                _nwnxCreature.AddFeatByLevel(player, (int) CustomFeatType.StructureTool, 1);
+                _nwnxCreature.AddFeatByLevel(player, (int) CustomFeatType.OpenRestMenu, 1);
 
                 for (int iCurSkill = 1; iCurSkill <= 27; iCurSkill++)
                 {
@@ -308,7 +323,21 @@ namespace SOO2.Game.Server.Service
 
         private void InitializeHotBar(NWPlayer player)
         {
+            var openRestMenu = _qbs.UseFeat((int)CustomFeatType.OpenRestMenu);
+            var structure = _qbs.UseFeat((int) CustomFeatType.StructureTool);
+            
+            _player.SetQuickBarSlot(player, 0, openRestMenu);
+            _player.SetQuickBarSlot(player, 1, structure);
+        }
 
+        public void OnModuleUseFeat()
+        {
+            NWPlayer pc = NWPlayer.Wrap(Object.OBJECT_SELF);
+            int featID = _nwnxEvents.OnFeatUsed_GetFeatID();
+
+            if (featID != (int)CustomFeatType.OpenRestMenu) return;
+            pc.ClearAllActions();
+            _dialog.StartConversation(pc, pc, "RestMenu");
         }
 
     }

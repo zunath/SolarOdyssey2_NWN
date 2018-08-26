@@ -15,6 +15,8 @@
         Recover = 1126,
         HolyShot = 1127,
         Meditate = 1128,
-        Provoke = 1129
+        Provoke = 1129,
+        StructureTool = 1130,
+        OpenRestMenu = 1131
     }
 }

@@ -19,8 +19,8 @@ namespace SOO2.Game.Server.NWNX
             QuickBarSlot qbs = new QuickBarSlot
             {
                 ObjectType = (int)type,
-                Item = null,
-                SecondaryItem = null,
+                Item = NWItem.Wrap(new Object()),
+                SecondaryItem = NWItem.Wrap(new Object()),
                 MultiClass = 0,
                 Resref = "",
                 CommandLabel = "",
@@ -30,7 +30,7 @@ namespace SOO2.Game.Server.NWNX
                 MetaType = 0,
                 DomainLevel = 0,
                 AssociateType = 0,
-                Associate = null
+                Associate = NWObject.Wrap(new Object())
             };
             
             return qbs;

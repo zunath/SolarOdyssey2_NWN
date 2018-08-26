@@ -68,7 +68,7 @@ namespace SOO2.Game.Server.Service
 
         public string RegisterProcessingEvent(Action action)
         {
-            string globalID = Guid.NewGuid().ToString();
+            string globalID = Guid.NewGuid().ToString("N");
             _state.ProcessingEvents.Add(globalID, action);
             return globalID;
         }

@@ -56,5 +56,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void TransferTerritoryOwnership(NWPlaceable flag, string newOwnerPlayerID);
         bool WillBlueprintOverlapWithExistingFlags(Location location, int blueprintID);
         void DeleteContainerItemByGlobalID(string globalID);
+        void OnModuleUseFeat();
     }
 }

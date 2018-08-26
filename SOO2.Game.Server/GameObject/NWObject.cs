@@ -33,24 +33,23 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
-                NWItem database = NWItem.Wrap(_.GetItemPossessedBy(Object, "database"));
-                string globalID = database.GetLocalString("PC_ID_NUMBER");
-                return database.IsValid && !string.IsNullOrWhiteSpace(globalID);
+                if (!IsPlayer) return false;
+
+                string globalID = _.GetTag(Object);
+                return !string.IsNullOrWhiteSpace(globalID);
             }
         }
 
         public virtual void InitializePlayer()
         {
             if (IsInitializedAsPlayer || !IsPlayer) return;
+            
+            string guid = Guid.NewGuid().ToString("N");
 
-            NWItem database = NWItem.Wrap(_.GetItemPossessedBy(Object, "database"));
-            if (!database.IsValid)
-            {
-                database = NWItem.Wrap(_.CreateItemOnObject("database", Object));
-            }
+            Console.WriteLine("Player ID = " + guid);
+            _.SetTag(Object, guid);
+            Console.WriteLine("Player tag =" + _.GetTag(Object));
 
-            string guid = Guid.NewGuid().ToString();
-            database.SetLocalString("PC_ID_NUMBER", guid);
         }
 
         public virtual string GlobalID
@@ -68,15 +67,14 @@ namespace SOO2.Game.Server.GameObject
                         throw new Exception("Must call Initialize() before getting GlobalID");
                     }
 
-                    NWItem database = NWItem.Wrap(_.GetItemPossessedBy(Object, "database"));
-                    globalID = database.GetLocalString("PC_ID_NUMBER");
+                    globalID = _.GetTag(Object);
                 }
                 else
                 {
                     globalID = _.GetLocalString(Object, "GLOBAL_ID");
                     if (string.IsNullOrWhiteSpace(globalID))
                     {
-                        globalID = Guid.NewGuid().ToString();
+                        globalID = Guid.NewGuid().ToString("N");
                         _.SetLocalString(Object, "GLOBAL_ID", globalID);
                     }
                 }

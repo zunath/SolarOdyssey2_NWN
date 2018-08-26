@@ -389,10 +389,8 @@
     <Compile Include="Item\Food.cs" />
     <Compile Include="Item\GenericStartConversation.cs" />
     <Compile Include="Item\Contracts\IActionItem.cs" />
-    <Compile Include="Item\OpenRestMenu.cs" />
     <Compile Include="Item\Repair\RepairKit.cs" />
     <Compile Include="Item\Shovel.cs" />
-    <Compile Include="Item\StructureTool.cs" />
     <Compile Include="Item\WaterJug.cs" />
     <Compile Include="Item\XPTome.cs" />
     <Compile Include="NWNX\Contracts\INWNXChat.cs" />
