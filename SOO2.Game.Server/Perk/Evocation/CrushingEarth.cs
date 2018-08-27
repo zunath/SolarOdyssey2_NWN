@@ -54,7 +54,7 @@ namespace SOO2.Game.Server.Perk.Evocation
             int level = _perk.GetPCPerkLevel(oPC, PerkType.CrushingEarth);
             int damage;
             float stunLength = 0.0f;
-            int evocationBonus = oPC.EvocationBonus;
+            int evocationBonus = oPC.EffectiveEvocationBonus;
 
             switch (level)
             {

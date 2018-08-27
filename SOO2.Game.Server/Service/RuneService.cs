@@ -14,14 +14,17 @@ namespace SOO2.Game.Server.Service
         private readonly INWScript _;
         private readonly IColorTokenService _color;
         private readonly INWNXDamage _nwnxDamage;
+        private readonly ISkillService _skill;
 
         public RuneService(INWScript script,
             IColorTokenService color,
-            INWNXDamage nwnxDamage)
+            INWNXDamage nwnxDamage,
+            ISkillService skill)
         {
             _ = script;
             _color = color;
             _nwnxDamage = nwnxDamage;
+            _skill = skill;
         }
 
         public CustomItemPropertyType GetRuneType(NWItem item)
@@ -150,7 +153,22 @@ namespace SOO2.Game.Server.Service
             var data = _nwnxDamage.GetDamageEventData();
             NWObject damager = data.Damager;
             NWItem weapon = NWItem.Wrap(_.GetLastWeaponUsed(damager.Object));
-            data.Base += weapon.DamageBonus;
+            int damageBonus = weapon.DamageBonus;
+
+            if (damager.IsPlayer)
+            {
+                NWPlayer player = NWPlayer.Wrap(damager.Object);
+                int itemLevel = weapon.RecommendedLevel;
+                SkillType skill = _skill.GetSkillTypeForItem(weapon);
+                int rank = _skill.GetPCSkill(player, skill).Rank;
+                int delta = itemLevel - rank;
+                if (delta >= 1) damageBonus--;
+                damageBonus = damageBonus - delta / 5;
+
+                if (damageBonus <= 0) damageBonus = 0;
+            }
+
+            data.Base += damageBonus;
             _nwnxDamage.SetDamageEventData(data);
         }
     }

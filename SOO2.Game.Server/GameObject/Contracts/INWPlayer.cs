@@ -3,5 +3,6 @@
     public interface INWPlayer
     {
         bool IsBusy { get; set; }
+        int EffectiveCastingSpeed { get; }
     }
 }

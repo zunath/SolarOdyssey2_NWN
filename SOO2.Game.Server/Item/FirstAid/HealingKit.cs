@@ -41,14 +41,16 @@ namespace SOO2.Game.Server.Item.FirstAid
 
         public void ApplyEffects(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)
         {
-            target.RemoveEffect(EFFECT_TYPE_REGENERATE);
-            PCSkill skill = _skill.GetPCSkill((NWPlayer)user, SkillType.FirstAid);
-            int luck = _perk.GetPCPerkLevel((NWPlayer)user, PerkType.Lucky);
-            int perkDurationBonus = _perk.GetPCPerkLevel((NWPlayer)user, PerkType.HealingKitExpert) * 6 + (luck * 2);
-            float duration = 30.0f + (skill.Rank * 0.4f) + perkDurationBonus;
-            int restoreAmount = 1 + item.GetLocalInt("HEALING_BONUS") + user.FirstAidBonus;
+            NWPlayer player = NWPlayer.Wrap(user.Object);
 
-            int perkBlastBonus = _perk.GetPCPerkLevel((NWPlayer)user, PerkType.ImmediateImprovement);
+            target.RemoveEffect(EFFECT_TYPE_REGENERATE);
+            PCSkill skill = _skill.GetPCSkill(player, SkillType.FirstAid);
+            int luck = _perk.GetPCPerkLevel(player, PerkType.Lucky);
+            int perkDurationBonus = _perk.GetPCPerkLevel(player, PerkType.HealingKitExpert) * 6 + (luck * 2);
+            float duration = 30.0f + (skill.Rank * 0.4f) + perkDurationBonus;
+            int restoreAmount = 1 + item.GetLocalInt("HEALING_BONUS") + player.EffectiveFirstAidBonus;
+
+            int perkBlastBonus = _perk.GetPCPerkLevel(player, PerkType.ImmediateImprovement);
             if (perkBlastBonus > 0)
             {
                 int blastHeal = restoreAmount * perkBlastBonus;
@@ -61,10 +63,10 @@ namespace SOO2.Game.Server.Item.FirstAid
 
             Effect regeneration = _.EffectRegenerate(restoreAmount, 6.0f);
             _.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, regeneration, target.Object, duration);
-            user.SendMessage("You successfully treat " + target.Name + "'s wounds.");
+            player.SendMessage("You successfully treat " + target.Name + "'s wounds.");
 
             int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, item.RecommendedLevel, skill.Rank);
-            _skill.GiveSkillXP((NWPlayer)user, SkillType.FirstAid, xp);
+            _skill.GiveSkillXP(player, SkillType.FirstAid, xp);
         }
 
         public float Seconds(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)

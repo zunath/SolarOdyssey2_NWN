@@ -190,7 +190,7 @@ namespace SOO2.Game.Server.Service
                                CooldownCategory cooldown)
         {
             string spellUUID = Guid.NewGuid().ToString("N");
-            int itemBonus = pc.CastingSpeed;
+            int itemBonus = pc.EffectiveCastingSpeed;
             float baseCastingTime = perk.CastingTime(pc, (float)entity.BaseCastingTime);
             float castingTime = baseCastingTime;
 

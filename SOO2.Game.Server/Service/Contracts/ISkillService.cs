@@ -32,5 +32,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void RegisterPCToNPCForSkill(NWPlayer pc, NWCreature npc, int skillID);
         void RegisterPCToNPCForSkill(NWPlayer pc, NWCreature npc, SkillType skillType);
         void ToggleSkillLock(string playerID, int skillID);
+        SkillType GetSkillTypeForItem(NWItem item);
     }
 }

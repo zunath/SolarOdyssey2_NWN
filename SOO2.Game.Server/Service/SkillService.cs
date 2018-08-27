@@ -23,7 +23,8 @@ namespace SOO2.Game.Server.Service
         private const float SecondaryIncrease = 0.1f;
         private const float TertiaryIncrease = 0.05f;
         private const int MaxAttributeBonus = 70;
-        private const string IPPenaltyTag = "SKILL_PENALTY_ITEM_PROPERTY";
+        private const string IPWeaponPenaltyTag = "SKILL_PENALTY_WEAPON_ITEM_PROPERTY";
+        private const string IPEquipmentPenaltyTag = "SKILL_PENALTY_EQUIPMENT_ITEM_PROPERTY";
 
 
         private readonly IDataContext _db;
@@ -33,7 +34,6 @@ namespace SOO2.Game.Server.Service
         private readonly INWNXCreature _nwnxCreature;
         private readonly IPerkService _perk;
         private readonly IBiowareXP2 _biowareXP2;
-        private readonly ICustomEffectService _customEffect;
         private readonly IEnmityService _enmity;
         private readonly AppState _state;
 
@@ -44,7 +44,6 @@ namespace SOO2.Game.Server.Service
             INWNXCreature nwnxCreature,
             IPerkService perk,
             IBiowareXP2 biowareXP2,
-            ICustomEffectService customEffect,
             IEnmityService enmity,
             AppState state)
         {
@@ -55,7 +54,6 @@ namespace SOO2.Game.Server.Service
             _nwnxCreature = nwnxCreature;
             _perk = perk;
             _biowareXP2 = biowareXP2;
-            _customEffect = customEffect;
             _enmity = enmity;
             _state = state;
         }
@@ -148,7 +146,7 @@ namespace SOO2.Game.Server.Service
             _nwnxCreature.SetRawAbilityScore(player, ABILITY_CHARISMA, (int)chaBonus + pcEntity.CHABase);
 
             // Apply AC
-            int ac = CalculateItemAC(player, ignoreItem) + _customEffect.CalculateEffectAC(player);
+            int ac = player.CalculateEffectiveArmorClass(ignoreItem);
             _nwnxCreature.SetBaseAC(player, ac);
 
             // Apply BAB
@@ -163,7 +161,7 @@ namespace SOO2.Game.Server.Service
             {
                 NWItem item = NWItem.Wrap(_.GetItemInSlot(slot, player.Object));
                 if (item.Equals(ignoreItem)) continue;
-                
+
                 equippedItemHPBonus += item.HPBonus;
                 equippedItemManaBonus += item.ManaBonus;
             }
@@ -201,12 +199,12 @@ namespace SOO2.Game.Server.Service
 
         public void RegisterPCToAllCombatTargetsForSkill(NWPlayer player, SkillType skillType)
         {
-            int skillID = (int) skillType;
+            int skillID = (int)skillType;
             if (!player.IsPlayer) return;
             if (skillID <= 0) return;
 
             List<NWPlayer> members = player.GetPartyMembers();
-            
+
             int nth = 1;
             NWCreature creature = NWCreature.Wrap(_.GetNearestCreature(CREATURE_TYPE_IS_ALIVE, 1, player.Object, nth, CREATURE_TYPE_PLAYER_CHAR, 0));
             while (creature.IsValid)
@@ -223,7 +221,7 @@ namespace SOO2.Game.Server.Service
                         break;
                     }
                 }
-                
+
                 nth++;
                 creature = NWCreature.Wrap(_.GetNearestCreature(CREATURE_TYPE_IS_ALIVE, 1, player.Object, nth, CREATURE_TYPE_PLAYER_CHAR, 0));
             }
@@ -266,13 +264,13 @@ namespace SOO2.Game.Server.Service
             while (skill.XP >= req.XP)
             {
                 skill.XP = skill.XP - req.XP;
-                
+
                 if (player.TotalSPAcquired < SkillCap)
                 {
                     player.UnallocatedSP++;
                     player.TotalSPAcquired++;
                 }
-                
+
                 skill.Rank++;
                 oPC.FloatingText("Your " + skill.Skill.Name + " skill level increased!");
                 req = _db.SkillXPRequirements.Single(x => x.SkillID == skillID && x.Rank == skill.Rank);
@@ -283,11 +281,13 @@ namespace SOO2.Game.Server.Service
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(slot, oPC.Object));
                     RemoveWeaponPenalties(item);
                     ApplyWeaponPenalties(oPC, NWItem.Wrap(new NWN.Object()));
+                    RemoveEquipmentPenalties(item);
+                    ApplyEquipmentPenalties(oPC, NWItem.Wrap(new NWN.Object()));
                 }
             }
-            
+
             _db.SaveChanges();
-            
+
             // Update player and apply stat changes only if a level up occurred.
             if (originalRank != skill.Rank)
             {
@@ -299,7 +299,7 @@ namespace SOO2.Game.Server.Service
 
         public PCSkill GetPCSkill(NWPlayer player, SkillType skill)
         {
-            return GetPCSkill(player, (int) skill);
+            return GetPCSkill(player, (int)skill);
         }
 
         public PCSkill GetPCSkill(NWPlayer player, int skillID)
@@ -346,7 +346,7 @@ namespace SOO2.Game.Server.Service
             CreatureSkillRegistration reg = GetCreatureSkillRegistration(creature.GlobalID);
             List<PlayerSkillRegistration> playerRegs = reg.GetAllRegistrations();
             int partyLevel = reg.Registrations.OrderByDescending(o => o.Value.HighestRank).First().Value.HighestRank;
-            
+
             // Identify base XP using delta between party level and enemy level.
             float cr = creature.ChallengeRating;
             int enemyLevel = (int)(cr * 5.0f);
@@ -366,7 +366,7 @@ namespace SOO2.Game.Server.Service
             else if (delta == -4) baseXP = 100;
             else if (delta == -5) baseXP = 90;
             else if (delta == -6) baseXP = 70;
-            
+
             // Process each player skill registration.
             foreach (PlayerSkillRegistration preg in playerRegs)
             {
@@ -375,10 +375,10 @@ namespace SOO2.Game.Server.Service
                 // Player must be in the same area as the creature that just died.
                 // Player must be within 30 meters of the creature that just died.
                 if (!preg.Player.IsValid ||
-                    preg.Player.Area.Resref != creature.Area.Resref ||    
+                    preg.Player.Area.Resref != creature.Area.Resref ||
                         _.GetDistanceBetween(preg.Player.Object, creature.Object) > 30.0f)
                     continue;
-                
+
                 List<Tuple<int, PlayerSkillPointTracker>> skillRegs = preg.GetSkillRegistrationPoints();
                 int totalPoints = preg.GetTotalSkillRegistrationPoints();
                 bool receivesMartialArtsPenalty = CheckForMartialArtsPenalty(skillRegs);
@@ -388,7 +388,7 @@ namespace SOO2.Game.Server.Service
                 {
                     int skillID = skreg.Item1;
                     int skillRank = GetPCSkillByID(preg.Player.GlobalID, skillID).Rank;
-                    
+
                     int points = skreg.Item2.Points;
                     float percentage = points / (float)totalPoints;
                     float skillLDP = CalculatePartyLevelDifferencePenalty(partyLevel, skillRank);
@@ -426,7 +426,7 @@ namespace SOO2.Game.Server.Service
                 float percent = lightArmorPoints / (float)totalPoints;
 
                 GiveSkillXP(preg.Player, SkillType.LightArmor, (int)(armorXP * percent * armorLDP));
-                
+
                 armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.HeavyArmor).Rank;
                 armorLDP = CalculatePartyLevelDifferencePenalty(partyLevel, armorRank);
                 percent = heavyArmorPoints / (float)totalPoints;
@@ -496,6 +496,7 @@ namespace SOO2.Game.Server.Service
             NWItem oItem = NWItem.Wrap(_.GetPCItemLastEquipped());
             ApplyStatChanges(oPC, null);
             ApplyWeaponPenalties(oPC, oItem);
+            ApplyEquipmentPenalties(oPC, oItem);
         }
 
         public void OnModuleItemUnequipped()
@@ -505,6 +506,7 @@ namespace SOO2.Game.Server.Service
             HandleGlovesUnequipEvent();
             ApplyStatChanges(oPC, oItem);
             RemoveWeaponPenalties(oItem);
+            RemoveEquipmentPenalties(oItem);
         }
 
         public float CalculateRegisteredSkillLevelAdjustedXP(float xp, int registeredLevel, int skillRank)
@@ -518,7 +520,7 @@ namespace SOO2.Game.Server.Service
             xp = xp + (xp * levelAdjustment);
             return xp;
         }
-        
+
         private void ForceEquipFistGlove(NWPlayer oPC)
         {
             oPC.DelayCommand(() =>
@@ -672,11 +674,12 @@ namespace SOO2.Game.Server.Service
             return true;
         }
 
-        private int GetWeaponSkillID(NWItem item)
+        public SkillType GetSkillTypeForItem(NWItem item)
         {
-            int skillID = -1;
+            SkillType skillType = SkillType.Unknown;
             int type = item.BaseItemType;
-            int[] oneHandedTypes = {
+            int[] oneHandedTypes = 
+            {
                 BASE_ITEM_BASTARDSWORD,
                 BASE_ITEM_BATTLEAXE,
                 BASE_ITEM_CLUB,
@@ -695,9 +698,10 @@ namespace SOO2.Game.Server.Service
                 BASE_ITEM_SHORTSWORD,
                 BASE_ITEM_SICKLE,
                 BASE_ITEM_WHIP
-        };
+            };
 
-            int[] twoHandedTypes = {
+            int[] twoHandedTypes = 
+            {
                 BASE_ITEM_DIREMACE,
                 BASE_ITEM_DWARVENWARAXE,
                 BASE_ITEM_GREATAXE,
@@ -709,44 +713,58 @@ namespace SOO2.Game.Server.Service
                 BASE_ITEM_SCYTHE,
                 BASE_ITEM_TRIDENT,
                 BASE_ITEM_WARHAMMER
-        };
+            };
 
-            int[] twinBladeTypes = {
+            int[] twinBladeTypes = 
+            {
                 BASE_ITEM_DOUBLEAXE,
                 BASE_ITEM_TWOBLADEDSWORD
-        };
+            };
 
-            int[] martialArtsTypes = {
+            int[] martialArtsTypes = 
+            {
                 BASE_ITEM_BRACER,
                 BASE_ITEM_GLOVES
-        };
+            };
 
-            int[] firearmTypes = {
+            int[] firearmTypes = 
+            {
                 BASE_ITEM_HEAVYCROSSBOW,
                 BASE_ITEM_LIGHTCROSSBOW,
                 BASE_ITEM_LONGBOW,
                 BASE_ITEM_SHORTBOW,
                 BASE_ITEM_ARROW,
                 BASE_ITEM_BOLT
-        };
+            };
 
-            int[] throwingTypes = {
+            int[] throwingTypes =
+            {
                 BASE_ITEM_GRENADE,
                 BASE_ITEM_SHURIKEN,
                 BASE_ITEM_SLING,
                 BASE_ITEM_THROWINGAXE,
                 BASE_ITEM_BULLET,
                 BASE_ITEM_DART
-        };
+            };
 
-            if (oneHandedTypes.Contains(type)) skillID = (int)SkillType.OneHanded;
-            else if (twoHandedTypes.Contains(type)) skillID = (int)SkillType.TwoHanded;
-            else if (twinBladeTypes.Contains(type)) skillID = (int)SkillType.TwinBlades;
-            else if (martialArtsTypes.Contains(type)) skillID = (int)SkillType.MartialArts;
-            else if (firearmTypes.Contains(type)) skillID = (int)SkillType.Firearms;
-            else if (throwingTypes.Contains(type)) skillID = (int)SkillType.Throwing;
+            int[] shieldTypes =
+            {
+                BASE_ITEM_SMALLSHIELD,
+                BASE_ITEM_LARGESHIELD,
+                BASE_ITEM_TOWERSHIELD
+            };
 
-            return skillID;
+            if (oneHandedTypes.Contains(type)) skillType = SkillType.OneHanded;
+            else if (twoHandedTypes.Contains(type)) skillType = SkillType.TwoHanded;
+            else if (twinBladeTypes.Contains(type)) skillType = SkillType.TwinBlades;
+            else if (martialArtsTypes.Contains(type)) skillType = SkillType.MartialArts;
+            else if (firearmTypes.Contains(type)) skillType = SkillType.Firearms;
+            else if (throwingTypes.Contains(type)) skillType = SkillType.Throwing;
+            else if (item.CustomItemType == CustomItemType.HeavyArmor) skillType = SkillType.HeavyArmor;
+            else if (item.CustomItemType == CustomItemType.LightArmor) skillType = SkillType.LightArmor;
+            else if (shieldTypes.Contains(type)) skillType = SkillType.Shields;
+
+            return skillType;
         }
 
 
@@ -771,11 +789,16 @@ namespace SOO2.Game.Server.Service
             NWItem oSpellOrigin = NWItem.Wrap(_.GetSpellCastItem());
             NWCreature oTarget = NWCreature.Wrap(_.GetSpellTargetObject());
 
-            int skillID = GetWeaponSkillID(oSpellOrigin);
-            if (skillID <= -1) return;
+            SkillType skillType = GetSkillTypeForItem(oSpellOrigin);
+
+            if (skillType == SkillType.Unknown ||
+                skillType == SkillType.LightArmor ||
+                skillType == SkillType.HeavyArmor ||
+                skillType == SkillType.Shields) return;
             if (oTarget.IsPlayer || oTarget.IsDM) return;
             if (oTarget.ObjectType != OBJECT_TYPE_CREATURE) return;
-            
+
+            int skillID = (int)skillType;
             CreatureSkillRegistration reg = GetCreatureSkillRegistration(oTarget.GlobalID);
             PCSkill pcSkill = GetPCSkill(oPC, skillID);
             reg.AddSkillRegistrationPoint(oPC, skillID, oSpellOrigin.RecommendedLevel, pcSkill.Rank);
@@ -805,14 +828,14 @@ namespace SOO2.Game.Server.Service
 
             PCSkill pcSkill = GetPCSkill(pc, skillID);
             if (pcSkill == null) return;
-            
+
             CreatureSkillRegistration reg = GetCreatureSkillRegistration(npc.GlobalID);
             reg.AddSkillRegistrationPoint(pc, skillID, pcSkill.Rank, pcSkill.Rank);
         }
 
         public void RegisterPCToNPCForSkill(NWPlayer pc, NWCreature npc, SkillType skillType)
         {
-            RegisterPCToNPCForSkill(pc, npc, (int) skillType);
+            RegisterPCToNPCForSkill(pc, npc, (int)skillType);
         }
 
         public void RegisterPCToAllCombatTargetsForSkill(NWPlayer pc, int skillID)
@@ -882,7 +905,13 @@ namespace SOO2.Game.Server.Service
             }
             if (!weapon.IsValid) return 0;
 
-            int weaponSkillID = GetWeaponSkillID(weapon);
+            SkillType itemSkill = GetSkillTypeForItem(weapon);
+            if (itemSkill == SkillType.Unknown ||
+                itemSkill == SkillType.LightArmor ||
+                itemSkill == SkillType.HeavyArmor ||
+                itemSkill == SkillType.Shields) return 0;
+
+            int weaponSkillID = (int)itemSkill;
             PCSkill skill = GetPCSkill(oPC, weaponSkillID);
             if (skill == null) return 0;
             int skillBAB = skill.Rank / 10;
@@ -939,46 +968,44 @@ namespace SOO2.Game.Server.Service
                     break;
             }
 
-            if (proficiencyPerk != PerkType.Unknown && 
+            if (proficiencyPerk != PerkType.Unknown &&
                 proficiencySkill != SkillType.Unknown)
             {
                 perkBAB += _perk.GetPCPerkLevel(oPC, proficiencyPerk);
             }
-            
+
             int equipmentBAB = 0;
             for (int x = 0; x < NUM_INVENTORY_SLOTS; x++)
             {
                 NWItem equipped = NWItem.Wrap(_.GetItemInSlot(x, oPC.Object));
-                equipmentBAB += equipped.BaseAttackBonus;
+
+                int itemLevel = equipped.RecommendedLevel;
+                SkillType equippedSkill = GetSkillTypeForItem(equipped);
+                int rank = GetPCSkill(oPC, equippedSkill).Rank;
+                int delta = itemLevel - rank;
+                int itemBAB = equipped.BaseAttackBonus;
+
+                if (delta >= 1) itemBAB--;
+                itemBAB = itemBAB - delta / 5;
+
+                if (itemBAB <= 0) itemBAB = 0;
+
+                equipmentBAB += itemBAB;
             }
 
             return 1 + skillBAB + perkBAB + equipmentBAB; // Note: Always add 1 to BAB. 0 will cause a crash in NWNX.
         }
 
-        private int CalculateItemAC(NWPlayer oPC, NWItem ignoreItem)
-        {
-            int ac = 0;
-            for (int slot = 0; slot < NUM_INVENTORY_SLOTS; slot++)
-            {
-                NWItem oItem = NWItem.Wrap(_.GetItemInSlot(slot, oPC.Object));
-                if (oItem.Equals(ignoreItem))
-                    continue;
-
-                if (oItem.IsValid)
-                {
-                    int itemAC = oItem.AC + oItem.CustomAC;
-
-                    ac += itemAC;
-                }
-            }
-            return ac;
-        }
-
         private void ApplyWeaponPenalties(NWPlayer oPC, NWItem oItem)
         {
-            int skillID = GetWeaponSkillID(oItem);
-            if (skillID <= 0) return;
+            SkillType skillType = GetSkillTypeForItem(oItem);
 
+            if (skillType == SkillType.Unknown ||
+                skillType == SkillType.HeavyArmor ||
+                skillType == SkillType.LightArmor ||
+                skillType == SkillType.Shields) return;
+
+            int skillID = (int)skillType;
             PCSkill pcSkill = GetPCSkill(oPC, skillID);
             if (pcSkill == null) return;
             int rank = pcSkill.Rank;
@@ -1018,24 +1045,24 @@ namespace SOO2.Game.Server.Service
             if (penalty == 99)
             {
                 ItemProperty noDamage = _.ItemPropertyNoDamage();
-                noDamage = _.TagItemProperty(noDamage, IPPenaltyTag);
+                noDamage = _.TagItemProperty(noDamage, IPWeaponPenaltyTag);
                 _biowareXP2.IPSafeAddItemProperty(oItem, noDamage, 0.0f, AddItemPropertyPolicy.ReplaceExisting, false, false);
                 penalty = 5; // Reset to 5 so that the following penalties apply.
             }
 
             // Decreased attack penalty
             ItemProperty ipPenalty = _.ItemPropertyAttackPenalty(penalty);
-            ipPenalty = _.TagItemProperty(ipPenalty, IPPenaltyTag);
+            ipPenalty = _.TagItemProperty(ipPenalty, IPWeaponPenaltyTag);
             _biowareXP2.IPSafeAddItemProperty(oItem, ipPenalty, 0.0f, AddItemPropertyPolicy.ReplaceExisting, false, false);
 
             // Decreased damage penalty
             ipPenalty = _.ItemPropertyDamagePenalty(penalty);
-            ipPenalty = _.TagItemProperty(ipPenalty, IPPenaltyTag);
+            ipPenalty = _.TagItemProperty(ipPenalty, IPWeaponPenaltyTag);
             _biowareXP2.IPSafeAddItemProperty(oItem, ipPenalty, 0.0f, AddItemPropertyPolicy.ReplaceExisting, false, false);
 
             // Decreased enhancement bonus penalty
             ipPenalty = _.ItemPropertyEnhancementPenalty(penalty);
-            ipPenalty = _.TagItemProperty(ipPenalty, IPPenaltyTag);
+            ipPenalty = _.TagItemProperty(ipPenalty, IPWeaponPenaltyTag);
             _biowareXP2.IPSafeAddItemProperty(oItem, ipPenalty, 0.0f, AddItemPropertyPolicy.ReplaceExisting, false, false);
 
             oPC.SendMessage("A penalty has been applied to your weapon '" + oItem.Name + "' due to your skill being under the recommended level.");
@@ -1043,17 +1070,174 @@ namespace SOO2.Game.Server.Service
 
         private void RemoveWeaponPenalties(NWItem oItem)
         {
-            int skillID = GetWeaponSkillID(oItem);
-            if (skillID <= 0) return;
-            
+            SkillType skillType = GetSkillTypeForItem(oItem);
+            if (skillType == SkillType.Unknown ||
+                skillType == SkillType.HeavyArmor ||
+                skillType == SkillType.LightArmor ||
+                skillType == SkillType.Shields) return;
+
             foreach (ItemProperty ip in oItem.ItemProperties)
             {
                 string tag = _.GetItemPropertyTag(ip);
-                if ( tag == IPPenaltyTag)
+                if (tag == IPWeaponPenaltyTag)
                 {
                     _.RemoveItemProperty(oItem.Object, ip);
                 }
             }
         }
+
+        private void ApplyEquipmentPenalties(NWPlayer oPC, NWItem oItem)
+        {
+            SkillType skill = GetSkillTypeForItem(oItem);
+            int rank = GetPCSkill(oPC, skill).Rank;
+            int delta = oItem.RecommendedLevel - rank;
+            if (delta <= 0) return;
+
+            int str = 0;
+            int dex = 0;
+            int con = 0;
+            int wis = 0;
+            int @int = 0;
+            int cha = 0;
+            int ab = 0;
+            int eb = 0;
+
+            foreach (var ip in oItem.ItemProperties)
+            {
+                int type = _.GetItemPropertyType(ip);
+                int value = _.GetItemPropertyCostTableValue(ip);
+                if (type == ITEM_PROPERTY_ABILITY_BONUS)
+                {
+                    int abilityType = _.GetItemPropertySubType(ip);
+                    switch (abilityType)
+                    {
+                        case ABILITY_STRENGTH: str += value; break;
+                        case ABILITY_CONSTITUTION: con += value; break;
+                        case ABILITY_DEXTERITY: dex += value; break;
+                        case ABILITY_WISDOM: wis += value; break;
+                        case ABILITY_INTELLIGENCE: @int += value; break;
+                        case ABILITY_CHARISMA: cha += value; break;
+                    }
+                }
+                else if (type == ITEM_PROPERTY_DECREASED_ABILITY_SCORE)
+                {
+                    int abilityType = _.GetItemPropertySubType(ip);
+                    switch (abilityType)
+                    {
+                        case ABILITY_STRENGTH: str -= value; break;
+                        case ABILITY_CONSTITUTION: con -= value; break;
+                        case ABILITY_DEXTERITY: dex -= value; break;
+                        case ABILITY_WISDOM: wis -= value; break;
+                        case ABILITY_INTELLIGENCE: @int -= value; break;
+                        case ABILITY_CHARISMA: cha -= value; break;
+                    }
+
+                }
+                else if (type == ITEM_PROPERTY_ATTACK_BONUS)
+                {
+                    ab += value;
+                }
+                else if (type == ITEM_PROPERTY_DECREASED_ATTACK_MODIFIER)
+                {
+                    ab -= value;
+                }
+                else if (type == ITEM_PROPERTY_ENHANCEMENT_BONUS)
+                {
+                    eb += value;
+                }
+                else if (type == ITEM_PROPERTY_DECREASED_ENHANCEMENT_MODIFIER)
+                {
+                    eb -= value;
+                }
+            }
+
+            // Apply penalties only if total value is greater than 0. Penalties don't scale.
+            if (str > 0)
+            {
+                int newStr = 1 + delta / 5;
+                if (newStr > str) newStr = str;
+                
+                ItemProperty ip = _.ItemPropertyDecreaseAbility(ABILITY_STRENGTH, newStr);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (dex > 0)
+            {
+                int newDex = 1 + delta / 5;
+                if (newDex > dex) newDex = dex;
+
+                ItemProperty ip = _.ItemPropertyDecreaseAbility(ABILITY_DEXTERITY, newDex);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (con > 0)
+            {
+                int newCon = 1 + delta / 5;
+                if (newCon > con) newCon = con;
+
+                ItemProperty ip = _.ItemPropertyDecreaseAbility(ABILITY_CONSTITUTION, newCon);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (@int > 0)
+            {
+                int newInt = 1 + delta / 5;
+                if (newInt > @int) newInt = @int;
+
+                ItemProperty ip = _.ItemPropertyDecreaseAbility(ABILITY_INTELLIGENCE, newInt);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (wis > 0)
+            {
+                int newWis = 1 + delta / 5;
+                if (newWis > wis) newWis = wis;
+
+                ItemProperty ip = _.ItemPropertyDecreaseAbility(ABILITY_WISDOM, newWis);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (cha > 0)
+            {
+                int newCha = 1 + delta / 5;
+                if (newCha > cha) newCha = cha;
+
+                ItemProperty ip = _.ItemPropertyDecreaseAbility(ABILITY_CHARISMA, newCha);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (ab > 0)
+            {
+                int newAB = 1 + delta / 5;
+                if (newAB > ab) newAB = ab;
+
+                ItemProperty ip = _.ItemPropertyAttackPenalty(newAB);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+            if (eb > 0)
+            {
+                int newEB = 1 + delta / 5;
+                if (newEB > eb) newEB = eb;
+
+                ItemProperty ip = _.ItemPropertyEnhancementPenalty(newEB);
+                ip = _.TagItemProperty(ip, IPEquipmentPenaltyTag);
+                _biowareXP2.IPSafeAddItemProperty(oItem, ip, 0.0f, AddItemPropertyPolicy.IgnoreExisting, false, false);
+            }
+
+        }
+
+        private void RemoveEquipmentPenalties(NWItem oItem)
+        {
+            foreach (var ip in oItem.ItemProperties)
+            {
+                string tag = _.GetItemPropertyTag(ip);
+                if (tag == IPEquipmentPenaltyTag)
+                {
+                    _.RemoveItemProperty(oItem.Object, ip);
+                }
+            }
+        }
+
     }
 }

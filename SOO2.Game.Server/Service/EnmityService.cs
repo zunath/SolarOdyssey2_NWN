@@ -58,8 +58,15 @@ namespace SOO2.Game.Server.Service
             bool adjustVolatile = volatileAdjust != 0;
             bool adjustCumulative = cumulativeAdjust != 0;
 
-            volatileAdjust = (int)(attacker.EnmityRate * volatileAdjust);
-            cumulativeAdjust = (int) (attacker.EnmityRate * cumulativeAdjust);
+            float effectiveEnmityRate = 1.0f;
+            if (attacker.IsPlayer)
+            {
+                NWPlayer player = NWPlayer.Wrap(attacker.Object);
+                effectiveEnmityRate = player.EffectiveEnmityRate;
+            }
+
+            volatileAdjust = (int)(effectiveEnmityRate * volatileAdjust);
+            cumulativeAdjust = (int) (effectiveEnmityRate * cumulativeAdjust);
 
             var table = GetEnmity(npc, attacker);
 

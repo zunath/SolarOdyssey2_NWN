@@ -280,13 +280,13 @@ namespace SOO2.Game.Server.Service
             PCSkill pcSkill = _db.PCSkills.Single(x => x.PlayerID == oPC.GlobalID && x.SkillID == blueprint.SkillID);
 
             int pcEffectiveLevel = CalculatePCEffectiveLevel(oPC, device, pcSkill.Rank);
+            float chance = CalculateBaseChanceToCreateItem(pcEffectiveLevel, blueprint.Level);
 
-
-            float chance = CalculateChanceToCreateItem(pcEffectiveLevel, blueprint.Level);
+            float equipmentBonus = CalculateEquipmentBonus(oPC, (SkillType)blueprint.SkillID);
             float roll = _random.RandomFloat() * 100.0f;
             float xpModifier;
 
-            if (roll <= chance)
+            if (roll + equipmentBonus <= chance)
             {
                 // Success!
                 foreach (NWItem item in tempStorage.InventoryItems)
@@ -394,8 +394,22 @@ namespace SOO2.Game.Server.Service
             return difficulty;
         }
 
+        private float CalculateEquipmentBonus(NWPlayer player, SkillType skillType)
+        {
+            int equipmentBonus = 0;
 
-        private float CalculateChanceToCreateItem(int pcLevel, int blueprintLevel)
+            switch (skillType)
+            {
+                case SkillType.Armorsmith: equipmentBonus = player.EffectiveArmorsmithBonus; break;
+                case SkillType.Weaponsmith: equipmentBonus = player.EffectiveWeaponsmithBonus; break;
+                case SkillType.Cooking: equipmentBonus = player.EffectiveCookingBonus; break;
+                case SkillType.Engineering: equipmentBonus = player.EffectiveEngineeringBonus; break;
+            }
+
+            return equipmentBonus * 0.5f; // +0.5% per equipment bonus
+        }
+
+        private float CalculateBaseChanceToCreateItem(int pcLevel, int blueprintLevel)
         {
             int delta = pcLevel - blueprintLevel;
             float percentage = 0.0f;
@@ -458,11 +472,10 @@ namespace SOO2.Game.Server.Service
                 {
                     case CraftDeviceType.ArmorsmithBench: toolBonus = tools.CraftBonusArmorsmith; break;
                     case CraftDeviceType.Cookpot: toolBonus = tools.CraftBonusCooking; break;
-                    case CraftDeviceType.MetalworkingBench: toolBonus = tools.CraftBonusMetalworking; break;
                     case CraftDeviceType.WeaponsmithBench: toolBonus = tools.CraftBonusWeaponsmith; break;
                     case CraftDeviceType.EngineeringBench: toolBonus = tools.CraftBonusEngineering; break;
                 }
-
+                
                 effectiveLevel += toolBonus;
             }
 

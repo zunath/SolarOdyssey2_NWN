@@ -65,7 +65,7 @@ namespace SOO2.Game.Server.Placeable.Resource
             int secondResourceChance;
             int durabilityChanceReduction = 0;
             int hasteChance;
-            int lucky = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
+            int lucky = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.EffectiveLuckBonus;
             bool hasBaggerPerk;
 
             if (activityID == 1) // 1 = Logging

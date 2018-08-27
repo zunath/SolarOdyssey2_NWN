@@ -91,6 +91,8 @@ namespace SOO2.Game.Server.Rune
             if (newValue > 12) newValue = 12;
             
             ItemProperty ip = _.ItemPropertyAbilityBonus(data.Item1, newValue);
+            ip = _.TagItemProperty(ip, "RUNE_IP");
+
             _biowareXP2.IPSafeAddItemProperty(target, ip, 0.0f, AddItemPropertyPolicy.ReplaceExisting, true, false);
         }
 

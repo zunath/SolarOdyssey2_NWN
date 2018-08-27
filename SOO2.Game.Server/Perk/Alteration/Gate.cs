@@ -54,7 +54,7 @@ namespace SOO2.Game.Server.Perk.Alteration
         {
             int wisdom = oPC.WisdomModifier;
             int intelligence = oPC.IntelligenceModifier;
-            int alterationBonus = oPC.AlterationBonus / 3;
+            int alterationBonus = oPC.EffectiveAlterationBonus / 3;
             float castingTime = baseCastingTime - (wisdom * 1.5f + intelligence + alterationBonus);
 
             if (castingTime <= 2.0f) castingTime = 2.0f;

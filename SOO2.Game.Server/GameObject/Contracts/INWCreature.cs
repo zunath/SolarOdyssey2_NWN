@@ -9,7 +9,6 @@
         NWItem Bolts { get; }
         NWItem Boots { get; }
         NWItem Bullets { get; }
-        int CastingSpeed { get; }
         float ChallengeRating { get; }
         int Charisma { get; }
         int CharismaModifier { get; }

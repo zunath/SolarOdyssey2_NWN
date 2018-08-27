@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NWN;
 using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject.Contracts;
 using SOO2.Game.Server.NWNX.Contracts;
+using SOO2.Game.Server.Service.Contracts;
 using static NWN.NWScript;
 using Object = NWN.Object;
 
@@ -11,11 +14,21 @@ namespace SOO2.Game.Server.GameObject
 {
     public class NWPlayer : NWCreature, INWPlayer
     {
+        private readonly ICustomEffectService _customEffect;
+        private readonly ISkillService _skill;
+        private readonly IItemService _item;
+
         public NWPlayer(INWScript script, 
             INWNXCreature nwnxCreature,
-            AppState state)
+            AppState state,
+            ICustomEffectService customEffect,
+            ISkillService skill,
+            IItemService item)
             : base(script, nwnxCreature, state)
         {
+            _customEffect = customEffect;
+            _skill = skill;
+            _item = item;
         }
 
         public new static NWPlayer Wrap(Object @object)
@@ -94,5 +107,347 @@ namespace SOO2.Game.Server.GameObject
             
             return entity;
         }
+
+        // Effective stats take into account player skill level versus the level of the item.
+        // Penalties are applied if the difference is too wide.
+
+        private int CalculateAdjustedValue(int baseValue, int recommendedLevel, int skillRank, int minimumValue = 1)
+        {
+            int adjustedValue = (int) CalculateAdjustedValue((float)baseValue, recommendedLevel, skillRank, minimumValue);
+            if (adjustedValue < minimumValue) adjustedValue = minimumValue;
+            return adjustedValue;
+        }
+
+        private float CalculateAdjustedValue(float baseValue, int recommendedLevel, int skillRank, float minimumValue = 0.01f)
+        {
+            int delta = recommendedLevel - skillRank;
+            float adjustment = 1.0f - delta * 0.1f;
+            if (adjustment <= 0.1f) adjustment = 0.1f;
+
+            float adjustedValue = (float)Math.Round(baseValue * adjustment);
+            if (adjustedValue < minimumValue) adjustedValue = minimumValue;
+            return adjustedValue;
+        }
+
+        public virtual int CalculateEffectiveArmorClass(NWItem ignoreItem)
+        {
+            int heavyRank = _skill.GetPCSkill(this, SkillType.HeavyArmor).Rank;
+            int lightRank = _skill.GetPCSkill(this, SkillType.LightArmor).Rank;
+            int ac = 0;
+            for (int slot = 0; slot < NUM_INVENTORY_SLOTS; slot++)
+            {
+                NWItem oItem = NWItem.Wrap(_.GetItemInSlot(slot, Object));
+                if (oItem.Equals(ignoreItem))
+                    continue;
+
+                if (!oItem.IsValid) continue;
+
+                if (!_item.ArmorBaseItemTypes.Contains(oItem.BaseItemType))
+                    continue;
+
+                if (oItem.CustomItemType != CustomItemType.HeavyArmor &&
+                    oItem.CustomItemType != CustomItemType.LightArmor)
+                    continue;
+                
+                int skillRankToUse = 0;
+                if (oItem.CustomItemType == CustomItemType.HeavyArmor &&
+                    oItem.RecommendedLevel > heavyRank)
+                {
+                    skillRankToUse = heavyRank;
+                }
+                else if(oItem.CustomItemType == CustomItemType.LightArmor &&
+                    oItem.RecommendedLevel > lightRank)
+                {
+                    skillRankToUse = lightRank;
+                }
+                
+                int itemAC = oItem.AC + oItem.CustomAC;
+                itemAC = CalculateAdjustedValue(itemAC, oItem.RecommendedLevel, skillRankToUse);
+                ac += itemAC;
+            }
+            return ac + _customEffect.CalculateEffectAC(this);
+        }
+
+        public virtual int EffectiveCastingSpeed
+        {
+            get
+            {
+                int castingSpeed = 0;
+
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    int itemCastingSpeed = item.CastingSpeed;
+
+                    // Penalties don't scale.
+                    if (itemCastingSpeed > 0)
+                    {
+                        SkillType skill = _skill.GetSkillTypeForItem(item);
+                        int rank = _skill.GetPCSkill(this, skill).Rank;
+                        itemCastingSpeed = CalculateAdjustedValue(itemCastingSpeed, item.RecommendedLevel, rank);
+                    }
+                    
+                    castingSpeed = castingSpeed + itemCastingSpeed;
+                }
+
+                if (castingSpeed < -99)
+                    castingSpeed = -99;
+                else if (castingSpeed > 99)
+                    castingSpeed = 99;
+
+                return castingSpeed;
+            }
+        }
+
+
+        public virtual float EffectiveEnmityRate
+        {
+            get
+            {
+                float rate = 1.0f;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    float itemRate = 0.01f * item.EnmityRate;
+                    itemRate = CalculateAdjustedValue(itemRate, item.RecommendedLevel, rank, 0.00f);
+
+                    rate += itemRate;
+                }
+
+                if (rate < 0.5f) rate = 0.5f;
+                else if (rate > 1.5f) rate = 1.5f;
+
+                return rate;
+            }
+        }
+
+        public virtual int EffectiveEvocationBonus
+        {
+            get
+            {
+                int evocationBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemEvocationBonus = CalculateAdjustedValue(item.EvocationBonus, item.RecommendedLevel, rank);
+                    
+                    evocationBonus += itemEvocationBonus;
+                }
+
+                return evocationBonus;
+            }
+        }
+
+        public virtual int EffectiveAlterationBonus
+        {
+            get
+            {
+                int alterationBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemAlterationBonus = CalculateAdjustedValue(item.AlterationBonus, item.RecommendedLevel, rank);
+
+                    alterationBonus += itemAlterationBonus;
+                }
+
+                return alterationBonus;
+            }
+        }
+
+        public virtual int EffectiveSummoningBonus
+        {
+            get
+            {
+                int summoningBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemSummoningBonus = CalculateAdjustedValue(item.SummoningBonus, item.RecommendedLevel, rank);
+
+                    summoningBonus += itemSummoningBonus;
+                }
+
+                return summoningBonus;
+            }
+        }
+
+        public virtual int EffectiveLuckBonus
+        {
+            get
+            {
+                int luckBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemLuckBonus = CalculateAdjustedValue(item.LuckBonus, item.RecommendedLevel, rank, 0);
+
+                    luckBonus += itemLuckBonus;
+                }
+
+                return luckBonus;
+            }
+        }
+        public virtual int EffectiveMeditateBonus
+        {
+            get
+            {
+                int meditateBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemMeditateBonus = CalculateAdjustedValue(item.MeditateBonus, item.RecommendedLevel, rank, 0);
+
+                    meditateBonus += itemMeditateBonus;
+                }
+
+                return meditateBonus;
+            }
+        }
+
+        public virtual int EffectiveFirstAidBonus
+        {
+            get
+            {
+                int firstAidBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemFirstAidBonus = CalculateAdjustedValue(item.FirstAidBonus, item.RecommendedLevel, rank, 0);
+
+                    firstAidBonus += itemFirstAidBonus;
+                }
+
+                return firstAidBonus;
+            }
+        }
+
+        public virtual int EffectiveHPRegenBonus
+        {
+            get
+            {
+                int hpRegenBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemHPRegenBonus = CalculateAdjustedValue(item.HPRegenBonus, item.RecommendedLevel, rank, 0);
+
+                    hpRegenBonus += itemHPRegenBonus;
+                }
+
+                return hpRegenBonus;
+            }
+        }
+
+        public virtual int EffectiveManaRegenBonus
+        {
+            get
+            {
+                int manaRegenBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemManaRegenBonus = CalculateAdjustedValue(item.ManaRegenBonus, item.RecommendedLevel, rank, 0);
+
+                    manaRegenBonus += itemManaRegenBonus;
+                }
+
+                return manaRegenBonus;
+            }
+        }
+
+        public virtual int EffectiveWeaponsmithBonus
+        {
+            get
+            {
+                int weaponsmithBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemWeaponsmithBonus = CalculateAdjustedValue(item.CraftBonusWeaponsmith, item.RecommendedLevel, rank, 0);
+
+                    weaponsmithBonus += itemWeaponsmithBonus;
+                }
+
+                return weaponsmithBonus;
+            }
+        }
+        public virtual int EffectiveCookingBonus
+        {
+            get
+            {
+                int cookingBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemCookingBonus = CalculateAdjustedValue(item.CraftBonusCooking, item.RecommendedLevel, rank, 0);
+
+                    cookingBonus += itemCookingBonus;
+                }
+
+                return cookingBonus;
+            }
+        }
+        public virtual int EffectiveEngineeringBonus
+        {
+            get
+            {
+                int engineeringBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemEngineeringBonus = CalculateAdjustedValue(item.CraftBonusEngineering, item.RecommendedLevel, rank, 0);
+
+                    engineeringBonus += itemEngineeringBonus;
+                }
+
+                return engineeringBonus;
+            }
+        }
+        public virtual int EffectiveArmorsmithBonus
+        {
+            get
+            {
+                int armorsmithBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemArmorsmithBonus = CalculateAdjustedValue(item.CraftBonusArmorsmith, item.RecommendedLevel, rank, 0);
+
+                    armorsmithBonus += itemArmorsmithBonus;
+                }
+
+                return armorsmithBonus;
+            }
+        }
+
+
+
     }
 }

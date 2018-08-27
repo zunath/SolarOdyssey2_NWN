@@ -45,11 +45,7 @@ namespace SOO2.Game.Server.GameObject
             if (IsInitializedAsPlayer || !IsPlayer) return;
             
             string guid = Guid.NewGuid().ToString("N");
-
-            Console.WriteLine("Player ID = " + guid);
             _.SetTag(Object, guid);
-            Console.WriteLine("Player tag =" + _.GetTag(Object));
-
         }
 
         public virtual string GlobalID

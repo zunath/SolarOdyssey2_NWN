@@ -58,7 +58,7 @@ namespace SOO2.Game.Server.Perk.Evocation
             int level = _perk.GetPCPerkLevel(oPC, PerkType.FireBlast);
             int damage;
             int ticks = 0;
-            int evocationBonus = oPC.EvocationBonus;
+            int evocationBonus = oPC.EffectiveEvocationBonus;
             
             switch (level)
             {

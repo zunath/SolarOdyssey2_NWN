@@ -180,10 +180,6 @@ namespace SOO2.Game.Server.Service
             {
                 description += _color.Orange("Mining Bonus: ") + examinedItem.MiningBonus + "\n";
             }
-            if (examinedItem.CraftBonusMetalworking > 0)
-            {
-                description += _color.Orange("Metalworking Bonus: ") + examinedItem.CraftBonusMetalworking + "\n";
-            }
             if (examinedItem.CraftBonusArmorsmith > 0)
             {
                 description += _color.Orange("Armorsmith Bonus: ") + examinedItem.CraftBonusArmorsmith + "\n";
@@ -257,9 +253,7 @@ namespace SOO2.Game.Server.Service
                     BASE_ITEM_AMULET,
                     BASE_ITEM_ARMOR,
                     BASE_ITEM_BELT,
-                    BASE_ITEM_BRACER,
                     BASE_ITEM_CLOAK,
-                    BASE_ITEM_GLOVES,
                     BASE_ITEM_HELMET,
                     BASE_ITEM_LARGESHIELD,
                     BASE_ITEM_SMALLSHIELD,
@@ -280,6 +274,7 @@ namespace SOO2.Game.Server.Service
                     BASE_ITEM_BASTARDSWORD,
                     BASE_ITEM_BATTLEAXE,
                     BASE_ITEM_BOLT,
+                    BASE_ITEM_BRACER,
                     BASE_ITEM_BULLET,
                     BASE_ITEM_CLUB,
                     BASE_ITEM_DAGGER,
@@ -287,6 +282,7 @@ namespace SOO2.Game.Server.Service
                     BASE_ITEM_DIREMACE,
                     BASE_ITEM_DOUBLEAXE,
                     BASE_ITEM_DWARVENWARAXE,
+                    BASE_ITEM_GLOVES,
                     BASE_ITEM_GREATAXE,
                     BASE_ITEM_GREATSWORD,
                     BASE_ITEM_GRENADE,

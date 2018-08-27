@@ -2,8 +2,8 @@
 using SOO2.Game.Server.NWNX.Contracts;
 using static NWN.NWScript;
 using Object = NWN.Object;
-using System.Linq;
 using NWN;
+using System.Linq;
 
 namespace SOO2.Game.Server.GameObject
 {
@@ -167,26 +167,6 @@ namespace SOO2.Game.Server.GameObject
 
         public virtual bool IsDead => _.GetIsDead(Object) == 1;
 
-        public virtual int CastingSpeed
-        {
-            get
-            {
-                int castingSpeed = 0;
-
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    castingSpeed = castingSpeed + item.CastingSpeed;
-                }
-
-                if (castingSpeed < -99)
-                    castingSpeed = -99;
-                else if (castingSpeed > 99)
-                    castingSpeed = 99;
-
-                return castingSpeed;
-            }
-        }
 
         public bool HasAnyEffect(params int[] effectIDs)
         {
@@ -203,144 +183,5 @@ namespace SOO2.Game.Server.GameObject
 
             return false;
         }
-
-        public virtual float EnmityRate
-        {
-            get
-            {
-                float rate = 1.0f;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    float itemRate = 0.01f * item.EnmityRate;
-                    rate += itemRate;
-                }
-
-                if (rate < 0.5f) rate = 0.5f;
-                else if (rate > 1.5f) rate = 1.5f;
-
-                return rate;
-            }
-        }
-
-        public virtual int EvocationBonus
-        {
-            get
-            {
-                int evocationBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    evocationBonus += item.EvocationBonus;
-                }
-
-                return evocationBonus;
-            }
-        }
-
-        public virtual int AlterationBonus
-        {
-            get
-            {
-                int alterationBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    alterationBonus += item.AlterationBonus;
-                }
-
-                return alterationBonus;
-            }
-        }
-
-        public virtual int SummoningBonus
-        {
-            get
-            {
-                int summoningBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    summoningBonus += item.SummoningBonus;
-                }
-
-                return summoningBonus;
-            }
-        }
-
-        public virtual int LuckBonus
-        {
-            get
-            {
-                int luckBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    luckBonus += item.LuckBonus;
-                }
-
-                return luckBonus;
-            }
-        }
-        public virtual int MeditateBonus
-        {
-            get
-            {
-                int meditateBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    meditateBonus += item.MeditateBonus;
-                }
-
-                return meditateBonus;
-            }
-        }
-
-        public virtual int FirstAidBonus
-        {
-            get
-            {
-                int firstAidBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    firstAidBonus += item.FirstAidBonus;
-                }
-
-                return firstAidBonus;
-            }
-        }
-
-        public virtual int HPRegenBonus
-        {
-            get
-            {
-                int hpRegenBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    hpRegenBonus += item.HPRegenBonus;
-                }
-
-                return hpRegenBonus;
-            }
-        }
-
-        public virtual int ManaRegenBonus
-        {
-            get
-            {
-                int manaRegenBonus = 0;
-                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
-                {
-                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
-                    manaRegenBonus += item.ManaRegenBonus;
-                }
-
-                return manaRegenBonus;
-            }
-        }
-
     }
 }

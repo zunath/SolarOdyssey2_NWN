@@ -102,7 +102,7 @@ namespace SOO2.Game.Server.Event.Module
                     {
                         amount += con;
                     }
-                    amount += oPC.HPRegenBonus;
+                    amount += oPC.EffectiveHPRegenBonus;
                     entity = _food.DecreaseHungerLevel(entity, oPC, 3);
 
                     _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(amount), oPC.Object);
@@ -132,7 +132,7 @@ namespace SOO2.Game.Server.Event.Module
                     {
                         amount += cha;
                     }
-                    amount += oPC.ManaRegenBonus;
+                    amount += oPC.EffectiveManaRegenBonus;
                     entity = _ability.RestoreMana(oPC, amount, entity);
                 }
 

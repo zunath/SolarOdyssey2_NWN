@@ -195,18 +195,7 @@ namespace SOO2.Game.Server.GameObject
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CASTING_SPEED", value);
         }
-
-        public virtual int CraftBonusMetalworking
-        {
-            get
-            {
-                int craftBonus = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.CraftBonusMetalworking);
-                if(craftBonus <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING");
-                CraftBonusMetalworking = craftBonus;
-                return craftBonus;
-            }
-            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_CRAFT_BONUS_METALWORKING", value);
-        }
+        
         public virtual int CraftBonusArmorsmith
         {
             get

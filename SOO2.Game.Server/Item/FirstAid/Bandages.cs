@@ -38,13 +38,15 @@ namespace SOO2.Game.Server.Item.FirstAid
 
         public void ApplyEffects(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)
         {
-            _customEffect.RemovePCCustomEffect((NWPlayer)target, CustomEffectType.Bleeding);
-            _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(2 + user.FirstAidBonus/2), target.Object);
-            user.SendMessage("You finish bandaging " + target.Name + "'s wounds.");
+            NWPlayer player = NWPlayer.Wrap(user.Object);
 
-            PCSkill skill = _skill.GetPCSkill((NWPlayer)user, SkillType.FirstAid);
+            _customEffect.RemovePCCustomEffect((NWPlayer)target, CustomEffectType.Bleeding);
+            _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(2 + player.EffectiveFirstAidBonus/2), target.Object);
+            player.SendMessage("You finish bandaging " + target.Name + "'s wounds.");
+
+            PCSkill skill = _skill.GetPCSkill(player, SkillType.FirstAid);
             int xp = (int)_skill.CalculateRegisteredSkillLevelAdjustedXP(100, item.RecommendedLevel, skill.Rank);
-            _skill.GiveSkillXP((NWPlayer)user, SkillType.FirstAid, xp);
+            _skill.GiveSkillXP(player, SkillType.FirstAid, xp);
         }
 
         public float Seconds(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)

@@ -82,7 +82,7 @@ namespace SOO2.Game.Server.Perk.General
                     amount = 3;
                     break;
             }
-            amount += oPC.MeditateBonus;
+            amount += oPC.EffectiveMeditateBonus;
 
             oPC.AssignCommand(() =>
             {

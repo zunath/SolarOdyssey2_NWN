@@ -52,7 +52,7 @@ namespace SOO2.Game.Server.Perk.Alteration
         public void OnImpact(NWPlayer oPC, NWObject oTarget)
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.Recover);
-            int alterationBonus = oPC.AlterationBonus;
+            int alterationBonus = oPC.EffectiveAlterationBonus;
             int amountMin;
             int amountMax;
             float length;
@@ -106,7 +106,7 @@ namespace SOO2.Game.Server.Perk.Alteration
 
             int healAmount = _random.Random(amountMin, amountMax) + 1;
 
-            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
+            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.EffectiveLuckBonus;
             if (_random.Random(100) + 1 <= luck)
             {
                 length = length * 2;

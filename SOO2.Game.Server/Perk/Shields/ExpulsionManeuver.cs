@@ -87,7 +87,7 @@ namespace SOO2.Game.Server.Perk.Shields
                     return;
             }
 
-            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.LuckBonus;
+            int luck = _perk.GetPCPerkLevel(oPC, PerkType.Lucky) + oPC.EffectiveLuckBonus;
             chance += luck;
 
             if (_random.Random(100) + 1 <= chance)

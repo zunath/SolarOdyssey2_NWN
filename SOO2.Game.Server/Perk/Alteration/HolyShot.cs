@@ -54,7 +54,7 @@ namespace SOO2.Game.Server.Perk.Alteration
         {
             int level = _perk.GetPCPerkLevel(oPC, PerkType.HolyShot);
             int damage;
-            int alterationBonus = oPC.AlterationBonus;
+            int alterationBonus = oPC.EffectiveAlterationBonus;
 
             switch (level)
             {

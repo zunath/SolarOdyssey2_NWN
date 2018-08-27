@@ -61,13 +61,15 @@ namespace SOO2.Game.Server.Item.FirstAid
 
         public float Seconds(NWCreature user, NWItem item, NWObject target, Location targetLocation, CustomData customData)
         {
-            if (_random.Random(100) + 1 <= _perk.GetPCPerkLevel((NWPlayer)user, PerkType.SpeedyMedic) * 10)
+            NWPlayer player = NWPlayer.Wrap(user.Object);
+
+            if (_random.Random(100) + 1 <= _perk.GetPCPerkLevel(player, PerkType.SpeedyMedic) * 10)
             {
                 return 0.1f;
             }
 
-            PCSkill skill = _skill.GetPCSkill((NWPlayer)user, SkillType.FirstAid);
-            return 12.0f - (skill.Rank + user.FirstAidBonus / 2) * 0.1f;
+            PCSkill skill = _skill.GetPCSkill(player, SkillType.FirstAid);
+            return 12.0f - (skill.Rank + player.EffectiveFirstAidBonus / 2) * 0.1f;
         }
 
         public bool FaceTarget()
