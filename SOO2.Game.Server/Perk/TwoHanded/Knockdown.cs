@@ -23,12 +23,13 @@ namespace SOO2.Game.Server.Perk.TwoHanded
 
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {
-            return false;
+            NWItem weapon = oPC.RightHand;
+            return weapon.CustomItemType == CustomItemType.HeavyBlunt;
         }
 
         public string CannotCastSpellMessage(NWPlayer oPC, NWObject oTarget)
         {
-            return null;
+            return "You must be equipped with a heavy blunt weapon to use Knockdown.";
         }
 
         public int ManaCost(NWPlayer oPC, int baseManaCost)

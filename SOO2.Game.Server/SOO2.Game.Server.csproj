@@ -327,6 +327,7 @@
     <Compile Include="Perk\OneHanded\DualWielding.cs" />
     <Compile Include="Perk\OneHanded\FinesseBladeProficiency.cs" />
     <Compile Include="Perk\OneHanded\Opportunist.cs" />
+    <Compile Include="Perk\OneHanded\SneakAttack.cs" />
     <Compile Include="Perk\OneHanded\WeaponFinesse.cs" />
     <Compile Include="Perk\Shields\BlockingRecovery.cs" />
     <Compile Include="Perk\Shields\ExpulsionManeuver.cs" />
@@ -537,6 +538,7 @@
     <Compile Include="Rune\ManaRune.cs" />
     <Compile Include="Rune\MeditateRune.cs" />
     <Compile Include="Rune\MiningRune.cs" />
+    <Compile Include="Rune\SneakAttackRune.cs" />
     <Compile Include="Rune\SummoningMagicRune.cs" />
     <Compile Include="Rune\WeaponsmithRune.cs" />
     <Compile Include="Service\AbilityService.cs" />

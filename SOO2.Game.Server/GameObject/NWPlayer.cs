@@ -447,6 +447,25 @@ namespace SOO2.Game.Server.GameObject
             }
         }
 
+        public virtual int EffectiveSneakAttackBonus
+        {
+            get
+            {
+                int sneakAttackBonus = 0;
+                for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
+                {
+                    NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    SkillType skill = _skill.GetSkillTypeForItem(item);
+                    int rank = _skill.GetPCSkill(this, skill).Rank;
+                    int itemSneakAttackBonus = CalculateAdjustedValue(item.SneakAttackBonus, item.RecommendedLevel, rank, 0);
+
+                    sneakAttackBonus += itemSneakAttackBonus;
+                }
+
+                return sneakAttackBonus;
+            }
+        }
+
 
 
     }

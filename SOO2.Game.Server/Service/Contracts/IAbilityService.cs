@@ -9,5 +9,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void OnModuleUseFeat();
         void RestoreMana(NWPlayer oPC, int amount);
         PlayerCharacter RestoreMana(NWPlayer oPC, int amount, PlayerCharacter entity);
+        void OnModuleApplyDamage();
     }
 }

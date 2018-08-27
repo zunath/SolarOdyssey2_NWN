@@ -466,5 +466,111 @@ namespace SOO2.Game.Server.Service
                 else item.Destroy();
             }
         }
+
+        public CustomItemType GetCustomItemType(NWItem item)
+        {
+            int[] blades =
+            {
+                BASE_ITEM_BASTARDSWORD,
+                BASE_ITEM_LONGSWORD,
+                BASE_ITEM_KATANA,
+                BASE_ITEM_SCIMITAR,
+                BASE_ITEM_BATTLEAXE
+            };
+
+            int[] finesseBlades =
+            {
+                BASE_ITEM_DAGGER,
+                BASE_ITEM_RAPIER,
+                BASE_ITEM_SHORTSWORD,
+                BASE_ITEM_KUKRI,
+                BASE_ITEM_SICKLE,
+                BASE_ITEM_WHIP,
+                BASE_ITEM_HANDAXE
+            };
+
+            int[] blunts =
+            {
+                BASE_ITEM_CLUB,
+                BASE_ITEM_LIGHTFLAIL,
+                BASE_ITEM_LIGHTHAMMER,
+                BASE_ITEM_LIGHTMACE,
+                BASE_ITEM_MORNINGSTAR
+            };
+
+            int[] heavyBlades =
+            {
+                BASE_ITEM_GREATAXE,
+                BASE_ITEM_GREATSWORD,
+                BASE_ITEM_DWARVENWARAXE
+            };
+
+            int[] heavyBlunts =
+            {
+                BASE_ITEM_HEAVYFLAIL,
+                BASE_ITEM_WARHAMMER,
+                BASE_ITEM_DIREMACE,
+                BASE_ITEM_QUARTERSTAFF
+            };
+
+            int[] polearms =
+            {
+                BASE_ITEM_HALBERD,
+                BASE_ITEM_SCYTHE,
+                BASE_ITEM_SHORTSPEAR,
+                BASE_ITEM_TRIDENT
+            };
+
+            int[] twinBlades =
+            {
+                BASE_ITEM_DOUBLEAXE,
+                BASE_ITEM_TWOBLADEDSWORD
+            };
+
+            int[] martialArts =
+            {
+                BASE_ITEM_GLOVES,
+                BASE_ITEM_BRACER,
+                BASE_ITEM_KAMA
+            };
+
+            int[] rifles =
+            {
+                BASE_ITEM_LIGHTCROSSBOW,
+                BASE_ITEM_HEAVYCROSSBOW
+            };
+
+            int[] blasters =
+            {
+                BASE_ITEM_SHORTBOW,
+                BASE_ITEM_LONGBOW,
+            };
+
+            int[] throwing =
+            {
+                BASE_ITEM_SLING,
+                BASE_ITEM_DART,
+                BASE_ITEM_SHURIKEN,
+                BASE_ITEM_THROWINGAXE
+            };
+
+
+            if (blades.Contains(item.BaseItemType)) return CustomItemType.Blade;
+            if (finesseBlades.Contains(item.BaseItemType)) return CustomItemType.FinesseBlade;
+            if (blunts.Contains(item.BaseItemType)) return CustomItemType.Blunt;
+            if (heavyBlades.Contains(item.BaseItemType)) return CustomItemType.HeavyBlade;
+            if (heavyBlunts.Contains(item.BaseItemType)) return CustomItemType.HeavyBlunt;
+            if (polearms.Contains(item.BaseItemType)) return CustomItemType.Polearm;
+            if (twinBlades.Contains(item.BaseItemType)) return CustomItemType.TwinBlade;
+            if (martialArts.Contains(item.BaseItemType)) return CustomItemType.MartialArtWeapon;
+            if (rifles.Contains(item.BaseItemType)) return CustomItemType.Rifle;
+            if (blasters.Contains(item.BaseItemType)) return CustomItemType.Blaster;
+            if (throwing.Contains(item.BaseItemType)) return CustomItemType.Throwing;
+            // Armor is deliberately left out here because we don't have a way to determine the type of armor it should be
+            // based on base item type.
+
+            return CustomItemType.None;
+        }
+
     }
 }

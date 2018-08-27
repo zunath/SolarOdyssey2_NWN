@@ -31,6 +31,7 @@ namespace SOO2.Game.Server.Service
         private readonly IFoodService _food;
         private readonly IEnmityService _enmity;
         private readonly INWNXEvents _nwnxEvents;
+        private readonly INWNXDamage _nwnxDamage;
 
         public AbilityService(INWScript script, 
             IDataContext db,
@@ -43,7 +44,8 @@ namespace SOO2.Game.Server.Service
             IRandomService random,
             IFoodService food,
             IEnmityService enmity,
-            INWNXEvents nwnxEvents)
+            INWNXEvents nwnxEvents,
+            INWNXDamage nwnxDamage)
         {
             _ = script;
             _db = db;
@@ -57,6 +59,7 @@ namespace SOO2.Game.Server.Service
             _food = food;
             _enmity = enmity;
             _nwnxEvents = nwnxEvents;
+            _nwnxDamage = nwnxDamage;
         }
 
         private const int SPELL_STATUS_STARTED = 1;
@@ -371,6 +374,33 @@ namespace SOO2.Game.Server.Service
 
             oPC.DeleteLocalString("ACTIVE_WEAPON_SKILL_UUID");
             oPC.DeleteLocalInt("ACTIVE_WEAPON_SKILL");
+        }
+
+        public void OnModuleApplyDamage()
+        {
+            var data = _nwnxDamage.GetDamageEventData();
+            NWObject target = NWObject.Wrap(Object.OBJECT_SELF);
+            NWObject damager = data.Damager;
+            PerkType queuedWeaponSkill = (PerkType)damager.GetLocalInt("ACTIVE_WEAPON_SKILL");
+
+            if (damager.IsPlayer &&
+                queuedWeaponSkill == PerkType.SneakAttack)
+            {
+                Console.WriteLine("Applying sneak attack damage");
+                if (target.Facing <= damager.Facing + 20 ||
+                    target.Facing >= damager.Facing - 20)
+                {
+                    Console.WriteLine("within facing range");
+                    NWPlayer player = NWPlayer.Wrap(damager.Object);
+                    int perkRank = _perk.GetPCPerkByID(damager.GlobalID, (int)PerkType.SneakAttack).PerkLevel;
+                    float damageRate = 1.0f + perkRank + (player.EffectiveSneakAttackBonus * 0.05f);
+                    data.Base = (int)(data.Base * damageRate);
+
+                    _nwnxDamage.SetDamageEventData(data);
+
+                }
+            }
+
         }
 
     }

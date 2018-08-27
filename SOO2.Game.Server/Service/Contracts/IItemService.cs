@@ -1,4 +1,5 @@
-﻿using SOO2.Game.Server.GameObject;
+﻿using SOO2.Game.Server.Enumeration;
+using SOO2.Game.Server.GameObject;
 
 namespace SOO2.Game.Server.Service.Contracts
 {
@@ -14,5 +15,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void OnModuleHeartbeat();
         void ReturnItem(NWObject target, NWItem item);
         void StripAllItemProperties(NWItem item);
+        CustomItemType GetCustomItemType(NWItem item);
     }
 }

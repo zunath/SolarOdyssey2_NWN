@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NWN;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject.Contracts;
@@ -11,13 +12,16 @@ namespace SOO2.Game.Server.GameObject
     public class NWItem : NWObject, INWItem
     {
         private readonly IDurabilityService _durability;
+        private readonly IItemService _item;
 
         public NWItem(INWScript script,
             IDurabilityService durability,
+            IItemService item,
             AppState state)
             : base(script, state)
         {
             _durability = durability;
+            _item = item;
         }
 
         public new static NWItem Wrap(Object @object)
@@ -137,10 +141,31 @@ namespace SOO2.Game.Server.GameObject
         {
             get
             {
+                // Item property takes precedence, followed by local int on the item, 
+                // followed by hard-calculating it based on base item type.
                 int itemType = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.ItemType);
-                if (itemType <= -1) return (CustomItemType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE");
-                CustomItemType = (CustomItemType)itemType;
-                return (CustomItemType)itemType;
+                CustomItemType storedItemType = (CustomItemType)_.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE");
+
+                if (itemType > -1)
+                {
+                    // Found a valid item property
+                    CustomItemType = (CustomItemType)itemType;
+                    return (CustomItemType)itemType;
+                }
+
+                if (storedItemType != CustomItemType.None)
+                {
+                    // Found a valid stored item type
+                    return storedItemType;
+                }
+
+                // Attempt to get the item type by base item type.
+                // Will fail for armor as there's no determining factor for light versus heavy.
+                // Need to assign the local variable or give the armor the item property in order to mark it.
+                CustomItemType type = _item.GetCustomItemType(this);
+                CustomItemType = type;
+                
+                return type;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE", (int)value);
         }
@@ -398,6 +423,12 @@ namespace SOO2.Game.Server.GameObject
                 return baseAttackBonus;
             }
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_BASE_ATTACK_BONUS", value);
+        }
+
+        public virtual int SneakAttackBonus
+        {
+            get => _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SNEAK_ATTACK_BONUS");
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_SNEAK_ATTACK_BONUS", value);
         }
 
         public virtual int DamageBonus

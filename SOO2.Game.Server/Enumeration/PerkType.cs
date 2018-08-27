@@ -124,8 +124,8 @@
         TwinBladeProficiency = 119,
         MartialArtsProficiency = 120,
         BlasterProficiency = 121,
-        RifleProficiency = 122
-
+        RifleProficiency = 122,
+        SneakAttack = 123
     }
 
 }
