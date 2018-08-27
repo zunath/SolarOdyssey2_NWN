@@ -1,22 +1,9 @@
-﻿using NWN;
-using SOO2.Game.Server.Enumeration;
-using SOO2.Game.Server.GameObject;
-using SOO2.Game.Server.NWNX.Contracts;
+﻿using SOO2.Game.Server.GameObject;
 
 namespace SOO2.Game.Server.Perk.Firearms
 {
-    public class ZenMarksmanship : IPerk
+    public class RifleProficiency : IPerk
     {
-        private readonly INWScript _;
-        private readonly INWNXCreature _nwnxCreature;
-
-        public ZenMarksmanship(INWScript script,
-            INWNXCreature nwnxCreature)
-        {
-            _ = script;
-            _nwnxCreature = nwnxCreature;
-        }
-
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {
             return false;
@@ -48,41 +35,22 @@ namespace SOO2.Game.Server.Perk.Firearms
 
         public void OnPurchased(NWPlayer oPC, int newLevel)
         {
-            ApplyFeatChanges(oPC, null);
         }
 
         public void OnRemoved(NWPlayer oPC)
         {
-            _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_ZEN_ARCHERY);
         }
 
         public void OnItemEquipped(NWPlayer oPC, NWItem oItem)
         {
-            ApplyFeatChanges(oPC, null);
         }
 
         public void OnItemUnequipped(NWPlayer oPC, NWItem oItem)
         {
-            ApplyFeatChanges(oPC, oItem);
         }
 
         public void OnCustomEnmityRule(NWPlayer oPC, int amount)
         {
-        }
-
-        private void ApplyFeatChanges(NWPlayer oPC, NWItem oItem)
-        {
-            NWItem equipped = oItem ?? oPC.RightHand;
-
-            if (equipped.Equals(oItem) || 
-                    (equipped.CustomItemType != CustomItemType.Blaster && 
-                     equipped.CustomItemType != CustomItemType.Rifle))
-            {
-                _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_ZEN_ARCHERY);
-                return;
-            }
-
-            _nwnxCreature.AddFeat(oPC, NWScript.FEAT_ZEN_ARCHERY);
         }
 
         public bool IsHostile()

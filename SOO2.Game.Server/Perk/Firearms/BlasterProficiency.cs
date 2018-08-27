@@ -1,8 +1,8 @@
 ﻿using SOO2.Game.Server.GameObject;
 
-namespace SOO2.Game.Server.Perk.Throwing
+namespace SOO2.Game.Server.Perk.Firearms
 {
-    public class TossAccuracy: IPerk
+    public class BlasterProficiency : IPerk
     {
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {

@@ -115,8 +115,8 @@ namespace SOO2.Game.Server.Perk.Weapons
                 case CustomItemType.Polearm: perkType = PerkType.ImprovedCriticalPolearms; break;
                 case CustomItemType.TwinBlade: perkType = PerkType.ImprovedCriticalTwinBlades; break;
                 case CustomItemType.MartialArtWeapon: perkType = PerkType.ImprovedCriticalMartialArts; break;
-                case CustomItemType.Bow: perkType = PerkType.ImprovedCriticalBows; break;
-                case CustomItemType.Crossbow: perkType = PerkType.ImprovedCriticalCrossbows; break;
+                case CustomItemType.Blaster: perkType = PerkType.ImprovedCriticalBows; break;
+                case CustomItemType.Rifle: perkType = PerkType.ImprovedCriticalCrossbows; break;
                 case CustomItemType.Throwing: perkType = PerkType.ImprovedCriticalThrowing; break;
                 default: return;
             }

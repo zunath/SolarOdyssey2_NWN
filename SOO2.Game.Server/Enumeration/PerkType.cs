@@ -2,6 +2,7 @@
 {
     public enum PerkType
     {
+        Unknown = -1,
         SpeedyBuilder = 1,
         MangleMaster = 2,
         ConservativeConstruction = 3,
@@ -39,7 +40,7 @@
         DeflectArrows = 35,
         Dodge = 36,
         Expertise = 37,
-        TossAccuracy = 38,
+        ThrowingProficiency = 38,
         ImprovedCriticalBlades = 39,
         ImprovedCriticalFinesseBlades = 40,
         ImprovedCriticalBlunts = 41,
@@ -113,7 +114,18 @@
         CombatRuneInstallationArmors = 109,
         MagicRuneInstallationArmors = 110,
         CraftingRuneInstallationArmors = 111,
-        SpecialRuneInstallationArmors = 112
+        SpecialRuneInstallationArmors = 112,
+        BladeProficiency = 113,
+        BluntProficiency = 114,
+        FinesseBladeProficiency = 115,
+        HeavyBladeProficiency = 116,
+        HeavyBluntProficiency = 117,
+        PolearmProficiency = 118,
+        TwinBladeProficiency = 119,
+        MartialArtsProficiency = 120,
+        BlasterProficiency = 121,
+        RifleProficiency = 122
+
     }
 
 }

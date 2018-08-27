@@ -77,7 +77,7 @@ namespace SOO2.Game.Server.Perk.Firearms
 
             if (equippedArmor.Equals(oItem) || equippedWeapon.Equals(oItem) || 
                 equippedArmor.CustomItemType != CustomItemType.LightArmor ||
-                equippedWeapon.CustomItemType != CustomItemType.Bow)
+                equippedWeapon.CustomItemType != CustomItemType.Blaster)
             {
                 _nwnxCreature.RemoveFeat(oPC, NWScript.FEAT_RAPID_RELOAD);
                 return;

@@ -14,8 +14,8 @@
         Polearm = 9,
         TwinBlade = 10,
         MartialArtWeapon = 11,
-        Bow = 12,
-        Crossbow = 13,
+        Blaster = 12,
+        Rifle = 13,
         Throwing = 14
     }
 }

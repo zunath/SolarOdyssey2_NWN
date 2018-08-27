@@ -868,8 +868,8 @@ namespace SOO2.Game.Server.Service
                    offHand.CustomItemType == CustomItemType.Polearm ||
                    offHand.CustomItemType == CustomItemType.TwinBlade ||
                    offHand.CustomItemType == CustomItemType.MartialArtWeapon ||
-                   offHand.CustomItemType == CustomItemType.Bow ||
-                   offHand.CustomItemType == CustomItemType.Crossbow ||
+                   offHand.CustomItemType == CustomItemType.Blaster ||
+                   offHand.CustomItemType == CustomItemType.Rifle ||
                    offHand.CustomItemType == CustomItemType.Throwing)
                 {
                     weapon = offHand;
@@ -888,11 +888,63 @@ namespace SOO2.Game.Server.Service
             int skillBAB = skill.Rank / 10;
             int perkBAB = 0;
 
-            if (weaponSkillID == (int)SkillType.Throwing)
+            // Apply increased BAB if player is using a weapon for which they have a proficiency.
+            PerkType proficiencyPerk = PerkType.Unknown;
+            SkillType proficiencySkill = SkillType.Unknown;
+            switch (weapon.CustomItemType)
             {
-                perkBAB += _perk.GetPCPerkLevel(oPC, PerkType.TossAccuracy);
+                case CustomItemType.Blade:
+                    proficiencyPerk = PerkType.BladeProficiency;
+                    proficiencySkill = SkillType.OneHanded;
+                    break;
+                case CustomItemType.FinesseBlade:
+                    proficiencyPerk = PerkType.FinesseBladeProficiency;
+                    proficiencySkill = SkillType.OneHanded;
+                    break;
+                case CustomItemType.Blunt:
+                    proficiencyPerk = PerkType.BluntProficiency;
+                    proficiencySkill = SkillType.OneHanded;
+                    break;
+                case CustomItemType.HeavyBlade:
+                    proficiencyPerk = PerkType.HeavyBladeProficiency;
+                    proficiencySkill = SkillType.TwoHanded;
+                    break;
+                case CustomItemType.HeavyBlunt:
+                    proficiencyPerk = PerkType.HeavyBluntProficiency;
+                    proficiencySkill = SkillType.TwoHanded;
+                    break;
+                case CustomItemType.Polearm:
+                    proficiencyPerk = PerkType.PolearmProficiency;
+                    proficiencySkill = SkillType.TwoHanded;
+                    break;
+                case CustomItemType.TwinBlade:
+                    proficiencyPerk = PerkType.TwinBladeProficiency;
+                    proficiencySkill = SkillType.TwinBlades;
+                    break;
+                case CustomItemType.MartialArtWeapon:
+                    proficiencyPerk = PerkType.MartialArtsProficiency;
+                    proficiencySkill = SkillType.MartialArts;
+                    break;
+                case CustomItemType.Blaster:
+                    proficiencyPerk = PerkType.BlasterProficiency;
+                    proficiencySkill = SkillType.Firearms;
+                    break;
+                case CustomItemType.Rifle:
+                    proficiencyPerk = PerkType.RifleProficiency;
+                    proficiencySkill = SkillType.Firearms;
+                    break;
+                case CustomItemType.Throwing:
+                    proficiencyPerk = PerkType.ThrowingProficiency;
+                    proficiencySkill = SkillType.Throwing;
+                    break;
             }
 
+            if (proficiencyPerk != PerkType.Unknown && 
+                proficiencySkill != SkillType.Unknown)
+            {
+                perkBAB += _perk.GetPCPerkLevel(oPC, proficiencyPerk);
+            }
+            
             int equipmentBAB = 0;
             for (int x = 0; x < NUM_INVENTORY_SLOTS; x++)
             {
