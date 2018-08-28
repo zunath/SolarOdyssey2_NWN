@@ -982,11 +982,11 @@ namespace SOO2.Game.Server.Service
                 int itemLevel = equipped.RecommendedLevel;
                 SkillType equippedSkill = GetSkillTypeForItem(equipped);
                 int rank = GetPCSkill(oPC, equippedSkill).Rank;
-                int delta = itemLevel - rank;
+                int delta = itemLevel - rank; // -20
                 int itemBAB = equipped.BaseAttackBonus;
 
                 if (delta >= 1) itemBAB--;
-                itemBAB = itemBAB - delta / 5;
+                if(delta > 0) itemBAB = itemBAB - delta / 5;
 
                 if (itemBAB <= 0) itemBAB = 0;
 
