@@ -55,6 +55,7 @@ namespace SOO2.Game.Server.Item
             int runeID = runeItem.GetLocalInt("RUNE_ID");
             string[] runeArgs = runeItem.GetLocalString("RUNE_VALUE").Split(',');
             int runeLevel = runeItem.RecommendedLevel;
+            int levelIncrease = runeItem.LevelIncrease;
 
             var dbRune = _db.Runes.Single(x => x.RuneID == runeID && x.IsActive);
             IRune rune = App.ResolveByInterface<IRune>("Rune." + dbRune.Script);
@@ -83,7 +84,7 @@ namespace SOO2.Game.Server.Item
                     else usePrismatic = true;
                     break;
                 case CustomItemPropertyType.GreenRune:
-                    if (slots.FilledBlueSlots < slots.BlueSlots)
+                    if (slots.FilledBlueSlots < slots.GreenSlots)
                     {
                         targetItem.SetLocalInt("RUNIC_SLOT_GREEN_" + (slots.FilledGreenSlots + 1), runeID);
                         targetItem.SetLocalString("RUNIC_SLOT_GREEN_DESC_" + (slots.FilledGreenSlots + 1), description);
@@ -92,7 +93,7 @@ namespace SOO2.Game.Server.Item
                     else usePrismatic = true;
                     break;
                 case CustomItemPropertyType.YellowRune:
-                    if (slots.FilledBlueSlots < slots.BlueSlots)
+                    if (slots.FilledBlueSlots < slots.YellowSlots)
                     {
                         targetItem.SetLocalInt("RUNIC_SLOT_YELLOW_" + (slots.FilledYellowSlots + 1), runeID);
                         targetItem.SetLocalString("RUNIC_SLOT_YELLOW_DESC_" + (slots.FilledYellowSlots + 1), description);
@@ -110,7 +111,7 @@ namespace SOO2.Game.Server.Item
                 player.SendMessage("Rune installed into " + prismaticText + " slot #" + (slots.FilledPrismaticSlots + 1));
             }
 
-            targetItem.RecommendedLevel += runeLevel;
+            targetItem.RecommendedLevel += levelIncrease;
             runeItem.Destroy();
 
             SkillType skillType;

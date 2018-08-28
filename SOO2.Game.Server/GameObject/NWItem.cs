@@ -182,6 +182,18 @@ namespace SOO2.Game.Server.GameObject
             set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_RECOMMENDED_LEVEL", value);
         }
 
+        public virtual int LevelIncrease
+        {
+            get
+            {
+                int levelIncrease = GetItemPropertyValueAndRemove((int)CustomItemPropertyType.LevelIncrease);
+                if (levelIncrease <= -1) return _.GetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_LEVEL_INCREASE");
+                LevelIncrease = levelIncrease;
+                return levelIncrease;
+            }
+            set => _.SetLocalInt(Object, "CUSTOM_ITEM_PROPERTY_TYPE_LEVEL_INCREASE", value);
+        }
+
         public virtual int LoggingBonus
         {
             get

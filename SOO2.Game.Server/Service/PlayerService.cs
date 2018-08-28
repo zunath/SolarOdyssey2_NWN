@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Linq;
 using NWN;
 using SOO2.Game.Server.Data;
@@ -52,16 +53,20 @@ namespace SOO2.Game.Server.Service
 
         public void InitializePlayer(NWPlayer player)
         {
+            Console.WriteLine("Running INitializePlayer");
             if (player == null) throw new ArgumentNullException(nameof(player));
             if (player.Object == null) throw new ArgumentNullException(nameof(player.Object));
 
+            Console.WriteLine("checking if is player");
             if (!player.IsPlayer) return;
+            Console.WriteLine("is player is true checking init");
 
             if (!player.IsInitializedAsPlayer)
             {
+                Console.WriteLine("initializing player");
+
                 player.DestroyAllInventoryItems();
                 player.InitializePlayer();
-                
                 _.AssignCommand(player.Object, () => _.TakeGoldFromCreature(_.GetGold(player.Object), player.Object, 1));
 
                 player.DelayCommand(() =>
@@ -76,12 +81,6 @@ namespace SOO2.Game.Server.Service
                 knife.MaxDurability = 5;
                 knife.Durability = 5;
 
-                NWItem hammer = NWItem.Wrap(_.CreateItemOnObject("basic_hammer", player.Object));
-                hammer.Name = player.Name + "'s Hammer";
-                hammer.IsCursed = true;
-                hammer.MaxDurability = 5;
-                hammer.Durability = 5;
-
                 NWItem darts = NWItem.Wrap(_.CreateItemOnObject("nw_wthdt001", player.Object, 50)); // 50x Dart
                 darts.Name = "Starting Darts";
                 darts.IsCursed = true;
@@ -92,10 +91,6 @@ namespace SOO2.Game.Server.Service
 
                 NWItem dyeKit = NWItem.Wrap(_.CreateItemOnObject("tk_omnidye", player.Object));
                 dyeKit.IsCursed = true;
-
-                NWItem shovel = NWItem.Wrap(_.CreateItemOnObject("basic_shovel", player.Object));
-                shovel.Name = player.Name + "'s Shovel";
-                shovel.IsCursed = true;
                 
                 int numberOfFeats = _nwnxCreature.GetFeatCount(player);
                 for (int currentFeat = numberOfFeats; currentFeat >= 0; currentFeat--)
@@ -128,14 +123,14 @@ namespace SOO2.Game.Server.Service
                 {
                     _nwnxCreature.RemoveKnownSpell(player, classID, 0, index);
                 }
+                
+                PlayerCharacter entity = player.ToEntity();
+                _db.PlayerCharacters.Add(entity);
+                _db.SaveChanges();
 
-                using (DataContext context = new DataContext())
-                {
-                    PlayerCharacter entity = player.ToEntity();
-                    context.PlayerCharacters.Add(entity);
-                    context.SaveChanges();
-                }
-               
+                _db.StoredProcedure("InsertAllPCSkillsByID",
+                    new SqlParameter("PlayerID", player.GlobalID));
+
                 _skill.ApplyStatChanges(player, null);
 
                 _.DelayCommand(1.0f, () => _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(999), player.Object));

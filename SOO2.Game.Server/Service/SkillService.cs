@@ -473,7 +473,6 @@ namespace SOO2.Game.Server.Service
         public void OnModuleEnter()
         {
             NWPlayer oPC = NWPlayer.Wrap(_.GetEnteringObject());
-
             if (oPC.IsPlayer)
             {
                 _db.StoredProcedure("InsertAllPCSkillsByID",

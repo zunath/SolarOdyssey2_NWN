@@ -38,6 +38,7 @@
         RedRune = 132,
         BlueRune = 133,
         GreenRune = 134,
-        YellowRune = 135
+        YellowRune = 135,
+        LevelIncrease = 136
     }
 }

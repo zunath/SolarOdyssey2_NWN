@@ -533,6 +533,7 @@
     <Compile Include="Rune\FirstAidRune.cs" />
     <Compile Include="Rune\HPRegenRune.cs" />
     <Compile Include="Rune\HPRune.cs" />
+    <Compile Include="Rune\LevelRune.cs" />
     <Compile Include="Rune\LoggingRune.cs" />
     <Compile Include="Rune\LuckRune.cs" />
     <Compile Include="Rune\ManaRegenRune.cs" />
