@@ -55,6 +55,8 @@ namespace SOO2.Game.Server.Service
         
         public void AdjustEnmity(NWCreature npc, NWCreature attacker, int volatileAdjust, int cumulativeAdjust = 0)
         {
+            if (!npc.IsNPC) return;
+
             bool adjustVolatile = volatileAdjust != 0;
             bool adjustCumulative = cumulativeAdjust != 0;
 

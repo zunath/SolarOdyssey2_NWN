@@ -394,6 +394,7 @@ namespace SOO2.Game.Server.Service
             if (damager.IsPlayer && sneakAttackType > 0)
             {
                 NWPlayer player = NWPlayer.Wrap(damager.Object);
+                NWCreature target = NWCreature.Wrap(Object.OBJECT_SELF);
                 int perkRank = _perk.GetPCPerkByID(damager.GlobalID, (int)PerkType.SneakAttack).PerkLevel;
                 int perkBonus = 1;
 
@@ -412,6 +413,11 @@ namespace SOO2.Game.Server.Service
 
                 float damageRate = 1.0f + perkRate + (player.EffectiveSneakAttackBonus * 0.05f);
                 data.Base = (int)(data.Base * damageRate);
+
+                if (target.IsNPC)
+                {
+                    _enmity.AdjustEnmity(target, player, 5 * data.Base);
+                }
 
                 _nwnxDamage.SetDamageEventData(data);
             }

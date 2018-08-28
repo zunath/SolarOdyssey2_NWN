@@ -76,6 +76,7 @@
     <Compile Include="ChatCommand\Contracts\IChatCommand.cs" />
     <Compile Include="ChatCommand\Help.cs" />
     <Compile Include="ChatCommand\Night.cs" />
+    <Compile Include="ChatCommand\Rez.cs" />
     <Compile Include="ChatCommand\Save.cs" />
     <Compile Include="ChatCommand\SpawnItem.cs" />
     <Compile Include="ChatCommand\Stuck.cs" />
