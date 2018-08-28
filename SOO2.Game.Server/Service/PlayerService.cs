@@ -53,18 +53,12 @@ namespace SOO2.Game.Server.Service
 
         public void InitializePlayer(NWPlayer player)
         {
-            Console.WriteLine("Running INitializePlayer");
             if (player == null) throw new ArgumentNullException(nameof(player));
             if (player.Object == null) throw new ArgumentNullException(nameof(player.Object));
-
-            Console.WriteLine("checking if is player");
             if (!player.IsPlayer) return;
-            Console.WriteLine("is player is true checking init");
 
             if (!player.IsInitializedAsPlayer)
             {
-                Console.WriteLine("initializing player");
-
                 player.DestroyAllInventoryItems();
                 player.InitializePlayer();
                 _.AssignCommand(player.Object, () => _.TakeGoldFromCreature(_.GetGold(player.Object), player.Object, 1));

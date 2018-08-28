@@ -390,10 +390,14 @@ namespace SOO2.Game.Server.Service
                     int skillRank = GetPCSkillByID(preg.Player.GlobalID, skillID).Rank;
 
                     int points = skreg.Item2.Points;
+                    int itemLevel = skreg.Item2.RegisteredLevel;
+                    if (itemLevel > skillRank) itemLevel = skillRank - 5;
+                    if (itemLevel < 0) itemLevel = 0;
+
                     float percentage = points / (float)totalPoints;
                     float skillLDP = CalculatePartyLevelDifferencePenalty(partyLevel, skillRank);
                     float adjustedXP = baseXP * percentage * skillLDP;
-                    adjustedXP = CalculateRegisteredSkillLevelAdjustedXP(adjustedXP, skreg.Item2.RegisteredLevel, skillRank);
+                    adjustedXP = CalculateRegisteredSkillLevelAdjustedXP(adjustedXP, itemLevel, skillRank);
 
                     // Penalty to martial arts XP for using a shield.
                     if (skillID == (int)SkillType.MartialArts && receivesMartialArtsPenalty)
@@ -513,7 +517,7 @@ namespace SOO2.Game.Server.Service
             int delta = registeredLevel - skillRank;
             float levelAdjustment = 0.14f * delta;
 
-            if (levelAdjustment > 1.0f) levelAdjustment = 1.0f;
+            if (levelAdjustment > 0.0f) levelAdjustment = 0.0f;
             if (levelAdjustment < -1.0f) levelAdjustment = -1.0f;
 
             xp = xp + (xp * levelAdjustment);
