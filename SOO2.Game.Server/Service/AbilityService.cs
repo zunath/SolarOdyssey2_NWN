@@ -8,6 +8,7 @@ using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.NWNX;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Perk;
 using SOO2.Game.Server.Service.Contracts;
@@ -364,13 +365,16 @@ namespace SOO2.Game.Server.Service
 
             IPerk perk = App.ResolveByInterface<IPerk>("Perk." + entity.JavaScriptName);
 
-            perk?.OnImpact(oPC, oTarget);
-
-            if (oTarget.IsNPC)
+            if (perk.CanCastSpell(oPC, oTarget))
             {
-                ApplyEnmity(oPC, NWCreature.Wrap(oTarget.Object), entity);
+                perk.OnImpact(oPC, oTarget);
+
+                if (oTarget.IsNPC)
+                {
+                    ApplyEnmity(oPC, NWCreature.Wrap(oTarget.Object), entity);
+                }
             }
-            
+            else oPC.SendMessage(perk.CannotCastSpellMessage(oPC, oTarget) ?? "That ability cannot be used at this time.");
 
             oPC.DeleteLocalString("ACTIVE_WEAPON_SKILL_UUID");
             oPC.DeleteLocalInt("ACTIVE_WEAPON_SKILL");
@@ -378,29 +382,41 @@ namespace SOO2.Game.Server.Service
 
         public void OnModuleApplyDamage()
         {
-            var data = _nwnxDamage.GetDamageEventData();
-            NWObject target = NWObject.Wrap(Object.OBJECT_SELF);
+            DamageData data = _nwnxDamage.GetDamageEventData();
+            HandleApplySneakAttackDamage(data);
+        }
+
+        private void HandleApplySneakAttackDamage(DamageData data)
+        {
             NWObject damager = data.Damager;
-            PerkType queuedWeaponSkill = (PerkType)damager.GetLocalInt("ACTIVE_WEAPON_SKILL");
+            int sneakAttackType = damager.GetLocalInt("SNEAK_ATTACK_ACTIVE");
 
-            if (damager.IsPlayer &&
-                queuedWeaponSkill == PerkType.SneakAttack)
+            if (damager.IsPlayer && sneakAttackType > 0)
             {
-                Console.WriteLine("Applying sneak attack damage");
-                if (target.Facing <= damager.Facing + 20 ||
-                    target.Facing >= damager.Facing - 20)
+                NWPlayer player = NWPlayer.Wrap(damager.Object);
+                int perkRank = _perk.GetPCPerkByID(damager.GlobalID, (int)PerkType.SneakAttack).PerkLevel;
+                int perkBonus = 1;
+
+                // Rank 4 increases damage bonus by 2x (total: 3x)
+                if (perkRank == 4) perkBonus = 2;
+
+                float perkRate;
+                if (sneakAttackType == 1) // Player is behind target.
                 {
-                    Console.WriteLine("within facing range");
-                    NWPlayer player = NWPlayer.Wrap(damager.Object);
-                    int perkRank = _perk.GetPCPerkByID(damager.GlobalID, (int)PerkType.SneakAttack).PerkLevel;
-                    float damageRate = 1.0f + perkRank + (player.EffectiveSneakAttackBonus * 0.05f);
-                    data.Base = (int)(data.Base * damageRate);
-
-                    _nwnxDamage.SetDamageEventData(data);
-
+                    perkRate = 1.0f * perkBonus;
                 }
+                else // Player is anywhere else.
+                {
+                    perkRate = 0.5f * perkBonus;
+                }
+
+                float damageRate = 1.0f + perkRate + (player.EffectiveSneakAttackBonus * 0.05f);
+                data.Base = (int)(data.Base * damageRate);
+
+                _nwnxDamage.SetDamageEventData(data);
             }
 
+            damager.DeleteLocalInt("SNEAK_ATTACK_ACTIVE");
         }
 
     }
