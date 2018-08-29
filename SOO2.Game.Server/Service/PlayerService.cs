@@ -214,7 +214,7 @@ namespace SOO2.Game.Server.Service
             NWArea area = player.Area;
             bool isPlayerHome = area.GetLocalInt("IS_PLAYER_HOME") == 1;
 
-            if (area.Tag != "ooc_area" && !isPlayerHome)
+            if (area.Tag != "ooc_area" && !isPlayerHome && area.Tag != "tutorial")
             {
                 PlayerCharacter entity = GetPlayerEntity(player.GlobalID);
                 entity.LocationAreaTag = area.Tag;

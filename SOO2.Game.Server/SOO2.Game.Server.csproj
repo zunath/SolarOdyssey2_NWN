@@ -514,6 +514,7 @@
     <Compile Include="Placeable\TrashCan\OnClosed.cs" />
     <Compile Include="Placeable\TrashCan\OnDisturbed.cs" />
     <Compile Include="Placeable\TrashCan\OnOpened.cs" />
+    <Compile Include="Placeable\TutorialPortal\OnUsed.cs" />
     <Compile Include="Placeable\WarpDevice\OnUsed.cs" />
     <Compile Include="Rune\AlterationMagicRune.cs" />
     <Compile Include="Rune\ArmorClassRune.cs" />
