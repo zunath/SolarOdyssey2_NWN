@@ -89,7 +89,7 @@
         WeaponBlueprints = 84,
         ForageExpert = 85,
         MagicRuneInstallationWeapons = 86,
-        HeavyArmorBlueprints = 87,
+        // 87 is free
         CraftingRuneInstallationWeapons = 88,
         SeedSearcher = 89,
         CarefulForager = 90,
@@ -107,7 +107,7 @@
         FoodRecipes = 102,
         Meditate = 103,
         Provoke = 104,
-        LightArmorBlueprints = 105,
+        // 105 is free
         SeedPicker = 106,
         TwinBladeMastery = 107,
         BuildingBlueprints = 108,
@@ -126,7 +126,7 @@
         BlasterProficiency = 121,
         RifleProficiency = 122,
         SneakAttack = 123,
-        MysticArmorBlueprints = 124,
+        ArmorBlueprints = 124,
         Battlemage = 125,
         Chainspell = 126,
         Clarity = 127,

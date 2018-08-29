@@ -2,7 +2,7 @@
 
 namespace SOO2.Game.Server.Perk.Armorsmith
 {
-    public class LightArmorBlueprints : IPerk
+    public class ArmorBlueprints : IPerk
     {
         public bool CanCastSpell(NWPlayer oPC, NWObject oTarget)
         {

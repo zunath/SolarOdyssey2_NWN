@@ -260,7 +260,7 @@
     <Compile Include="Perk\Armorsmith\CombatRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armorsmith\CraftingRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armorsmith\MagicRuneInstallationArmors.cs" />
-    <Compile Include="Perk\Armorsmith\MysticArmorBlueprints.cs" />
+    <Compile Include="Perk\Armorsmith\ArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\SpecialRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armor\Clarity.cs" />
     <Compile Include="Perk\Armor\Provoke.cs" />
@@ -272,8 +272,6 @@
     <Compile Include="Perk\Firearms\RapidShot.cs" />
     <Compile Include="Perk\Firearms\RifleProficiency.cs" />
     <Compile Include="Perk\Firearms\ZenMarksmanship.cs" />
-    <Compile Include="Perk\Armorsmith\HeavyArmorBlueprints.cs" />
-    <Compile Include="Perk\Armorsmith\LightArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\SpeedyArmorsmith.cs" />
     <Compile Include="Perk\Armor\DeflectDamage.cs" />
     <Compile Include="Perk\Armor\Dodge.cs" />

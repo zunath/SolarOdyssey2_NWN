@@ -83,7 +83,7 @@ namespace SOO2.Game.Server.Service
                     _perk.DoPerkUpgrade(oPC, PerkType.WeaponBlueprints);
                     break;
                 case BackgroundType.Armorsmith:
-                    _perk.DoPerkUpgrade(oPC, PerkType.LightArmorBlueprints);
+                    _perk.DoPerkUpgrade(oPC, PerkType.ArmorBlueprints);
                     break;
                 case BackgroundType.Knight:
                     item1Resref = "bkg_knightarmor";
