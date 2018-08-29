@@ -2,6 +2,7 @@
 using NWN;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
 using static NWN.NWScript;
@@ -17,6 +18,7 @@ namespace SOO2.Game.Server.Event.Module
         private readonly IItemService _item;
         private readonly IEffectTrackerService _effectTracker;
         private readonly IAbilityService _ability;
+        private readonly IPerkService _perk;
         
         public OnModuleHeartbeat(INWScript script,
             IDataContext db,
@@ -24,7 +26,8 @@ namespace SOO2.Game.Server.Event.Module
             ICustomEffectService customEffect,
             IItemService item,
             IEffectTrackerService effectTracker,
-            IAbilityService ability)
+            IAbilityService ability,
+            IPerkService perk)
         {
             _ = script;
             _db = db;
@@ -33,6 +36,7 @@ namespace SOO2.Game.Server.Event.Module
             _item = item;
             _effectTracker = effectTracker;
             _ability = ability;
+            _perk = perk;
         }
 
         public bool Run(params object[] args)
@@ -103,8 +107,15 @@ namespace SOO2.Game.Server.Event.Module
                         amount += con;
                     }
                     amount += oPC.EffectiveHPRegenBonus;
-                    entity = _food.DecreaseHungerLevel(entity, oPC, 3);
-
+                    
+                    if (oPC.Chest.CustomItemType == CustomItemType.HeavyArmor)
+                    {
+                        int sturdinessLevel = _perk.GetPCPerkLevel(oPC, PerkType.Sturdiness);
+                        if (sturdinessLevel > 0)
+                        {
+                            amount += sturdinessLevel + 1;
+                        }
+                    }
                     _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(amount), oPC.Object);
                 }
 
@@ -133,6 +144,16 @@ namespace SOO2.Game.Server.Event.Module
                         amount += cha;
                     }
                     amount += oPC.EffectiveManaRegenBonus;
+
+                    if (oPC.Chest.CustomItemType == CustomItemType.MysticArmor)
+                    {
+                        int clarityLevel = _perk.GetPCPerkLevel(oPC, PerkType.Clarity);
+                        if (clarityLevel > 0)
+                        {
+                            amount += clarityLevel + 1;
+                        }
+                    }
+
                     entity = _ability.RestoreMana(oPC, amount, entity);
                 }
 

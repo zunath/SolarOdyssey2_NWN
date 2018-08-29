@@ -262,7 +262,9 @@
     <Compile Include="Perk\Armorsmith\MagicRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armorsmith\MysticArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\SpecialRuneInstallationArmors.cs" />
+    <Compile Include="Perk\Armor\Clarity.cs" />
     <Compile Include="Perk\Armor\Provoke.cs" />
+    <Compile Include="Perk\Armor\Sturdiness.cs" />
     <Compile Include="Perk\Evocation\Chainspell.cs" />
     <Compile Include="Perk\Firearms\BlasterProficiency.cs" />
     <Compile Include="Perk\Firearms\PointBlankShot.cs" />

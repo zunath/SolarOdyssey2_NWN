@@ -128,7 +128,9 @@
         SneakAttack = 123,
         MysticArmorBlueprints = 124,
         Battlemage = 125,
-        Chainspell = 126
+        Chainspell = 126,
+        Clarity = 127,
+        Sturdiness = 128
     }
 
 }
