@@ -126,7 +126,8 @@
         BlasterProficiency = 121,
         RifleProficiency = 122,
         SneakAttack = 123,
-        MysticArmorBlueprints = 124
+        MysticArmorBlueprints = 124,
+        Battlemage = 125
     }
 
 }

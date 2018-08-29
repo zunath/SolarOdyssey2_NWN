@@ -384,6 +384,51 @@ namespace SOO2.Game.Server.Service
         {
             DamageData data = _nwnxDamage.GetDamageEventData();
             HandleApplySneakAttackDamage(data);
+            HandleBattlemagePerk(data);
+        }
+
+        private void HandleBattlemagePerk(DamageData data)
+        {
+            NWObject target = NWObject.Wrap(Object.OBJECT_SELF);
+            if (!data.Damager.IsPlayer || target.IsPlayer) return;
+            if (_.GetHasFeat((int)CustomFeatType.Battlemage, data.Damager.Object) == FALSE) return;
+
+            NWPlayer player = NWPlayer.Wrap(data.Damager.Object);
+            NWItem weapon = NWItem.Wrap(_.GetLastWeaponUsed(player.Object));
+            if (weapon.CustomItemType != CustomItemType.HeavyBlunt) return;
+            if (player.Chest.CustomItemType != CustomItemType.MysticArmor) return;
+
+            int perkRank = _perk.GetPCPerkLevel(player, PerkType.Battlemage);
+
+            int restoreAmount = 0;
+            bool metRoll = _random.Random(100) + 1 <= 50;
+
+            switch (perkRank)
+            {
+                case 1 when metRoll:
+                    restoreAmount = 1;
+                    break;
+                case 2:
+                    restoreAmount = 1;
+                    break;
+                case 3:
+                    restoreAmount = 1;
+                    if (metRoll) restoreAmount++;
+                    break;
+                case 4:
+                    restoreAmount = 2;
+                    break;
+                case 5:
+                    restoreAmount = 2;
+                    if (metRoll) restoreAmount++;
+                    break;
+                case 6:
+                    restoreAmount = 3;
+                    break;
+            }
+
+            if(restoreAmount > 0)
+                RestoreMana(player, restoreAmount);
         }
 
         private void HandleApplySneakAttackDamage(DamageData data)

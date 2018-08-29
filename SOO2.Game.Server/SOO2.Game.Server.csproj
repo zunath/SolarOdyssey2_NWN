@@ -340,6 +340,7 @@
     <Compile Include="Perk\Throwing\ZenTossing.cs" />
     <Compile Include="Perk\TwinBlade\TwinBladeMastery.cs" />
     <Compile Include="Perk\TwinBlade\TwinBladeProficiency.cs" />
+    <Compile Include="Perk\TwoHanded\Battlemage.cs" />
     <Compile Include="Perk\TwoHanded\Cleave.cs" />
     <Compile Include="Perk\TwoHanded\HeavyBladeProficiency.cs" />
     <Compile Include="Perk\TwoHanded\HeavyBluntProficiency.cs" />

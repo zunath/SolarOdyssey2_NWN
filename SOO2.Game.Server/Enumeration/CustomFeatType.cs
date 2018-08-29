@@ -17,6 +17,8 @@
         Meditate = 1128,
         Provoke = 1129,
         StructureTool = 1130,
-        OpenRestMenu = 1131
+        OpenRestMenu = 1131,
+        SneakAttack = 1132,
+        Battlemage = 1133
     }
 }
