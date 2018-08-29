@@ -133,4 +133,4 @@
 129   NPC_Aribeth_Paladin                84522      84106         6         CHA         50     ****     ****      ****      ****        PackSPPala1     PackFTPalaH    PackSKPalaH    PackEQPala1    0          0             
 130   NPC_Aribeth_Blackguard             84523      84106         31        STR         50     ****     ****      ****      ****        PackSPPala1     PackFTPalaH    PackSKPalaH    PackEQPala1    0          0             
 131   Purple_Dragon_Knight               111933     111934        41        STR         50     ****     ****      ****      ****        ****            PackFTFight1   PackSKFight1   PackEQFight1   0          0             
-132   Standard                           16857760   16857762      42        STR         0      ****     ****      ****      ****        ****            PackFTStand1   PackSKStand1   PackEQStand1   0          1             
+132   Standard                           16857760   16857762      4         STR         0      ****     ****      ****      ****        ****            PackFTStand1   PackSKStand1   PackEQStand1   0          1             
