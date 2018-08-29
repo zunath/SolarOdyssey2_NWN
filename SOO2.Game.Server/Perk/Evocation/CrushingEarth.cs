@@ -1,4 +1,5 @@
-﻿using NWN;
+﻿using System;
+using NWN;
 using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
@@ -92,7 +93,7 @@ namespace SOO2.Game.Server.Perk.Evocation
 
             float damageMultiplier = 1.0f + (intelligence * 0.2f) + (wisdom * 0.1f);
             damage = (int)(damage * damageMultiplier);
-
+            
             _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectVisualEffect(VFX_COM_CHUNK_STONE_SMALL), oTarget.Object);
 
             if (stunLength > 0.0f)

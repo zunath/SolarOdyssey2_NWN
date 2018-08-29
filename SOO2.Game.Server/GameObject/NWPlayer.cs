@@ -177,6 +177,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     int itemCastingSpeed = item.CastingSpeed;
 
                     // Penalties don't scale.
@@ -208,6 +209,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     float itemRate = 0.01f * item.EnmityRate;
@@ -231,9 +233,10 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
-                    int itemEvocationBonus = CalculateAdjustedValue(item.EvocationBonus, item.RecommendedLevel, rank);
+                    int itemEvocationBonus = CalculateAdjustedValue(item.EvocationBonus, item.RecommendedLevel, rank, 0);
                     
                     evocationBonus += itemEvocationBonus;
                 }
@@ -250,9 +253,10 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
-                    int itemAlterationBonus = CalculateAdjustedValue(item.AlterationBonus, item.RecommendedLevel, rank);
+                    int itemAlterationBonus = CalculateAdjustedValue(item.AlterationBonus, item.RecommendedLevel, rank, 0);
 
                     alterationBonus += itemAlterationBonus;
                 }
@@ -269,9 +273,10 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
-                    int itemSummoningBonus = CalculateAdjustedValue(item.SummoningBonus, item.RecommendedLevel, rank);
+                    int itemSummoningBonus = CalculateAdjustedValue(item.SummoningBonus, item.RecommendedLevel, rank, 0);
 
                     summoningBonus += itemSummoningBonus;
                 }
@@ -288,6 +293,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemLuckBonus = CalculateAdjustedValue(item.LuckBonus, item.RecommendedLevel, rank, 0);
@@ -306,6 +312,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemMeditateBonus = CalculateAdjustedValue(item.MeditateBonus, item.RecommendedLevel, rank, 0);
@@ -325,6 +332,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemFirstAidBonus = CalculateAdjustedValue(item.FirstAidBonus, item.RecommendedLevel, rank, 0);
@@ -344,6 +352,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemHPRegenBonus = CalculateAdjustedValue(item.HPRegenBonus, item.RecommendedLevel, rank, 0);
@@ -363,6 +372,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemManaRegenBonus = CalculateAdjustedValue(item.ManaRegenBonus, item.RecommendedLevel, rank, 0);
@@ -382,6 +392,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemWeaponsmithBonus = CalculateAdjustedValue(item.CraftBonusWeaponsmith, item.RecommendedLevel, rank, 0);
@@ -400,6 +411,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemCookingBonus = CalculateAdjustedValue(item.CraftBonusCooking, item.RecommendedLevel, rank, 0);
@@ -436,6 +448,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemArmorsmithBonus = CalculateAdjustedValue(item.CraftBonusArmorsmith, item.RecommendedLevel, rank, 0);
@@ -455,6 +468,7 @@ namespace SOO2.Game.Server.GameObject
                 for (int itemSlot = 0; itemSlot < NUM_INVENTORY_SLOTS; itemSlot++)
                 {
                     NWItem item = NWItem.Wrap(_.GetItemInSlot(itemSlot, Object));
+                    if (!item.IsValid) continue;
                     SkillType skill = _skill.GetSkillTypeForItem(item);
                     int rank = _skill.GetPCSkill(this, skill).Rank;
                     int itemSneakAttackBonus = CalculateAdjustedValue(item.SneakAttackBonus, item.RecommendedLevel, rank, 0);
