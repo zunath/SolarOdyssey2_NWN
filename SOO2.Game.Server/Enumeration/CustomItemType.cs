@@ -16,6 +16,12 @@
         MartialArtWeapon = 11,
         Blaster = 12,
         Rifle = 13,
-        Throwing = 14
+        Throwing = 14,
+        Shield = 15,
+        Ammunition = 16,
+        CraftingTool = 17,
+        Component = 18,
+        Jewelry = 19,
+        MysticArmor = 20
     }
 }

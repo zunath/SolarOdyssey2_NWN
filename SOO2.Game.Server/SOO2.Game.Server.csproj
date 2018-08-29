@@ -259,6 +259,7 @@
     <Compile Include="Perk\Armorsmith\CombatRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armorsmith\CraftingRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armorsmith\MagicRuneInstallationArmors.cs" />
+    <Compile Include="Perk\Armorsmith\MysticArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\SpecialRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armor\Provoke.cs" />
     <Compile Include="Perk\Firearms\BlasterProficiency.cs" />
@@ -699,6 +700,7 @@
     <None Include="packages.config" />
     <None Include="ServerFiles\docker-linux-startSOO2.sh" />
     <None Include="ServerFiles\docker-windows-soo2Start.cmd" />
+    <None Include="ServerFiles\HakPaks\soo2_tlk_v1.tlk" />
     <None Include="ServerFiles\HakPaks\soo2_top_v1\ambientmusic.2da" />
     <None Include="ServerFiles\HakPaks\soo2_top_v1\ambientsound.2da" />
     <None Include="ServerFiles\HakPaks\soo2_top_v1\ammunitiontypes.2da" />

@@ -412,6 +412,7 @@ namespace SOO2.Game.Server.Service
                 float armorXP = baseXP * 0.20f;
                 int lightArmorPoints = 0;
                 int heavyArmorPoints = 0;
+                int mysticArmorPoints = 0;
 
                 for (int slot = 0; slot < NUM_INVENTORY_SLOTS; slot++)
                 {
@@ -424,8 +425,12 @@ namespace SOO2.Game.Server.Service
                     {
                         heavyArmorPoints++;
                     }
+                    else if (item.CustomItemType == CustomItemType.MysticArmor)
+                    {
+                        mysticArmorPoints++;
+                    }
                 }
-                totalPoints = lightArmorPoints + heavyArmorPoints;
+                totalPoints = lightArmorPoints + heavyArmorPoints + mysticArmorPoints;
                 if (totalPoints <= 0) continue;
 
                 int armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.LightArmor).Rank;
@@ -439,6 +444,14 @@ namespace SOO2.Game.Server.Service
                 percent = heavyArmorPoints / (float)totalPoints;
 
                 GiveSkillXP(preg.Player, SkillType.HeavyArmor, (int)(armorXP * percent * armorLDP));
+                
+                armorRank = GetPCSkillByID(preg.Player.GlobalID, (int)SkillType.MysticArmor).Rank;
+                armorLDP = CalculatePartyLevelDifferencePenalty(partyLevel, armorRank);
+                percent = mysticArmorPoints / (float)totalPoints;
+
+                GiveSkillXP(preg.Player, SkillType.MysticArmor, (int)(armorXP * percent * armorLDP));
+
+
             }
 
             _state.CreatureSkillRegistrations.Remove(creature.GlobalID);
@@ -768,6 +781,7 @@ namespace SOO2.Game.Server.Service
             else if (throwingTypes.Contains(type)) skillType = SkillType.Throwing;
             else if (item.CustomItemType == CustomItemType.HeavyArmor) skillType = SkillType.HeavyArmor;
             else if (item.CustomItemType == CustomItemType.LightArmor) skillType = SkillType.LightArmor;
+            else if (item.CustomItemType == CustomItemType.MysticArmor) skillType = SkillType.MysticArmor;
             else if (shieldTypes.Contains(type)) skillType = SkillType.Shields;
 
             return skillType;
@@ -800,6 +814,7 @@ namespace SOO2.Game.Server.Service
             if (skillType == SkillType.Unknown ||
                 skillType == SkillType.LightArmor ||
                 skillType == SkillType.HeavyArmor ||
+                skillType == SkillType.MysticArmor ||
                 skillType == SkillType.Shields) return;
             if (oTarget.IsPlayer || oTarget.IsDM) return;
             if (oTarget.ObjectType != OBJECT_TYPE_CREATURE) return;
@@ -915,6 +930,7 @@ namespace SOO2.Game.Server.Service
             if (itemSkill == SkillType.Unknown ||
                 itemSkill == SkillType.LightArmor ||
                 itemSkill == SkillType.HeavyArmor ||
+                itemSkill == SkillType.MysticArmor ||
                 itemSkill == SkillType.Shields) return 0;
 
             int weaponSkillID = (int)itemSkill;
@@ -1009,6 +1025,7 @@ namespace SOO2.Game.Server.Service
             if (skillType == SkillType.Unknown ||
                 skillType == SkillType.HeavyArmor ||
                 skillType == SkillType.LightArmor ||
+                skillType == SkillType.MysticArmor ||
                 skillType == SkillType.Shields) return;
 
             int skillID = (int)skillType;
@@ -1080,6 +1097,7 @@ namespace SOO2.Game.Server.Service
             if (skillType == SkillType.Unknown ||
                 skillType == SkillType.HeavyArmor ||
                 skillType == SkillType.LightArmor ||
+                skillType == SkillType.MysticArmor ||
                 skillType == SkillType.Shields) return;
 
             foreach (ItemProperty ip in oItem.ItemProperties)

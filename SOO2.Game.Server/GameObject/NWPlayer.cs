@@ -133,6 +133,8 @@ namespace SOO2.Game.Server.GameObject
         {
             int heavyRank = _skill.GetPCSkill(this, SkillType.HeavyArmor).Rank;
             int lightRank = _skill.GetPCSkill(this, SkillType.LightArmor).Rank;
+            int mysticRank = _skill.GetPCSkill(this, SkillType.MysticArmor).Rank;
+
             int ac = 0;
             for (int slot = 0; slot < NUM_INVENTORY_SLOTS; slot++)
             {
@@ -146,7 +148,8 @@ namespace SOO2.Game.Server.GameObject
                     continue;
 
                 if (oItem.CustomItemType != CustomItemType.HeavyArmor &&
-                    oItem.CustomItemType != CustomItemType.LightArmor)
+                    oItem.CustomItemType != CustomItemType.LightArmor &&
+                    oItem.CustomItemType != CustomItemType.MysticArmor)
                     continue;
                 
                 int skillRankToUse = 0;
@@ -159,6 +162,11 @@ namespace SOO2.Game.Server.GameObject
                     oItem.RecommendedLevel > lightRank)
                 {
                     skillRankToUse = lightRank;
+                }
+                else if (oItem.CustomItemType == CustomItemType.MysticArmor &&
+                         oItem.RecommendedLevel > mysticRank)
+                {
+                    skillRankToUse = mysticRank;
                 }
                 
                 int itemAC = oItem.AC + oItem.CustomAC;

@@ -13,7 +13,7 @@
         HeavyArmor = 8,
         Shields = 9,
         Mining = 10,
-        // 11 is open
+        MysticArmor = 11,
         Weaponsmith = 12,
         Armorsmith = 13,
         Logging = 14,
