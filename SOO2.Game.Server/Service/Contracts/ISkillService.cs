@@ -9,7 +9,7 @@ namespace SOO2.Game.Server.Service.Contracts
     {
         int SkillCap { get; }
 
-        void ApplyStatChanges(NWPlayer player, NWItem ignoreItem);
+        void ApplyStatChanges(NWPlayer player, NWItem ignoreItem, bool isInitialization = false);
         float CalculateRegisteredSkillLevelAdjustedXP(float xp, int registeredLevel, int skillRank);
         List<SkillCategory> GetActiveCategories();
         PCSkill GetPCSkill(NWPlayer player, int skillID);

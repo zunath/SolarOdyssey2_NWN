@@ -60,7 +60,7 @@ namespace SOO2.Game.Server.Service
 
         public int SkillCap => 500;
 
-        public void ApplyStatChanges(NWPlayer player, NWItem ignoreItem)
+        public void ApplyStatChanges(NWPlayer player, NWItem ignoreItem, bool isInitialization = false)
         {
             if (!player.IsPlayer) return;
             if (!player.IsInitializedAsPlayer) return;
@@ -193,6 +193,9 @@ namespace SOO2.Game.Server.Service
 
             if (mana < 0) mana = 0;
             pcEntity.MaxMana = mana;
+
+            if (isInitialization)
+                pcEntity.CurrentMana = pcEntity.MaxMana;
 
             _db.SaveChanges();
         }

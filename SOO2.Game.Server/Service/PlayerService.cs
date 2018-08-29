@@ -125,7 +125,7 @@ namespace SOO2.Game.Server.Service
                 _db.StoredProcedure("InsertAllPCSkillsByID",
                     new SqlParameter("PlayerID", player.GlobalID));
 
-                _skill.ApplyStatChanges(player, null);
+                _skill.ApplyStatChanges(player, null, true);
 
                 _.DelayCommand(1.0f, () => _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectHeal(999), player.Object));
 
