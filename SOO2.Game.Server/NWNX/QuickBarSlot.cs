@@ -1,4 +1,5 @@
 ﻿
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 
 namespace SOO2.Game.Server.NWNX
@@ -7,7 +8,7 @@ namespace SOO2.Game.Server.NWNX
     {
         public NWItem Item { get; set; }
         public NWItem SecondaryItem { get; set; }
-        public int ObjectType { get; set; }
+        public QuickBarSlotType ObjectType { get; set; }
         public int MultiClass { get; set; }
         public string Resref { get; set; }
         public string CommandLabel { get; set; }

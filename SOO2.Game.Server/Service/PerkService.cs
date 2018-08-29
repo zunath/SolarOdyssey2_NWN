@@ -24,18 +24,24 @@ namespace SOO2.Game.Server.Service
         private readonly IDataContext _db;
         private readonly IBiowareXP2 _biowareXP2;
         private readonly INWNXCreature _nwnxCreature;
+        private readonly INWNXPlayerQuickBarSlot _nwnxQBS;
+        private readonly INWNXPlayer _nwnxPlayer;
 
         public PerkService(INWScript script,
             IColorTokenService color,
             IDataContext db,
             IBiowareXP2 biowareXP2,
-            INWNXCreature nwnxCreature)
+            INWNXCreature nwnxCreature,
+            INWNXPlayerQuickBarSlot nwnxQBS,
+            INWNXPlayer nwnxPlayer)
         {
             _ = script;
             _color = color;
             _db = db;
             _biowareXP2 = biowareXP2;
             _nwnxCreature = nwnxCreature;
+            _nwnxQBS = nwnxQBS;
+            _nwnxPlayer = nwnxPlayer;
         }
 
         public void OnModuleItemEquipped()
@@ -246,6 +252,33 @@ namespace SOO2.Game.Server.Service
                          _.GetHasFeat((int)perk.FeatID, oPC.Object) == FALSE)
                 {
                     _nwnxCreature.AddFeatByLevel(oPC, (int)perk.FeatID, 1);
+                    
+                    var qbs = _nwnxQBS.UseFeat((int) perk.FeatID);
+
+                    // Try to add the new feat to the player's hotbar.
+                    if (_nwnxPlayer.GetQuickBarSlot(oPC, 0).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 0, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 1).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 1, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 2).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 2, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 3).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 3, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 4).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 4, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 5).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 5, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 6).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 6, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 7).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 7, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 8).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 8, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 9).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 9, qbs);
+                    else if (_nwnxPlayer.GetQuickBarSlot(oPC, 10).ObjectType == QuickBarSlotType.Empty)
+                        _nwnxPlayer.SetQuickBarSlot(oPC, 10, qbs);
+
                 }
 
                 oPC.SendMessage(_color.Green("Perk Purchased: " + perk.Name + " (Lvl. " + pcPerk.PerkLevel + ")"));

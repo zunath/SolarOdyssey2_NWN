@@ -18,7 +18,7 @@ namespace SOO2.Game.Server.NWNX
         {
             QuickBarSlot qbs = new QuickBarSlot
             {
-                ObjectType = (int)type,
+                ObjectType = type,
                 Item = NWItem.Wrap(new Object()),
                 SecondaryItem = NWItem.Wrap(new Object()),
                 MultiClass = 0,

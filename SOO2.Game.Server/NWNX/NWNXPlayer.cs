@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using NWN;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
 
@@ -122,7 +123,7 @@ namespace SOO2.Game.Server.NWNX
             qbs.CommandLabel = NWNX_GetReturnValueString(NWNX_Player, sFunc);
             qbs.Resref = NWNX_GetReturnValueString(NWNX_Player, sFunc);
             qbs.MultiClass = NWNX_GetReturnValueInt(NWNX_Player, sFunc);
-            qbs.ObjectType = NWNX_GetReturnValueInt(NWNX_Player, sFunc);
+            qbs.ObjectType = (QuickBarSlotType)NWNX_GetReturnValueInt(NWNX_Player, sFunc);
             qbs.SecondaryItem = NWItem.Wrap(NWNX_GetReturnValueObject(NWNX_Player, sFunc));
             qbs.Item = NWItem.Wrap(NWNX_GetReturnValueObject(NWNX_Player, sFunc));
 
@@ -136,7 +137,7 @@ namespace SOO2.Game.Server.NWNX
 
             NWNX_PushArgumentObject(NWNX_Player, sFunc, qbs.Item.Object);
             NWNX_PushArgumentObject(NWNX_Player, sFunc, qbs.SecondaryItem.Object);
-            NWNX_PushArgumentInt(NWNX_Player, sFunc, qbs.ObjectType);
+            NWNX_PushArgumentInt(NWNX_Player, sFunc, (int)qbs.ObjectType);
             NWNX_PushArgumentInt(NWNX_Player, sFunc, qbs.MultiClass);
             NWNX_PushArgumentString(NWNX_Player, sFunc, qbs.Resref);
             NWNX_PushArgumentString(NWNX_Player, sFunc, qbs.CommandLabel);
