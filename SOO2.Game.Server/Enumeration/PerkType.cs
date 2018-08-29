@@ -127,7 +127,8 @@
         RifleProficiency = 122,
         SneakAttack = 123,
         MysticArmorBlueprints = 124,
-        Battlemage = 125
+        Battlemage = 125,
+        Chainspell = 126
     }
 
 }

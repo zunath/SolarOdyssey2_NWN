@@ -6,6 +6,7 @@
         Burning = 2,
         Poison = 3,
         Aegis = 4,
-        FoodDisease = 5
+        FoodDisease = 5,
+        Chainspell = 6
     }
 }

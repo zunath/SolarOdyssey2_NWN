@@ -33,6 +33,7 @@ namespace SOO2.Game.Server.Service
         private readonly IEnmityService _enmity;
         private readonly INWNXEvents _nwnxEvents;
         private readonly INWNXDamage _nwnxDamage;
+        private readonly ICustomEffectService _customEffect;
 
         public AbilityService(INWScript script, 
             IDataContext db,
@@ -46,7 +47,8 @@ namespace SOO2.Game.Server.Service
             IFoodService food,
             IEnmityService enmity,
             INWNXEvents nwnxEvents,
-            INWNXDamage nwnxDamage)
+            INWNXDamage nwnxDamage,
+            ICustomEffectService customEffect)
         {
             _ = script;
             _db = db;
@@ -61,6 +63,7 @@ namespace SOO2.Game.Server.Service
             _enmity = enmity;
             _nwnxEvents = nwnxEvents;
             _nwnxDamage = nwnxDamage;
+            _customEffect = customEffect;
         }
 
         private const int SPELL_STATUS_STARTED = 1;
@@ -280,8 +283,12 @@ namespace SOO2.Game.Server.Service
                 {
                     _food.DecreaseHungerLevel(pc, 1);
                 }
-                // Mark cooldown on category
-                ApplyCooldown(pc, cooldown, perk);
+
+                if (!_customEffect.DoesPCHaveCustomEffect(pc, CustomEffectType.Chainspell))
+                {
+                    // Mark cooldown on category
+                    ApplyCooldown(pc, cooldown, perk);
+                }
                 pc.IsBusy = false;
 
             }, castingTime + 0.5f);
@@ -390,7 +397,7 @@ namespace SOO2.Game.Server.Service
         private void HandleBattlemagePerk(DamageData data)
         {
             NWObject target = NWObject.Wrap(Object.OBJECT_SELF);
-            if (!data.Damager.IsPlayer || target.IsPlayer) return;
+            if (!data.Damager.IsPlayer || !target.IsNPC) return;
             if (_.GetHasFeat((int)CustomFeatType.Battlemage, data.Damager.Object) == FALSE) return;
 
             NWPlayer player = NWPlayer.Wrap(data.Damager.Object);

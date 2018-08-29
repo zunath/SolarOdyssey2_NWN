@@ -118,6 +118,7 @@
     <Compile Include="CustomEffect\AegisEffect.cs" />
     <Compile Include="CustomEffect\BleedingEffect.cs" />
     <Compile Include="CustomEffect\BurningEffect.cs" />
+    <Compile Include="CustomEffect\ChainspellEffect.cs" />
     <Compile Include="CustomEffect\Contracts\ICustomEffect.cs" />
     <Compile Include="CustomEffect\FoodDiseaseEffect.cs" />
     <Compile Include="CustomEffect\PoisonEffect.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Perk\Armorsmith\MysticArmorBlueprints.cs" />
     <Compile Include="Perk\Armorsmith\SpecialRuneInstallationArmors.cs" />
     <Compile Include="Perk\Armor\Provoke.cs" />
+    <Compile Include="Perk\Evocation\Chainspell.cs" />
     <Compile Include="Perk\Firearms\BlasterProficiency.cs" />
     <Compile Include="Perk\Firearms\PointBlankShot.cs" />
     <Compile Include="Perk\Firearms\RapidReload.cs" />
