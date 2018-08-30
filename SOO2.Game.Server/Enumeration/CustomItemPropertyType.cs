@@ -7,7 +7,7 @@
         LoggingBonus = 101,
         MiningBonus = 102,
         CastingSpeed = 103,
-        CraftBonusMetalworking = 104,
+        ComponentType = 104,
         CraftBonusWeaponsmith = 105,
         CraftBonusArmorsmith = 106,
         CraftBonusCooking = 107,

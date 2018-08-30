@@ -119,6 +119,11 @@ namespace SOO2.Game.Server.Conversation
             page.Responses.Add(new DialogResponse(text, isVisible, customData));
         }
 
+        protected void AddResponseToPage(string pageName, string text, bool isVisible = true, dynamic customData = null)
+        {
+            AddResponseToPage(pageName, text, isVisible, new Tuple<string, dynamic>(string.Empty, customData));
+        }
+
         protected void AddResponseToPage(string pageName, DialogResponse response)
         {
             PlayerDialog dialog = _dialog.LoadPlayerDialog(GetPC().GlobalID);

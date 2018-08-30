@@ -21,11 +21,11 @@ namespace SOO2.Game.Server.Data.Contracts
         IDbSet<ChatLog> ChatLogs { get; set; }
         IDbSet<ClientLogEvent> ClientLogEvents { get; set; }
         IDbSet<ClientLogEventTypesDomain> ClientLogEventTypesDomains { get; set; }
+        IDbSet<ComponentType> ComponentTypes { get; set; }
         IDbSet<ConstructionSiteComponent> ConstructionSiteComponents { get; set; }
         IDbSet<ConstructionSite> ConstructionSites { get; set; }
         IDbSet<CooldownCategory> CooldownCategories { get; set; }
         IDbSet<CraftBlueprintCategory> CraftBlueprintCategories { get; set; }
-        IDbSet<CraftBlueprintComponent> CraftBlueprintComponents { get; set; }
         IDbSet<CraftBlueprint> CraftBlueprints { get; set; }
         IDbSet<CraftDevice> CraftDevices { get; set; }
         IDbSet<Entities.CustomEffect> CustomEffects { get; set; }

@@ -9,7 +9,6 @@ namespace SOO2.Game.Server.Data.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public CraftBlueprint()
         {
-            CraftBlueprintComponents = new HashSet<CraftBlueprintComponent>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -17,7 +16,7 @@ namespace SOO2.Game.Server.Data.Entities
 
         public long CraftCategoryID { get; set; }
 
-        public int Level { get; set; }
+        public int BaseLevel { get; set; }
 
         [Required]
         [StringLength(64)]
@@ -38,18 +37,33 @@ namespace SOO2.Game.Server.Data.Entities
         public int RequiredPerkLevel { get; set; }
 
         public bool IsActive { get; set; }
-
-        public int CraftTierLevel { get; set; }
-
+        
         public virtual CraftBlueprintCategory CraftBlueprintCategory { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CraftBlueprintComponent> CraftBlueprintComponents { get; set; }
-
+        
         public virtual CraftDevice CraftDevice { get; set; }
 
         public virtual Perk Perk { get; set; }
 
         public virtual Skill Skill { get; set; }
+
+        public int MainComponentTypeID { get; set; }
+        
+        public virtual ComponentType MainComponentType { get; set; }
+
+        public int MainMinimum { get; set; }
+
+        public int SecondaryComponentTypeID { get; set; }
+
+        public virtual ComponentType SecondaryComponentType { get; set; }
+
+        public int SecondaryMinimum { get; set; }
+        
+        public int TertiaryComponentTypeID { get; set; }
+
+        public virtual ComponentType TertiaryComponentType { get; set; }
+
+        public int TertiaryMinimum { get; set; }
+
+        public int EnhancementSlots { get; set; }
     }
 }

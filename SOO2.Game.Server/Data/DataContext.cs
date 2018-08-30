@@ -37,11 +37,11 @@ namespace SOO2.Game.Server.Data
         public virtual IDbSet<ChatLog> ChatLogs { get; set; }
         public virtual IDbSet<ClientLogEvent> ClientLogEvents { get; set; }
         public virtual IDbSet<ClientLogEventTypesDomain> ClientLogEventTypesDomains { get; set; }
+        public virtual IDbSet<ComponentType> ComponentTypes { get; set; }
         public virtual IDbSet<ConstructionSiteComponent> ConstructionSiteComponents { get; set; }
         public virtual IDbSet<ConstructionSite> ConstructionSites { get; set; }
         public virtual IDbSet<CooldownCategory> CooldownCategories { get; set; }
         public virtual IDbSet<CraftBlueprintCategory> CraftBlueprintCategories { get; set; }
-        public virtual IDbSet<CraftBlueprintComponent> CraftBlueprintComponents { get; set; }
         public virtual IDbSet<CraftBlueprint> CraftBlueprints { get; set; }
         public virtual IDbSet<CraftDevice> CraftDevices { get; set; }
         public virtual IDbSet<Entities.CustomEffect> CustomEffects { get; set; }
@@ -176,9 +176,22 @@ namespace SOO2.Game.Server.Data
                 .HasForeignKey(e => e.CraftCategoryID)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<CraftBlueprint>()
-                .HasMany(e => e.CraftBlueprintComponents)
-                .WithRequired(e => e.CraftBlueprint)
+            modelBuilder.Entity<ComponentType>()
+                .HasMany(e => e.MainCraftBlueprints)
+                .WithRequired(e => e.MainComponentType)
+                .HasForeignKey(e => e.MainComponentTypeID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ComponentType>()
+                .HasMany(e => e.SecondaryCraftBlueprints)
+                .WithRequired(e => e.SecondaryComponentType)
+                .HasForeignKey(e => e.SecondaryComponentTypeID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ComponentType>()
+                .HasMany(e => e.TertiaryCraftBlueprints)
+                .WithRequired(e => e.TertiaryComponentType)
+                .HasForeignKey(e => e.TertiaryComponentTypeID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<CraftDevice>()

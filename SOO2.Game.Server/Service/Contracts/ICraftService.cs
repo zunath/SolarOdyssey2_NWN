@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.GameObject;
+using SOO2.Game.Server.ValueObject;
 
 namespace SOO2.Game.Server.Service.Contracts
 {
@@ -9,7 +10,6 @@ namespace SOO2.Game.Server.Service.Contracts
         string BuildBlueprintHeader(NWPlayer player, int blueprintID);
         void CraftItem(NWPlayer oPC, NWPlaceable device, int blueprintID);
         CraftBlueprint GetBlueprintByID(int craftBlueprintID);
-        CraftBlueprint GetBlueprintKnownByPC(string playerID, int blueprintID, int deviceID);
         List<CraftBlueprintCategory> GetCategoriesAvailableToPC(string playerID);
         List<CraftBlueprintCategory> GetCategoriesAvailableToPCByDeviceID(string playerID, int deviceID);
         List<CraftBlueprint> GetPCBlueprintsByCategoryID(string playerID, int categoryID);
@@ -17,5 +17,6 @@ namespace SOO2.Game.Server.Service.Contracts
         string GetIngotResref(string oreResref);
         int GetIngotLevel(string oreResref);
         int GetIngotPerkLevel(string oreResref);
+        CraftingData GetPlayerCraftingData(NWPlayer player);
     }
 }

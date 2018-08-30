@@ -1,8 +1,12 @@
-﻿using NWN;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NWN;
 using SOO2.Game.Server.Data.Entities;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.Event;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.Service.Contracts;
+using static NWN.NWScript;
 
 namespace SOO2.Game.Server.Placeable.CraftingDevice
 {
@@ -22,20 +26,55 @@ namespace SOO2.Game.Server.Placeable.CraftingDevice
         {
             NWPlaceable device = NWPlaceable.Wrap(Object.OBJECT_SELF);
             NWPlayer oPC = NWPlayer.Wrap(_.GetLastOpenedBy());
-            int blueprintSelected = device.GetLocalInt("CRAFT_BLUEPRINT_ID");
-
-            _.CreateItemOnObject("cft_choose_bp", device.Object);
-            if (blueprintSelected > 0)
+            var model = _craft.GetPlayerCraftingData(oPC);
+            
+            if (model.Access != CraftingAccessType.None)
             {
-                CraftBlueprint entity = _craft.GetBlueprintByID(blueprintSelected);
+                NWItem menuItem = NWItem.Wrap(_.CreateItemOnObject("cft_confirm", device.Object));
+                NWPlaceable storage = NWPlaceable.Wrap(_.GetObjectByTag("craft_temp_store"));
+                var storageItems = storage.InventoryItems;
+                List<NWItem> list = null;
 
-                NWItem menuItem = NWItem.Wrap(_.CreateItemOnObject("cft_craft_item", device.Object));
-                menuItem.Name = "Craft Item: " + entity.ItemName;
+                if (model.Access == CraftingAccessType.MainComponent)
+                {
+                    menuItem.Name = "Confirm Main Components";
+                    list = model.MainComponents;
+                }
+                else if (model.Access == CraftingAccessType.SecondaryComponent)
+                {
+                    menuItem.Name = "Confirm Secondary Components";
+                    list = model.SecondaryComponents;
+                }
+                else if (model.Access == CraftingAccessType.TertiaryComponent)
+                {
+                    menuItem.Name = "Confirm Tertiary Components";
+                    list = model.TertiaryComponents;
+                }
+                else if (model.Access == CraftingAccessType.Enhancement)
+                {
+                    menuItem.Name = "Confirm Enhancement Components";
+                    list = model.EnhancementComponents;
+                }
 
-                oPC.SendMessage(_craft.BuildBlueprintHeader(oPC, blueprintSelected));
+                if (list == null)
+                {
+                    oPC.FloatingText("Error locating component list. Notify an admin.");
+                    return false;
+                }
+
+                foreach (var item in list)
+                {
+                    NWItem storageItem = storageItems.Single(x => x.GlobalID == item.GlobalID);
+                    _.CopyItem(storageItem.Object, device.Object, TRUE);
+                }
+
+                oPC.FloatingText("Place the components inside the container and then click the item named '" + menuItem.Name + "' to continue.");
             }
 
+            device.IsLocked = true;
             return true;
         }
+
+
     }
 }

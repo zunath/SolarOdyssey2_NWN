@@ -94,7 +94,8 @@
     <Compile Include="Conversation\ConstructionSite.cs" />
     <Compile Include="Conversation\Contracts\IConversation.cs" />
     <Compile Include="Conversation\ConversationBase.cs" />
-    <Compile Include="Conversation\Crafting.cs" />
+    <Compile Include="Conversation\CraftingDevice.cs" />
+    <Compile Include="Conversation\CraftItem.cs" />
     <Compile Include="Conversation\FarmHole.cs" />
     <Compile Include="Conversation\DestroySurvivalKnife.cs" />
     <Compile Include="Conversation\DestroyPlayerGuide.cs" />
@@ -133,12 +134,12 @@
     <Compile Include="Data\Entities\ChatLog.cs" />
     <Compile Include="Data\Entities\ClientLogEvent.cs" />
     <Compile Include="Data\Entities\ClientLogEventTypesDomain.cs" />
+    <Compile Include="Data\Entities\ComponentType.cs" />
     <Compile Include="Data\Entities\ConstructionSite.cs" />
     <Compile Include="Data\Entities\ConstructionSiteComponent.cs" />
     <Compile Include="Data\Entities\CooldownCategory.cs" />
     <Compile Include="Data\Entities\CraftBlueprint.cs" />
     <Compile Include="Data\Entities\CraftBlueprintCategory.cs" />
-    <Compile Include="Data\Entities\CraftBlueprintComponent.cs" />
     <Compile Include="Data\Entities\CraftDevice.cs" />
     <Compile Include="Data\Entities\CustomEffect.cs" />
     <Compile Include="Data\DataContext.cs" />
@@ -212,7 +213,9 @@
     <Compile Include="Enumeration\ChatChannelType.cs" />
     <Compile Include="Enumeration\ClericDomain.cs" />
     <Compile Include="Enumeration\CommandPermissionType.cs" />
+    <Compile Include="Enumeration\ComponentType.cs" />
     <Compile Include="Enumeration\CraftDeviceType.cs" />
+    <Compile Include="Enumeration\CraftingAccessType.cs" />
     <Compile Include="Enumeration\CreatureEventType.cs" />
     <Compile Include="Enumeration\CustomAttribute.cs" />
     <Compile Include="Enumeration\CustomEffectType.cs" />
@@ -358,6 +361,9 @@
     <Compile Include="Perk\Weapons\ImprovedCritical.cs" />
     <Compile Include="Perk\Engineering\SpeedyEngineering.cs" />
     <Compile Include="Perk\Engineering\EngineeringBlueprints.cs" />
+    <Compile Include="Placeable\CraftingDevice\OnClosed.cs" />
+    <Compile Include="Placeable\CraftingDevice\OnDisturbed.cs" />
+    <Compile Include="Placeable\CraftingDevice\OnOpened.cs" />
     <Compile Include="Placeable\CraftingForge\FinishSmelt.cs" />
     <Compile Include="Event\Dialog\ActionTaken.cs" />
     <Compile Include="Event\Dialog\AppearsWhen.cs" />
@@ -472,9 +478,6 @@
     <Compile Include="NWN\Events\Player\pc_on_heartbeat.cs" />
     <Compile Include="Perk\Alteration\Aegis.cs" />
     <Compile Include="Perk\IPerk.cs" />
-    <Compile Include="Placeable\CraftingDevice\OnClosed.cs" />
-    <Compile Include="Placeable\CraftingDevice\OnDisturbed.cs" />
-    <Compile Include="Placeable\CraftingDevice\OnOpened.cs" />
     <Compile Include="Placeable\CraftingForge\OnDisturbed.cs" />
     <Compile Include="Placeable\CraftingForge\OnHeartbeat.cs" />
     <Compile Include="Placeable\DeathCorpse\OnClosed.cs" />
@@ -679,6 +682,7 @@
     <Compile Include="Service\StorageService.cs" />
     <Compile Include="Service\StructureService.cs" />
     <Compile Include="Service\TimeService.cs" />
+    <Compile Include="ValueObject\CraftingData.cs" />
     <Compile Include="ValueObject\CustomData.cs" />
     <Compile Include="ValueObject\CasterSpellVO.cs" />
     <Compile Include="ValueObject\Dialog\DialogPage.cs" />

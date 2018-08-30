@@ -9,6 +9,7 @@ using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 using SOO2.Game.Server.NWNX.Contracts;
 using SOO2.Game.Server.Service.Contracts;
+using SOO2.Game.Server.ValueObject;
 using static NWN.NWScript;
 
 namespace SOO2.Game.Server.Service
@@ -20,11 +21,9 @@ namespace SOO2.Game.Server.Service
         private readonly IPerkService _perk;
         private readonly ISkillService _skill;
         private readonly IColorTokenService _color;
-        private readonly IItemService _item;
         private readonly INWNXPlayer _nwnxPlayer;
         private readonly IFoodService _food;
         private readonly IRandomService _random;
-        private readonly IDurabilityService _durability;
         private readonly IErrorService _error;
 
         public CraftService(
@@ -33,11 +32,9 @@ namespace SOO2.Game.Server.Service
             IPerkService perk,
             ISkillService skill,
             IColorTokenService color,
-            IItemService item,
             INWNXPlayer nwnxPlayer,
             IFoodService food,
             IRandomService random,
-            IDurabilityService durability,
             IErrorService error)
         {
             _ = script;
@@ -45,11 +42,9 @@ namespace SOO2.Game.Server.Service
             _perk = perk;
             _skill = skill;
             _color = color;
-            _item = item;
             _nwnxPlayer = nwnxPlayer;
             _food = food;
             _random = random;
-            _durability = durability;
             _error = error;
         }
 
@@ -77,21 +72,20 @@ namespace SOO2.Game.Server.Service
             
             string header = _color.Green("Blueprint: ") + _color.White(blueprint.ItemName) + "\n\n";
             header += _color.Green("Skill: ") + _color.White(pcSkill.Skill.Name) + "\n";
+            
+            header += _color.Green("Base Difficulty: ") + CalculateDifficulty(pcSkill.Rank, blueprint.BaseLevel) + "\n";
+            header += _color.Green("Max Enhancement Slots: ") + blueprint.EnhancementSlots + "\n\n";
 
-            if (blueprint.CraftTierLevel > 0)
-            {
-                header += _color.Green("Required Tool Level: ") + blueprint.CraftTierLevel + "\n";
-            }
-
-            header += _color.Green("Difficulty: ") + CalculateDifficulty(pcSkill.Rank, blueprint.Level) + "\n\n";
             header += _color.Green("Components: ") + "\n\n";
+            
+            header += _color.White(blueprint.MainMinimum + "x " + blueprint.MainComponentType.Name) + "\n";
 
-            foreach (CraftBlueprintComponent component in blueprint.CraftBlueprintComponents)
-            {
-                string name = _item.GetNameByResref(component.ItemResref);
-                header += _color.White(component.Quantity + "x " + name) + "\n";
-            }
+            if (blueprint.SecondaryComponentTypeID > 0)
+                header += _color.White(blueprint.SecondaryMinimum + "x " + blueprint.SecondaryComponentType.Name) + "\n";
 
+            if (blueprint.TertiaryComponentTypeID > 0)
+                header += _color.White(blueprint.TertiaryMinimum + "x " + blueprint.TertiaryComponentType.Name) + "\n";
+            
             return header;
         }
 
@@ -99,15 +93,7 @@ namespace SOO2.Game.Server.Service
         {
             return _db.CraftBlueprints.SingleOrDefault(x => x.CraftBlueprintID == craftBlueprintID);
         }
-
-        public CraftBlueprint GetBlueprintKnownByPC(string playerID, int blueprintID, int deviceID)
-        {
-            return _db.StoredProcedureSingle<CraftBlueprint>("GetBlueprintKnownByPC",
-                new SqlParameter("PlayerID", playerID),
-                new SqlParameter("BlueprintID", blueprintID),
-                new SqlParameter("DeviceID", deviceID));
-        }
-
+        
         public List<CraftBlueprintCategory> GetCategoriesAvailableToPC(string playerID)
         {
             return _db.StoredProcedure<CraftBlueprintCategory>("GetCategoriesAvailableToPC",
@@ -126,35 +112,16 @@ namespace SOO2.Game.Server.Service
         {
             CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == blueprintID);
             if (blueprint == null) return;
-            bool requiresTools = false;
-            bool foundTools = false;
-
+            
             if (oPC.IsBusy)
             {
                 oPC.SendMessage("You are too busy right now.");
                 return;
             }
-
-            // Check for tools, if necessary.
-            if (blueprint.CraftTierLevel > 0)
-            {
-                requiresTools = true;
-                NWItem tools = NWItem.Wrap(device.GetLocalObject("CRAFT_DEVICE_TOOLS"));
-                if (tools.IsValid)
-                {
-                    foundTools = true;
-                }
-            }
-
-            if (requiresTools != foundTools)
-            {
-                oPC.SendMessage(_color.Red("Tools were not found. Please place the tools you wish to use inside the crafting device."));
-                oPC.IsBusy = false;
-                return;
-            }
+            
             oPC.IsBusy = true;
 
-            bool allComponentsFound = CheckItemCounts(oPC, device, blueprint.CraftBlueprintComponents);
+            bool allComponentsFound = true; // todo fix
 
             if (allComponentsFound)
             {
@@ -223,64 +190,17 @@ namespace SOO2.Game.Server.Service
 
             return BaseCraftDelay * adjustedSpeed;
         }
-
-        private bool CheckItemCounts(NWPlayer oPC, NWPlaceable device, ICollection<CraftBlueprintComponent> componentList)
-        {
-            bool allComponentsFound = false;
-            Dictionary<string, int> components = new Dictionary<string, int>();
-
-            foreach (CraftBlueprintComponent component in componentList)
-            {
-                components.Add(component.ItemResref, component.Quantity);
-            }
-
-            NWPlaceable tempStorage = NWPlaceable.Wrap(_.CreateObject(OBJECT_TYPE_PLACEABLE, "craft_temp_store", device.Location));
-            device.SetLocalObject("CRAFT_TEMP_STORAGE", tempStorage.Object);
-
-            foreach (NWItem item in device.InventoryItems)
-            {
-                if (components.ContainsKey(item.Resref) && components[item.Resref] > 0)
-                {
-                    components[item.Resref] = components[item.Resref] - 1;
-
-                    _.CopyItem(item.Object, tempStorage.Object, TRUE);
-                    item.Destroy();
-                }
-
-                int remainingQuantities = 0;
-                foreach (int quantity in components.Values)
-                    remainingQuantities += quantity;
-
-                if (remainingQuantities <= 0)
-                {
-                    allComponentsFound = true;
-                    break;
-                }
-            }
-
-            if (!allComponentsFound)
-            {
-                foreach (NWItem item in tempStorage.InventoryItems)
-                {
-                    _.CopyItem(item.Object, device.Object, TRUE);
-                    item.Destroy();
-                }
-                oPC.IsBusy = false;
-            }
-
-            return allComponentsFound;
-        }
+        
 
         private void RunCreateItem(NWPlayer oPC, NWPlaceable device, int blueprintID)
         {
             NWPlaceable tempStorage = NWPlaceable.Wrap(device.GetLocalObject("CRAFT_TEMP_STORAGE"));
-            NWItem tools = NWItem.Wrap(device.GetLocalObject("CRAFT_DEVICE_TOOLS"));
 
             CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == blueprintID);
             PCSkill pcSkill = _db.PCSkills.Single(x => x.PlayerID == oPC.GlobalID && x.SkillID == blueprint.SkillID);
 
             int pcEffectiveLevel = CalculatePCEffectiveLevel(oPC, device, pcSkill.Rank);
-            float chance = CalculateBaseChanceToCreateItem(pcEffectiveLevel, blueprint.Level);
+            float chance = CalculateBaseChanceToCreateItem(pcEffectiveLevel, blueprint.BaseLevel);
 
             float equipmentBonus = CalculateEquipmentBonus(oPC, (SkillType)blueprint.SkillID);
             float roll = _random.RandomFloat() * 100.0f;
@@ -328,18 +248,10 @@ namespace SOO2.Game.Server.Service
                 xpModifier = 0.2f;
             }
 
-            float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(250, blueprint.Level, pcSkill.Rank) * xpModifier;
+            float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(250, blueprint.BaseLevel, pcSkill.Rank) * xpModifier;
             tempStorage.Destroy();
             _skill.GiveSkillXP(oPC, blueprint.SkillID, (int)xp);
-
-            if (tools.IsValid)
-            {
-                float min = 0.05f;
-                float max = 0.1f;
-                float reduceDurability = min + _random.RandomFloat() * (max - min);
-                _durability.RunItemDecay(oPC, tools, reduceDurability);
-            }
-
+            
             if (_random.Random(100) + 1 <= 3)
             {
                 _food.DecreaseHungerLevel(oPC, 1);
@@ -460,25 +372,9 @@ namespace SOO2.Game.Server.Service
         private int CalculatePCEffectiveLevel(NWPlayer pcGO, NWPlaceable device, int skillRank)
         {
             int deviceID = device.GetLocalInt("CRAFT_DEVICE_ID");
-            NWItem tools = NWItem.Wrap(device.GetLocalObject("CRAFT_DEVICE_TOOLS"));
             int effectiveLevel = skillRank;
             PlayerCharacter player = _db.PlayerCharacters.Single(x => x.PlayerID == pcGO.GlobalID);
-
-            if (tools.IsValid)
-            {
-                int toolBonus = 0;
-
-                switch ((CraftDeviceType)deviceID)
-                {
-                    case CraftDeviceType.ArmorsmithBench: toolBonus = tools.CraftBonusArmorsmith; break;
-                    case CraftDeviceType.Cookpot: toolBonus = tools.CraftBonusCooking; break;
-                    case CraftDeviceType.WeaponsmithBench: toolBonus = tools.CraftBonusWeaponsmith; break;
-                    case CraftDeviceType.EngineeringBench: toolBonus = tools.CraftBonusEngineering; break;
-                }
-                
-                effectiveLevel += toolBonus;
-            }
-
+            
             switch ((CraftDeviceType)deviceID)
             {
                 case CraftDeviceType.ArmorsmithBench:
@@ -628,6 +524,22 @@ namespace SOO2.Game.Server.Service
             }
 
             return level;
+        }
+
+
+        public CraftingData GetPlayerCraftingData(NWPlayer player)
+        {
+            // Need to store the data outside of the conversation because of the constant
+            // context switching between conversation and accessing placeable containers.
+            // Conversation data is wiped when it closes.
+            if (player.Data.ContainsKey("CRAFTING_MODEL"))
+            {
+                return player.Data["CRAFTING_MODEL"];
+            }
+
+            var model = new CraftingData();
+            player.Data["CRAFTING_MODEL"] = model;
+            return model;
         }
     }
 }

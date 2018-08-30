@@ -62,3 +62,4 @@
 58    IPRP_MANREGBON     ManaRegenBonus         0            
 59    IPRP_BABBON        BABBonus               0            
 60    IPRP_LVLINC        LevelIncrease          0            
+61    IPRP_COMPTYPE      ComponentType          0            

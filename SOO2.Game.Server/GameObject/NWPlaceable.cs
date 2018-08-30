@@ -25,5 +25,10 @@ namespace SOO2.Game.Server.GameObject
             set => _.SetUseableFlag(Object, value ? 1 : 0);
         }
 
+        public virtual bool IsLocked
+        {
+            get => _.GetLocked(Object) == 1;
+            set => _.SetLocked(Object, value ? 1 : 0);
+        }
     }
 }
