@@ -8,7 +8,7 @@ namespace SOO2.Game.Server.Service.Contracts
     public interface ICraftService
     {
         string BuildBlueprintHeader(NWPlayer player, int blueprintID);
-        void CraftItem(NWPlayer oPC, NWPlaceable device, int blueprintID);
+        void CraftItem(NWPlayer oPC, NWPlaceable device);
         CraftBlueprint GetBlueprintByID(int craftBlueprintID);
         List<CraftBlueprintCategory> GetCategoriesAvailableToPC(string playerID);
         List<CraftBlueprintCategory> GetCategoriesAvailableToPCByDeviceID(string playerID, int deviceID);
@@ -18,5 +18,6 @@ namespace SOO2.Game.Server.Service.Contracts
         int GetIngotLevel(string oreResref);
         int GetIngotPerkLevel(string oreResref);
         CraftingData GetPlayerCraftingData(NWPlayer player);
+        void ClearPlayerCraftingData(NWPlayer player);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using NWN;
+using SOO2.Game.Server.Bioware.Contracts;
 using SOO2.Game.Server.Data.Contracts;
 using SOO2.Game.Server.Data.Entities;
 using SOO2.Game.Server.Enumeration;
@@ -22,9 +23,10 @@ namespace SOO2.Game.Server.Service
         private readonly ISkillService _skill;
         private readonly IColorTokenService _color;
         private readonly INWNXPlayer _nwnxPlayer;
-        private readonly IFoodService _food;
         private readonly IRandomService _random;
         private readonly IErrorService _error;
+        private readonly IItemService _item;
+        private readonly IBiowareXP2 _biowareXP2;
 
         public CraftService(
             INWScript script,
@@ -33,9 +35,10 @@ namespace SOO2.Game.Server.Service
             ISkillService skill,
             IColorTokenService color,
             INWNXPlayer nwnxPlayer,
-            IFoodService food,
             IRandomService random,
-            IErrorService error)
+            IErrorService error,
+            IItemService item,
+            IBiowareXP2 biowareXP2)
         {
             _ = script;
             _db = db;
@@ -43,13 +46,14 @@ namespace SOO2.Game.Server.Service
             _skill = skill;
             _color = color;
             _nwnxPlayer = nwnxPlayer;
-            _food = food;
             _random = random;
             _error = error;
+            _item = item;
+            _biowareXP2 = biowareXP2;
         }
 
         private const float BaseCraftDelay = 18.0f;
-        
+
         public List<CraftBlueprintCategory> GetCategoriesAvailableToPCByDeviceID(string playerID, int deviceID)
         {
             return _db.StoredProcedure<CraftBlueprintCategory>("GetCraftCategoriesAvailableToPCByDeviceID",
@@ -69,15 +73,15 @@ namespace SOO2.Game.Server.Service
         {
             CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == blueprintID);
             PCSkill pcSkill = _db.PCSkills.Single(x => x.PlayerID == player.GlobalID && x.SkillID == blueprint.SkillID);
-            
+
             string header = _color.Green("Blueprint: ") + _color.White(blueprint.ItemName) + "\n\n";
             header += _color.Green("Skill: ") + _color.White(pcSkill.Skill.Name) + "\n";
-            
+
             header += _color.Green("Base Difficulty: ") + CalculateDifficulty(pcSkill.Rank, blueprint.BaseLevel) + "\n";
             header += _color.Green("Max Enhancement Slots: ") + blueprint.EnhancementSlots + "\n\n";
 
             header += _color.Green("Components: ") + "\n\n";
-            
+
             header += _color.White(blueprint.MainMinimum + "x " + blueprint.MainComponentType.Name) + "\n";
 
             if (blueprint.SecondaryComponentTypeID > 0)
@@ -85,7 +89,7 @@ namespace SOO2.Game.Server.Service
 
             if (blueprint.TertiaryComponentTypeID > 0)
                 header += _color.White(blueprint.TertiaryMinimum + "x " + blueprint.TertiaryComponentType.Name) + "\n";
-            
+
             return header;
         }
 
@@ -93,7 +97,7 @@ namespace SOO2.Game.Server.Service
         {
             return _db.CraftBlueprints.SingleOrDefault(x => x.CraftBlueprintID == craftBlueprintID);
         }
-        
+
         public List<CraftBlueprintCategory> GetCategoriesAvailableToPC(string playerID)
         {
             return _db.StoredProcedure<CraftBlueprintCategory>("GetCategoriesAvailableToPC",
@@ -108,55 +112,54 @@ namespace SOO2.Game.Server.Service
         }
 
 
-        public void CraftItem(NWPlayer oPC, NWPlaceable device, int blueprintID)
+        public void CraftItem(NWPlayer oPC, NWPlaceable device)
         {
-            CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == blueprintID);
+            var model = GetPlayerCraftingData(oPC);
+            CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == model.BlueprintID);
             if (blueprint == null) return;
-            
+
             if (oPC.IsBusy)
             {
                 oPC.SendMessage("You are too busy right now.");
                 return;
             }
-            
+
+            if (!model.CanBuildItem)
+            {
+                oPC.SendMessage("You are missing one or more components...");
+                return;
+            }
+
             oPC.IsBusy = true;
 
-            bool allComponentsFound = true; // todo fix
+            float modifiedCraftDelay = CalculateCraftingDelay(oPC, blueprint.SkillID);
 
-            if (allComponentsFound)
+            _.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, _.EffectCutsceneImmobilize(), oPC.Object, modifiedCraftDelay + 0.1f);
+            oPC.AssignCommand(() =>
             {
-                float modifiedCraftDelay = CalculateCraftingDelay(oPC, blueprint.SkillID);
-                
-                _.ApplyEffectToObject(DURATION_TYPE_TEMPORARY, _.EffectCutsceneImmobilize(), oPC.Object, modifiedCraftDelay + 0.1f);
-                oPC.AssignCommand(() =>
-                {
-                    _.ClearAllActions();
-                    _.ActionPlayAnimation(ANIMATION_LOOPING_GET_MID, 1.0f, modifiedCraftDelay);
-                });
-                device.DelayCommand(() =>
-                {
-                    _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectVisualEffect(VFX_COM_BLOOD_SPARK_MEDIUM), device.Object);
-                }, 1.0f * (modifiedCraftDelay / 2.0f));
-
-                _nwnxPlayer.StartGuiTimingBar(oPC, modifiedCraftDelay, "");
-
-                oPC.DelayCommand(() =>
-                {
-                    try
-                    {
-                        RunCreateItem(oPC, device, blueprintID);
-                        oPC.IsBusy = false;
-                    }
-                    catch (Exception ex)
-                    {
-                        _error.LogError(ex);
-                    }
-                }, modifiedCraftDelay);
-            }
-            else
+                _.ClearAllActions();
+                _.ActionPlayAnimation(ANIMATION_LOOPING_GET_MID, 1.0f, modifiedCraftDelay);
+            });
+            device.DelayCommand(() =>
             {
-                oPC.SendMessage(_color.Red("You are missing required components..."));
-            }
+                _.ApplyEffectToObject(DURATION_TYPE_INSTANT, _.EffectVisualEffect(VFX_COM_BLOOD_SPARK_MEDIUM), device.Object);
+            }, 1.0f * (modifiedCraftDelay / 2.0f));
+
+            _nwnxPlayer.StartGuiTimingBar(oPC, modifiedCraftDelay, "");
+
+            oPC.DelayCommand(() =>
+            {
+                try
+                {
+                    RunCreateItem(oPC, device);
+                    oPC.IsBusy = false;
+                }
+                catch (Exception ex)
+                {
+                    _error.LogError(ex);
+                }
+            }, modifiedCraftDelay);
+
         }
 
 
@@ -164,7 +167,7 @@ namespace SOO2.Game.Server.Service
         {
             PerkType perkType;
             float adjustedSpeed = 1.0f;
-            SkillType skillType = (SkillType) skillID;
+            SkillType skillType = (SkillType)skillID;
 
             if (skillType == SkillType.Weaponsmith) perkType = PerkType.SpeedyWeaponsmith;
             else if (skillType == SkillType.Armorsmith) perkType = PerkType.SpeedyArmorsmith;
@@ -190,72 +193,85 @@ namespace SOO2.Game.Server.Service
 
             return BaseCraftDelay * adjustedSpeed;
         }
-        
 
-        private void RunCreateItem(NWPlayer oPC, NWPlaceable device, int blueprintID)
+
+        private void RunCreateItem(NWPlayer oPC, NWPlaceable device)
         {
-            NWPlaceable tempStorage = NWPlaceable.Wrap(device.GetLocalObject("CRAFT_TEMP_STORAGE"));
+            var model = GetPlayerCraftingData(oPC);
 
-            CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == blueprintID);
+            CraftBlueprint blueprint = _db.CraftBlueprints.Single(x => x.CraftBlueprintID == model.BlueprintID);
             PCSkill pcSkill = _db.PCSkills.Single(x => x.PlayerID == oPC.GlobalID && x.SkillID == blueprint.SkillID);
 
             int pcEffectiveLevel = CalculatePCEffectiveLevel(oPC, device, pcSkill.Rank);
-            float chance = CalculateBaseChanceToCreateItem(pcEffectiveLevel, blueprint.BaseLevel);
-
+            float chance = CalculateBaseChanceToAddProperty(pcEffectiveLevel, model.AdjustedLevel);
             float equipmentBonus = CalculateEquipmentBonus(oPC, (SkillType)blueprint.SkillID);
-            float roll = _random.RandomFloat() * 100.0f;
-            float xpModifier;
-
-            if (roll + equipmentBonus <= chance)
-            {
-                // Success!
-                foreach (NWItem item in tempStorage.InventoryItems)
-                {
-                    item.Destroy();
-                }
-
-                NWItem craftedItem = NWItem.Wrap(_.CreateItemOnObject(blueprint.ItemResref, oPC.Object, blueprint.Quantity));
-                craftedItem.IsIdentified = true;
-
-                // If item isn't stackable, loop through and create as many as necessary.
-                if (craftedItem.StackSize < blueprint.Quantity)
-                {
-                    for (int x = 2; x <= blueprint.Quantity; x++)
-                    {
-                        craftedItem = NWItem.Wrap(_.CreateItemOnObject(blueprint.ItemResref, oPC.Object));
-                        craftedItem.IsIdentified = true;
-                    }
-                }
-
-                oPC.SendMessage("You created " + blueprint.Quantity + "x " + blueprint.ItemName + "!");
-                xpModifier = 1.0f;
-            }
-            else
-            {
-                // Failure...
-                int chanceToLoseItems = 20;
-
-                foreach (NWItem item in tempStorage.InventoryItems)
-                {
-                    if (_random.Random(100) > chanceToLoseItems)
-                    {
-                        _.CopyItem(item.Object, device.Object, TRUE);
-                    }
-                    item.Destroy();
-                }
-
-                oPC.SendMessage("You failed to create that item...");
-                xpModifier = 0.2f;
-            }
-
-            float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(250, blueprint.BaseLevel, pcSkill.Rank) * xpModifier;
-            tempStorage.Destroy();
-            _skill.GiveSkillXP(oPC, blueprint.SkillID, (int)xp);
             
-            if (_random.Random(100) + 1 <= 3)
+            var craftedItems = new List<NWItem>();
+            NWItem craftedItem = NWItem.Wrap(_.CreateItemOnObject(blueprint.ItemResref, oPC.Object, blueprint.Quantity));
+            craftedItem.IsIdentified = true;
+            craftedItems.Add(craftedItem);
+
+            // If item isn't stackable, loop through and create as many as necessary.
+            if (craftedItem.StackSize < blueprint.Quantity)
             {
-                _food.DecreaseHungerLevel(oPC, 1);
+                for (int x = 2; x <= blueprint.Quantity; x++)
+                {
+                    craftedItem = NWItem.Wrap(_.CreateItemOnObject(blueprint.ItemResref, oPC.Object));
+                    craftedItem.IsIdentified = true;
+                    craftedItems.Add(craftedItem);
+                }
             }
+
+            foreach (var component in model.MainComponents)
+            {
+                ComponentBonusType bonus = ComponentBonusType.Unknown;
+                foreach (var ip in component.ItemProperties)
+                {
+                    if (_.GetItemPropertyType(ip) == (int)CustomItemPropertyType.ComponentBonus)
+                    {
+                        bonus = (ComponentBonusType) _.GetItemPropertyCostTableValue(ip);
+                    }
+                }
+
+                if (bonus == ComponentBonusType.Unknown) continue;
+
+                if (_random.RandomFloat() * 100.0f + equipmentBonus <= chance)
+                {
+                    foreach (var item in craftedItems)
+                    {
+                        ApplyComponentBonus(item, bonus);
+                    }
+                }
+            }
+            
+            oPC.SendMessage("You created " + blueprint.Quantity + "x " + blueprint.ItemName + "!");
+            float xp = _skill.CalculateRegisteredSkillLevelAdjustedXP(250, model.AdjustedLevel, pcSkill.Rank);
+            _skill.GiveSkillXP(oPC, blueprint.SkillID, (int)xp);
+            ClearPlayerCraftingData(oPC);
+        }
+
+        private void ApplyComponentBonus(NWItem product, ComponentBonusType bonus)
+        {
+            ItemProperty prop = null;
+            string sourceTag = string.Empty;
+
+            switch (bonus)
+            {
+                case ComponentBonusType.RunicSocketRed: sourceTag = "rslot_red"; break;
+                case ComponentBonusType.RunicSocketBlue: sourceTag = "rslot_blue"; break;
+                case ComponentBonusType.RunicSocketGreen: sourceTag = "rslot_green"; break;
+                case ComponentBonusType.RunicSocketYellow: sourceTag = "rslot_yellow"; break;
+                case ComponentBonusType.RunicSocketPrismatic: sourceTag = "rslot_prismatic"; break;
+            }
+
+            if (!string.IsNullOrWhiteSpace(sourceTag))
+            {
+                prop = _item.GetCustomItemPropertyByItemTag(sourceTag);
+            }
+
+            if (prop == null) return;
+
+            _biowareXP2.IPSafeAddItemProperty(product, prop, 0.0f, AddItemPropertyPolicy.IgnoreExisting, true, true);
         }
 
         private string CalculateDifficulty(int pcLevel, int blueprintLevel)
@@ -321,7 +337,7 @@ namespace SOO2.Game.Server.Service
             return equipmentBonus * 0.5f; // +0.5% per equipment bonus
         }
 
-        private float CalculateBaseChanceToCreateItem(int pcLevel, int blueprintLevel)
+        private float CalculateBaseChanceToAddProperty(int pcLevel, int blueprintLevel)
         {
             int delta = pcLevel - blueprintLevel;
             float percentage = 0.0f;
@@ -374,7 +390,7 @@ namespace SOO2.Game.Server.Service
             int deviceID = device.GetLocalInt("CRAFT_DEVICE_ID");
             int effectiveLevel = skillRank;
             PlayerCharacter player = _db.PlayerCharacters.Single(x => x.PlayerID == pcGO.GlobalID);
-            
+
             switch ((CraftDeviceType)deviceID)
             {
                 case CraftDeviceType.ArmorsmithBench:
@@ -540,6 +556,36 @@ namespace SOO2.Game.Server.Service
             var model = new CraftingData();
             player.Data["CRAFTING_MODEL"] = model;
             return model;
+        }
+
+        public void ClearPlayerCraftingData(NWPlayer player)
+        {
+            var model = GetPlayerCraftingData(player);
+
+            foreach (var item in model.MainComponents)
+            {
+                _.CopyItem(item.Object, player.Object, TRUE);
+                item.Destroy();
+            }
+            foreach (var item in model.SecondaryComponents)
+            {
+                _.CopyItem(item.Object, player.Object, TRUE);
+                item.Destroy();
+            }
+            foreach (var item in model.TertiaryComponents)
+            {
+                _.CopyItem(item.Object, player.Object, TRUE);
+                item.Destroy();
+            }
+            foreach (var item in model.EnhancementComponents)
+            {
+                _.CopyItem(item.Object, player.Object, TRUE);
+                item.Destroy();
+            }
+
+            player.Data.Remove("CRAFTING_MODEL");
+            player.DeleteLocalInt("CRAFT_BLUEPRINT_ID");
+
         }
     }
 }

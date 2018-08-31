@@ -16,6 +16,32 @@ namespace SOO2.Game.Server.ValueObject
         public bool IsAccessingStorage { get; set; }
         public CraftingAccessType Access { get; set; }
 
+        public int AdjustedLevel
+        {
+            get
+            {
+                int adjustedLevel = Blueprint.BaseLevel;
+                foreach (var comp in MainComponents)
+                {
+                    adjustedLevel += comp.RecommendedLevel;
+                }
+                foreach (var comp in SecondaryComponents)
+                {
+                    adjustedLevel += comp.RecommendedLevel;
+                }
+                foreach (var comp in TertiaryComponents)
+                {
+                    adjustedLevel += comp.RecommendedLevel;
+                }
+                foreach (var comp in EnhancementComponents)
+                {
+                    adjustedLevel += comp.RecommendedLevel;
+                }
+
+                return adjustedLevel;
+            }
+        }
+
         public bool HasPlayerComponents => MainComponents.Count
                                            + SecondaryComponents.Count
                                            + TertiaryComponents.Count

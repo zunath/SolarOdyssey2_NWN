@@ -1,4 +1,5 @@
-﻿using SOO2.Game.Server.Enumeration;
+﻿using NWN;
+using SOO2.Game.Server.Enumeration;
 using SOO2.Game.Server.GameObject;
 
 namespace SOO2.Game.Server.Service.Contracts
@@ -16,5 +17,6 @@ namespace SOO2.Game.Server.Service.Contracts
         void ReturnItem(NWObject target, NWItem item);
         void StripAllItemProperties(NWItem item);
         CustomItemType GetCustomItemType(NWItem item);
+        ItemProperty GetCustomItemPropertyByItemTag(string tag);
     }
 }

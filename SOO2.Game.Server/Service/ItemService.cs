@@ -572,5 +572,22 @@ namespace SOO2.Game.Server.Service
             return CustomItemType.None;
         }
 
+        public ItemProperty GetCustomItemPropertyByItemTag(string tag)
+        {
+            NWPlaceable container = NWPlaceable.Wrap(_.GetObjectByTag("item_props"));
+            NWItem item = container.InventoryItems.SingleOrDefault(x => x.Tag == tag);
+            if (item == null)
+            {
+                throw new Exception("Unable to find an item tagged '" + tag + "' in the item props container.");
+            }
+
+            ItemProperty prop = item.ItemProperties.FirstOrDefault();
+            if (prop == null)
+            {
+                throw new Exception("Unable to find an item property on item tagged '" + tag + "' in the item props container.");
+            }
+
+            return prop;
+        }
     }
 }

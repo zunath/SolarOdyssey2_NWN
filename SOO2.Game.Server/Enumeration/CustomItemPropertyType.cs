@@ -39,6 +39,7 @@
         BlueRune = 133,
         GreenRune = 134,
         YellowRune = 135,
-        LevelIncrease = 136
+        LevelIncrease = 136,
+        ComponentBonus = 137
     }
 }

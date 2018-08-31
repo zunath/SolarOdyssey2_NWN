@@ -76,41 +76,12 @@ namespace SOO2.Game.Server.Conversation
             var model = _craft.GetPlayerCraftingData(GetPC());
             if (model.IsAccessingStorage) return;
 
-            ClearModel();
+            _craft.ClearPlayerCraftingData(GetPC());
         }
         
         private NWPlaceable GetDevice()
         {
             return NWPlaceable.Wrap(GetDialogTarget().Object);
-        }
-
-        private void ClearModel()
-        {
-            var model = _craft.GetPlayerCraftingData(GetPC());
-
-            foreach (var item in model.MainComponents)
-            {
-                _.CopyItem(item.Object, GetPC().Object, TRUE);
-                item.Destroy();
-            }
-            foreach (var item in model.SecondaryComponents)
-            {
-                _.CopyItem(item.Object, GetPC().Object, TRUE);
-                item.Destroy();
-            }
-            foreach (var item in model.TertiaryComponents)
-            {
-                _.CopyItem(item.Object, GetPC().Object, TRUE);
-                item.Destroy();
-            }
-            foreach (var item in model.EnhancementComponents)
-            {
-                _.CopyItem(item.Object, GetPC().Object, TRUE);
-                item.Destroy();
-            }
-            
-            GetPC().Data.Remove("CRAFTING_MODEL");
-            GetPC().DeleteLocalInt("CRAFT_BLUEPRINT_ID");
         }
 
         private void BuildMainPageHeader()
@@ -165,6 +136,7 @@ namespace SOO2.Game.Server.Conversation
             AddResponseToPage("MainPage", "Select Main Components");
             AddResponseToPage("MainPage", "Select Secondary Components", model.Blueprint.SecondaryMinimum > 0);
             AddResponseToPage("MainPage", "Select Tertiary Components", model.Blueprint.TertiaryMinimum > 0);
+            AddResponseToPage("MainPage", "Select Enhancement Components", model.Blueprint.EnhancementSlots > 0);
 
             AddResponseToPage("MainPage", "Change Blueprint");
         }
@@ -183,7 +155,8 @@ namespace SOO2.Game.Server.Conversation
                         return;
                     }
 
-                    _craft.CraftItem(GetPC(), device, model.BlueprintID);
+                    _craft.CraftItem(GetPC(), device);
+                    EndConversation();
                     break;
                 case 2: // Select main components
                     model.Access = CraftingAccessType.MainComponent;
@@ -197,8 +170,12 @@ namespace SOO2.Game.Server.Conversation
                     model.Access = CraftingAccessType.TertiaryComponent;
                     OpenDeviceInventory();
                     break;
-                case 5: // Back (return to blueprint selection)
-                    ClearModel();
+                case 5:
+                    model.Access = CraftingAccessType.Enhancement;
+                    OpenDeviceInventory();
+                    break;
+                case 6: // Back (return to blueprint selection)
+                    _craft.ClearPlayerCraftingData(GetPC());
                     SwitchConversation("CraftingDevice");
                     break;
             }
